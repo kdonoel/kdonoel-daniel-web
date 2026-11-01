@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 
 import { CommonModule, registerLocaleData } from '@angular/common';
-import { HttpBackend, HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpBackend, HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import fr from '@angular/common/locales/fr';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -34,45 +34,39 @@ export function HttpLoaderFactory(httpBackend: HttpBackend): TranslateLoader {
 	return new TranslateHttpLoader(new HttpClient(httpBackend), 'assets/translations/', '.json');
 }
 
-@NgModule({
-	imports: [
-		AppRoutingModule,
-		CommonModule,
-		FormsModule,
-		BrowserModule,
-		HttpClientModule,
-		Angulartics2Module.forRoot(),
-		BrowserModule,
-		BrowserAnimationsModule,
-		TranslateModule.forRoot({
-			loader: {
-				provide: TranslateLoader,
-				useFactory: HttpLoaderFactory,
-				deps: [HttpBackend],
-			},
-		}),
-		CoreModule,
-		SharedModule.forRoot(),
-		BsDropdownModule.forRoot(),
-		LoadingBarModule,
-		NgBootstrapDarkmodeModule,
-		NgSelectModule,
-		NgToggleModule,
-	],
-	declarations: [AppComponent, HomeComponent, HeaderComponent, FooterComponent],
-	entryComponents: [],
-	providers: [
-		{
-			provide: LOCALE_ID,
-			useValue: 'fr-FR',
-		},
-		{ provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: BaseHrefApiPreInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: DefaultHeadersApiPreInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: HandleResponsesErrorPostInterceptor, multi: true },
-		UsersService,
-		SessionService,
-	],
-	bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [AppComponent, HomeComponent, HeaderComponent, FooterComponent],
+    entryComponents: [],
+    bootstrap: [AppComponent], imports: [AppRoutingModule,
+        CommonModule,
+        FormsModule,
+        BrowserModule,
+        Angulartics2Module.forRoot(),
+        BrowserModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpBackend],
+            },
+        }),
+        CoreModule,
+        SharedModule.forRoot(),
+        BsDropdownModule.forRoot(),
+        LoadingBarModule,
+        NgBootstrapDarkmodeModule,
+        NgSelectModule,
+        NgToggleModule], providers: [
+        {
+            provide: LOCALE_ID,
+            useValue: 'fr-FR',
+        },
+        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: BaseHrefApiPreInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: DefaultHeadersApiPreInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HandleResponsesErrorPostInterceptor, multi: true },
+        UsersService,
+        SessionService,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {}

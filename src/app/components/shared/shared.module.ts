@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { DisclaimerComponent } from '../angular-components/disclaimers/disclaimer.component';
 import { LoadingComponent } from '../angular-components/loading/loading.component';
@@ -14,7 +14,7 @@ import { ShowErrorsDirective } from '../directives/show-errors.directive';
  * You should import this module in every module where you want to use these shared directives
  * */
 @NgModule({
-	imports: [ReactiveFormsModule, TranslateModule, FormsModule, CommonModule],
+	imports: [ReactiveFormsModule, TranslatePipe, FormsModule, CommonModule],
 	declarations: [
 		ShowErrorsDirective,
 		FocusableComponent,
@@ -27,7 +27,7 @@ import { ShowErrorsDirective } from '../directives/show-errors.directive';
 		FocusableComponent,
 		HeightEqualizerDirective,
 		ReactiveFormsModule,
-		TranslateModule,
+		TranslatePipe,
 		LoadingComponent,
 		DisclaimerComponent,
 	],

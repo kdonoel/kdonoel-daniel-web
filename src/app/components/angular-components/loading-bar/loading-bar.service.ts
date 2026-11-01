@@ -73,7 +73,7 @@ export class LoadingBarService {
 		return this._visible;
 	}
 
-	start(onCompleted: () => void = null): void {
+	start(): void {
 		// Stop current timer
 		this.stop();
 		// Make it visible for sure

@@ -8,6 +8,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 	standalone: false,
 })
 export class DisclaimerComponent {
-	@Input('label') label: string = '';
-	@Input('type') type: 'info' | 'warn' | 'error' = 'info';
+	@Input() label: string = '';
+	@Input() type: 'info' | 'warn' | 'error' = 'info';
 }

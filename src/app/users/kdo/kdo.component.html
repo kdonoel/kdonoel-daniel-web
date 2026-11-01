@@ -16,7 +16,7 @@
 				}
 			</h1>
 			<p [innerHTML]="kdo.description | alLinkify | alNl2br"></p>
-			@if (!(isConnectedUser() | async)) {
+			@if ((isConnectedUser() | async) === false) {
 				<div>
 					<hr />
 					<!--			<pre>{{ formStatus.value | json }}</pre>-->

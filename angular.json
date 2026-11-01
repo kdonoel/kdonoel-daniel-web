@@ -17,25 +17,20 @@
             },
             "index": "src/index.html",
             "progress": true,
-            "polyfills": ["src/polyfills.ts"],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.json",
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles/global/app.scss"],
             "scripts": [],
             "baseHref": "/",
-            "allowedCommonJsDependencies": [
-              "@neo9/n9-node-utils",
-              "cronstrue",
-              "jwt-decode",
-              "lodash",
-              "moment-timezone",
-              "rxjs",
-              "shortid"
-            ],
+            "allowedCommonJsDependencies": ["lodash", "sweetalert2"],
             "browser": "src/main.ts",
             "stylePreprocessorOptions": {
-              "includePaths": ["."]
+              "includePaths": ["."],
+              "sass": {
+                "silenceDeprecations": ["import"]
+              }
             }
           },
           "configurations": {
@@ -62,10 +57,9 @@
           "options": {
             "proxyConfig": "proxy.conf.json",
             "host": "0.0.0.0",
-            "disableHostCheck": true,
             "port": 8080,
-            "publicHost": "http://localhost:8080/",
-            "buildTarget": "app:build"
+            "buildTarget": "app:build",
+            "allowedHosts": true
           },
           "configurations": {
             "production": {

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
-import { LoadingBarService } from './components/angular-components/loading-bar/loading-bar.service';
 import { ConfigurationService } from './components/conf/configuration.service';
 import { SessionService } from './components/session/session.service';
 
@@ -25,7 +24,7 @@ export class AppComponent {
 		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
 	) {
 		// i18n configuration
-		this.translateService.setDefaultLang(`${this.localeFilePrefix}fr-FR`);
+		this.translateService.setFallbackLang(`${this.localeFilePrefix}fr-FR`);
 		// this.translateService.use(this.localeFilePrefix + "fr-FR");
 
 		// session configuration

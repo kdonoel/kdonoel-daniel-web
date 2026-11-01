@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { CreateSessionBody, SessionService } from '../components/session/session.service';
-import { noop } from '../components/utils/misc.util';
 import { PwdValidatorDirective } from '../components/validators/pwd.validator.directive';
 import { LoginService } from './login.service';
 
@@ -29,7 +28,7 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit(): void {
 		if (this.sessionService.session$.getValue()) {
-			this.router.navigate(['/']).then(noop);
+			void this.router.navigate(['/']);
 		}
 
 		this.loginForm = this.fb.group({
@@ -38,9 +37,8 @@ export class LoginComponent implements OnInit {
 		});
 	}
 
-	async submit($event: any): Promise<boolean> {
+	submit($event: any): boolean {
 		$event.stopPropagation();
-		if (!this.loginForm.valid) return;
 		if (!this.loginForm.valid) return;
 
 		this.loading = true;
@@ -59,7 +57,7 @@ export class LoginComponent implements OnInit {
 
 				if (errorCode === 'init-password-required') {
 					this.loading = true;
-					this.router.navigate(['/password/init'], {}).then(() => (this.loading = false));
+					void this.router.navigate(['/password/init'], {}).then(() => (this.loading = false));
 				}
 				this.errors.push(
 					['invalid-credentials', 'account-locked'].includes(errorCode)
@@ -73,6 +71,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	reset(): void {
-		this.router.navigate(['']);
+		void this.router.navigate(['']);
 	}
 }

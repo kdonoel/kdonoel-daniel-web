@@ -79,7 +79,7 @@ export class ShowErrorsDirective implements AfterContentInit {
 		);
 
 		if (this.n9ShowErrors && this.n9ShowErrors.ngSubmit) {
-			this.n9ShowErrors.ngSubmit.subscribe((submit) => {
+			this.n9ShowErrors.ngSubmit.subscribe(() => {
 				this.onStatusChange(this.control.status as FormControlStatus, 'submit');
 			});
 		}
@@ -201,14 +201,12 @@ export class ShowErrorsDirective implements AfterContentInit {
 
 	private makeFocusChange(): Observable<InputFocusStatus> {
 		// console.log('makeFocusChange', this.focusItem, this.inputRef);
-		if (!!this.focusItem) {
+		if (this.focusItem) {
 			return this.focusItem.focusChange;
 		}
 		return merge(
-			fromEvent(this.getInputNativeElement(), 'blur').pipe(map((e) => 'blur' as InputFocusStatus)),
-			fromEvent(this.getInputNativeElement(), 'focus').pipe(
-				map((e) => 'focus' as InputFocusStatus),
-			),
+			fromEvent(this.getInputNativeElement(), 'blur').pipe(map((): InputFocusStatus => 'blur')),
+			fromEvent(this.getInputNativeElement(), 'focus').pipe(map((): InputFocusStatus => 'focus')),
 		);
 	}
 
@@ -222,7 +220,7 @@ export class ShowErrorsDirective implements AfterContentInit {
 	}
 
 	private getInputNativeElement(): any {
-		if (!!this.inputRef) return this.inputRef.nativeElement;
+		if (this.inputRef) return this.inputRef.nativeElement;
 		return this.input.nativeElement;
 	}
 }

@@ -17,7 +17,7 @@ export class SwalService {
 	public static empty: string = 'empty.empty';
 
 	public static success(title: string, description: string = '', timer: number = 1000): void {
-		sweetalert2.fire({
+		void sweetalert2.fire({
 			title,
 			timer,
 			text: description,
@@ -27,7 +27,7 @@ export class SwalService {
 	}
 
 	public static warning(title: string, description: string = '', timer: number = 1000): void {
-		sweetalert2.fire({
+		void sweetalert2.fire({
 			title,
 			timer,
 			text: description,
@@ -37,7 +37,7 @@ export class SwalService {
 	}
 
 	public static error(title: string, description: string = ''): void {
-		sweetalert2.fire(title, description, 'error');
+		void sweetalert2.fire(title, description, 'error');
 	}
 
 	public static info(
@@ -46,7 +46,7 @@ export class SwalService {
 		allowOutsideClick: boolean = true,
 		allowEscapeKey: boolean = true,
 	): void {
-		sweetalert2.fire({
+		void sweetalert2.fire({
 			title,
 			allowOutsideClick,
 			allowEscapeKey,

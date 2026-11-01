@@ -15,7 +15,7 @@ export class ConfigurationService {
 		this.conf = environment || {};
 	}
 
-	public get<T>(key: keyof PublicConf | string): Observable<T> {
+	public get<T>(key: string): Observable<T> {
 		return this.conf$.pipe(
 			take(1),
 			map((conf) => {
@@ -23,7 +23,7 @@ export class ConfigurationService {
 			}),
 		);
 	}
-	public getInstant<T>(key: keyof PublicConf | string): T {
+	public getInstant<T>(key: string): T {
 		return _.get(this.conf, key);
 	}
 

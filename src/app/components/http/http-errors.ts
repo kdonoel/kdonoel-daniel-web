@@ -3,9 +3,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 // Codes of the API errors with a dedicated message, see errors.codes in the translations
 const KNOWN_ERROR_CODES: string[] = [
 	'can-t-update-status',
+	'email-not-sent',
 	'invalid-credentials',
 	'kdo-not-found',
-	'password-already-set',
+	'login-link-expired',
+	'login-link-not-found',
+	'too-many-login-links',
 	'user-not-found',
 	'wrong-family',
 ];

@@ -25,9 +25,12 @@
     },
     "codes": {
       "can-t-update-status": "Quelqu'un d'autre vient de choisir ce cadeau. La liste a été mise à jour.",
+      "email-not-sent": "L'e-mail n'a pas pu être envoyé. Réessaie dans quelques minutes, et contacte BenJ si cela continue.",
       "invalid-credentials": "Adresse e-mail ou mot de passe incorrect.",
       "kdo-not-found": "Cette idée n'existe plus. La liste a été mise à jour.",
-      "password-already-set": "Tu as déjà choisi ton mot de passe : connecte-toi avec.",
+      "login-link-expired": "Ce lien de connexion a expiré.",
+      "login-link-not-found": "Ce lien de connexion ne fonctionne pas.",
+      "too-many-login-links": "Tu as déjà demandé plusieurs liens : regarde dans ta boîte mail, y compris dans les courriers indésirables, ou réessaie plus tard.",
       "user-not-found": "Cette personne est introuvable.",
       "wrong-family": "Tu ne fais pas partie de cette famille."
     }
@@ -66,7 +69,7 @@
       "title": "Les idées de cadeaux de Noël {{year}}",
       "description": "Connecte-toi pour voir les listes d'idées de ta famille et réserver les cadeaux que tu veux offrir.",
       "login": "Se connecter",
-      "firstLogin": "Première connexion ? Crée ton mot de passe"
+      "noPassword": "Pas besoin de mot de passe : tu recevras un lien de connexion par e-mail."
     },
     "greeting": "Bonjour {{firstName}} !",
     "intro": "Bienvenue sur les listes d'idées de cadeaux de Noël {{year}}.",
@@ -173,25 +176,51 @@
   },
   "login": {
     "title": "Connexion",
-    "description": "Connecte-toi pour voir les listes d'idées de ta famille.",
+    "description": {
+      "link": "Indique ton adresse e-mail : tu vas recevoir un lien pour te connecter, sans mot de passe.",
+      "names": "Indique ton prénom et ton nom : tu vas recevoir un lien de connexion à l'adresse e-mail enregistrée pour toi.",
+      "password": "Connecte-toi avec ton adresse e-mail et ton mot de passe."
+    },
     "email": "Adresse e-mail",
+    "firstName": "Prénom",
+    "lastName": "Nom",
     "password": "Mot de passe",
+    "sendLink": "Recevoir mon lien de connexion",
     "submit": "Se connecter",
-    "firstLogin": "Première connexion ? Crée ton mot de passe",
-    "sessionExpired": "Ta session a expiré : reconnecte-toi pour continuer."
+    "forgottenEmail": "Je ne sais plus quelle adresse j'ai utilisée",
+    "knownEmail": "Je connais mon adresse e-mail",
+    "withPassword": "Se connecter avec un mot de passe",
+    "withLink": "Recevoir plutôt un lien par e-mail",
+    "noPassword": "Tu n'as pas encore de mot de passe : reçois plutôt un lien de connexion par e-mail.",
+    "sessionExpired": "Ta session a expiré : reconnecte-toi pour continuer.",
+    "errors": {
+      "unknownEmail": "Aucun compte n'utilise cette adresse. Essaie une autre adresse, ou retrouve ton compte avec ton prénom et ton nom.",
+      "unknownNames": "Aucun compte à ce nom. Vérifie l'orthographe, ou demande à BenJ de t'ajouter.",
+      "invalidCredentials": "Adresse e-mail ou mot de passe incorrect. Mot de passe oublié ? Reçois plutôt un lien de connexion par e-mail."
+    },
+    "sent": {
+      "title": "Regarde tes e-mails !",
+      "description": "On vient d'envoyer un lien de connexion à :",
+      "help": "Ouvre l'e-mail « Ton lien de connexion à Kdos Noël » et clique sur « Me connecter ».",
+      "spam": "Tu ne le trouves pas ? Regarde dans les courriers indésirables (spam).",
+      "back": "Je n'ai rien reçu"
+    }
   },
-  "initPassword": {
-    "title": "Première connexion",
-    "description": "Choisis ton mot de passe pour accéder aux listes de ta famille.",
-    "firstLogin": "C'est ta première connexion : choisis d'abord ton mot de passe.",
-    "email": "Adresse e-mail",
-    "password": "Mot de passe",
-    "confirmPassword": "Confirme le mot de passe",
-    "submit": "Enregistrer mon mot de passe",
-    "login": "J'ai déjà un mot de passe",
-    "loginNow": "Se connecter",
-    "toast": "Bienvenue ! Ton mot de passe est enregistré.",
-    "userNotFound": "Aucun compte n'existe avec cette adresse e-mail. Vérifie-la ou contacte BenJ."
+  "loginLink": {
+    "loading": "Connexion en cours…",
+    "toast": "Bienvenue {{firstName}} !",
+    "retry": "Réessayer",
+    "backToLogin": "Retour à la connexion",
+    "expired": {
+      "title": "Ce lien a expiré",
+      "description": "Pour te protéger, les liens de connexion ne fonctionnent qu'un temps limité. Reçois-en un nouveau, sans rien avoir à taper.",
+      "renew": "M'envoyer un nouveau lien"
+    },
+    "invalid": {
+      "title": "Ce lien ne fonctionne pas",
+      "description": "Il est peut-être incomplet. Demande un nouveau lien de connexion.",
+      "newLink": "Recevoir un nouveau lien"
+    }
   },
   "password": {
     "rules": "Au moins 8 caractères, dont au moins une lettre et un chiffre.",

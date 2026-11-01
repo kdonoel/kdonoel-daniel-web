@@ -11,8 +11,9 @@ import { PasswordResetRequest, PasswordService } from '../password/password.serv
 import { UsersService } from '../users/users.service';
 
 @Component({
-	selector: 'al-profile',
-	templateUrl: 'user-profile.component.html',
+    selector: 'al-profile',
+    templateUrl: 'user-profile.component.html',
+    standalone: false
 })
 export class UserProfileComponent implements OnInit {
 	resetForm: FormGroup;

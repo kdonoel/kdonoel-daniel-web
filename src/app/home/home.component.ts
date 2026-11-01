@@ -5,9 +5,10 @@ import { Profile, SessionService } from '../components/session/session.service';
 import { UsersService } from '../users/users.service';
 
 @Component({
-	selector: 'n9-home',
-	templateUrl: 'home.component.html',
-	styleUrls: ['home.component.scss'],
+    selector: 'n9-home',
+    templateUrl: 'home.component.html',
+    styleUrls: ['home.component.scss'],
+    standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {
 	profile: Profile;

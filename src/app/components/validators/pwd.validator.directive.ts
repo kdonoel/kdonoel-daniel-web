@@ -2,14 +2,15 @@ import { Directive, forwardRef } from '@angular/core';
 import { FormControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
-	selector: '[n9-email][ngModel],[n9-email][formControl]',
-	providers: [
-		{
-			provide: NG_VALIDATORS,
-			useExisting: forwardRef(() => PwdValidatorDirective),
-			multi: true,
-		},
-	],
+    selector: '[n9-email][ngModel],[n9-email][formControl]',
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => PwdValidatorDirective),
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class PwdValidatorDirective implements Validator {
 	static validPwd(c: FormControl): ValidationErrors {

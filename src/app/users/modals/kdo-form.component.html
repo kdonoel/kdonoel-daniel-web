@@ -3,7 +3,8 @@
 		{{ 'kdo.' + modalType + '.title' | translate }}
 	</h4>
 </div>
-<div class="modal-body" *ngIf="!loading">
+@if (!loading) {
+<div class="modal-body">
 	<!--<pre>{{ form.value | json }}</pre>-->
 	<form class="p-2" [formGroup]="form" (submit)="onSubmit()">
 		<div class="form-group">
@@ -14,12 +15,15 @@
 			<label for="description">{{ 'kdo.form.description' | translate }}</label>
 			<textarea class="form-control" id="description" rows="5" [placeholder]="'kdo.form.description' | translate" formControlName="description"></textarea>
 		</div>
-		<div class="form-group" *ngIf="form.controls.isSurprise">
+		@if (form.controls.isSurprise) {
+		<div class="form-group">
 			<label>Est-ce une surprise ?</label>
 			<ng-toggle [disableInitialAnimation]="true" onText="oui" offText="non" size="sm" formControlName="isSurprise"> </ng-toggle>
 		</div>
+		}
 		<button type="submit" class="btn btn-primary pull-right">
 			{{ 'kdo.form.submit.' + modalType | translate }}
 		</button>
 	</form>
 </div>
+}

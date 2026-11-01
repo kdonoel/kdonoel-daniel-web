@@ -1,4 +1,5 @@
-<div *ngIf="!profile" class="container text-center">
+@if (!profile) {
+<div class="container text-center">
 	<div class="panel panel-white">
 		<div class="panel-heading">
 			<h1 class="text-28-xs text-bold">
@@ -10,14 +11,20 @@
 		</div>
 	</div>
 </div>
-
-<div *ngIf="profile" class="container text-left mb-5">
+} @if (profile) {
+<div class="container text-left mb-5">
 	<h2>
 		{{ 'home.listUsers' | translate }}
 	</h2>
-	<div *ngFor="let user of usersObservable | async">
+	@for (user of usersObservable | async; track user) {
+	<div>
 		<a [routerLink]="['/users', user._id]">{{ user.firstName }}</a>
-		<span *ngIf="user.kdosCount"> ({{ user.kdosCount }} {{ 'home.kdosCount' | translate }}) </span>
-		<span class="small" *ngIf="user.lastSessionAt">Dernière connexion le {{ user.lastSessionAt | date: 'dd/MM' }}</span>
+		@if (user.kdosCount) {
+		<span> ({{ user.kdosCount }} {{ 'home.kdosCount' | translate }}) </span>
+		} @if (user.lastSessionAt) {
+		<span class="small">Dernière connexion le {{ user.lastSessionAt | date: 'dd/MM' }}</span>
+		}
 	</div>
+	}
 </div>
+}

@@ -1,12 +1,15 @@
 <nav class="navbar navbar-default margin-bottom-sm-xs">
 	<div class="w-100 d-flex justify-content-between">
 		<div>
-			<a routerLink="/" *ngIf="profile || (!profile && !isOnHomePage())">
+			@if (profile || (!profile && !isOnHomePage())) {
+			<a routerLink="/">
 				<img alt="Bourriquet sous la neige" src="assets/logo.png" class="logo" height="80" />
 			</a>
+			}
 		</div>
 		<div>
-			<ul class="pull-right line-height-14-xs" *ngIf="!profile">
+			@if (!profile) {
+			<ul class="pull-right line-height-14-xs">
 				<li class="border-icon">
 					<a routerLink="/login" class="text-center">
 						<div class="btn btn-primary round-btn box-shadow">
@@ -18,10 +21,13 @@
 					</a>
 				</li>
 			</ul>
-			<div class="pull-right line-height-14-xs" *ngIf="profile">
-				<span *ngIf="families?.length > 1">
+			} @if (profile) {
+			<div class="pull-right line-height-14-xs">
+				@if (families?.length > 1) {
+				<span>
 					<ng-select [clearable]="false" bindValue="id" [items]="families" (change)="onFamilySelect($event)" [ngModel]="family"></ng-select>
 				</span>
+				}
 				<span class="border-icon">
 					<a routerLink="/" class="text-center">
 						<div class="btn btn-primary round-btn box-shadow">
@@ -41,6 +47,7 @@
 					</a>
 				</span>
 			</div>
+			}
 		</div>
 	</div>
 </nav>

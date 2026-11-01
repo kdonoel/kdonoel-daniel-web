@@ -1,31 +1,38 @@
 <div class="container">
-	<div *ngIf="!loading; else loadingTemplate">
+	@if (!loading) {
+	<div>
 		<a routerLink="../">
 			<i class="fa fa-arrow-left"></i>
 			{{ 'kdo.backToList' | translate }}
 		</a>
 		<h1>
 			{{ kdo.title }}
-			<span class="pull-right" *ngIf="isConnectedUser() | async">
+			@if (isConnectedUser() | async) {
+			<span class="pull-right">
 				<button class="btn btn-primary" (click)="edit()">
 					{{ 'user.kdos.edit' | translate }}
 				</button>
 			</span>
+			}
 		</h1>
 		<p [innerHTML]="kdo.description | alLinkify | alNl2br"></p>
-		<div *ngIf="!(isConnectedUser() | async)">
+		@if (!(isConnectedUser() | async)) {
+		<div>
 			<hr />
 			<!--			<pre>{{ formStatus.value | json }}</pre>-->
 			<form class="d-flex align-items-center" [formGroup]="formStatus" (submit)="setKdoStatus()">
 				<label for="status" class="align-self-center m-0 mr-3">{{ 'kdo.state.label' | translate }}</label>
 				<ng-select class="auto-grow" id="status" [clearable]="false" formControlName="status" [items]="statesItems" bindValue="id" [placeholder]="'kdo.state.placeholder' | translate"> </ng-select>
-				<button type="submit" *ngIf="formStatus.dirty && formStatus.value.status.length" class="btn btn-default">
+				@if (formStatus.dirty && formStatus.value.status.length) {
+				<button type="submit" class="btn btn-default">
 					{{ 'kdo.state.edit' | translate }}
 				</button>
+				}
 			</form>
 		</div>
+		}
 	</div>
-	<ng-template #loadingTemplate>
-		<al-loading></al-loading>
-	</ng-template>
+	} @else {
+	<al-loading></al-loading>
+	}
 </div>

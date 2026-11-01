@@ -9,10 +9,15 @@
 							{{ 'login.form.title' | translate }}
 						</h3>
 					</div>
-					<form novalidate [formGroup]="loginForm" class="form form-horizontal form-group-lg" (ngSubmit)="submit($event)" *ngIf="!loading">
-						<div class="form-group" *ngIf="errors.length">
-							<al-disclaimer *ngFor="let error of errors" [label]="error" type="blocker"> </al-disclaimer>
+					@if (!loading) {
+					<form novalidate [formGroup]="loginForm" class="form form-horizontal form-group-lg" (ngSubmit)="submit($event)">
+						@if (errors.length) {
+						<div class="form-group">
+							@for (error of errors; track error) {
+							<al-disclaimer [label]="error" type="blocker"> </al-disclaimer>
+							}
 						</div>
+						}
 						<!--<pre>loginForm.controls.email.errors {{loginForm.controls.email.errors | json}}</pre>-->
 						<!--<pre>loginForm.controls.password.errors {{loginForm.controls.password.errors | json}}</pre>-->
 						<div class="form-group" n9ShowErrors>
@@ -50,7 +55,9 @@
 							</div>
 						</div>
 					</form>
-					<al-loading *ngIf="loading"></al-loading>
+					} @if (loading) {
+					<al-loading></al-loading>
+					}
 				</div>
 			</div>
 		</div>

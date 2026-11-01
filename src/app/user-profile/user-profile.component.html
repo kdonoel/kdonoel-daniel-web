@@ -5,7 +5,8 @@
 			Se déconnecter
 		</button>
 	</div>
-	<div *ngIf="!loading">
+	@if (!loading) {
+	<div>
 		<h1>
 			{{ 'user.personal.info.title' | translate }}
 		</h1>
@@ -30,13 +31,14 @@
 			</div>
 		</div>
 		<div class="d-flex justify-content-center">
-			<div class="mr-5 w-25 text-right">Famille<ng-container *ngIf="user.familyCodes?.length > 1">s</ng-container></div>
+			<div class="mr-5 w-25 text-right">Famille@if (user.familyCodes?.length > 1) { s }</div>
 			<div class="w-25">
 				{{ user.familyCodes.join(', ') }}
 			</div>
 		</div>
 	</div>
-	<div *ngIf="!loading">
+	} @if (!loading) {
+	<div>
 		<h1>
 			{{ 'password.reset.title' | translate }}
 		</h1>
@@ -87,7 +89,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="text-danger" *ngIf="!resetForm.valid && resetForm.hasError('notEquivalent')">La confirmation du nouveau mot de passe ne correspond pas au nouveau mot de passe.</div>
+				@if (!resetForm.valid && resetForm.hasError('notEquivalent')) {
+				<div class="text-danger">La confirmation du nouveau mot de passe ne correspond pas au nouveau mot de passe.</div>
+				}
 				<div class="form-group form-group-lg">
 					<div class="col-xs-12 text-center">
 						<button type="submit" class="btn btn-lg btn-primary" [disabled]="resetForm.invalid">
@@ -113,4 +117,5 @@
 			</div>
 		</div>
 	</div>
+	}
 </div>

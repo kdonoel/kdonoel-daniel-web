@@ -1,0 +1,132 @@
+// A few stars repeated on two tiles of different sizes, so that the pattern is not visible
+$stars:
+	radial-gradient(1px 1px at 12% 22%, #fff, transparent), radial-gradient(1.5px 1.5px at 38% 74%, rgb(255 255 255 / 80%), transparent),
+	radial-gradient(1px 1px at 67% 41%, rgb(255 255 255 / 70%), transparent), radial-gradient(1px 1px at 22% 58%, rgb(255 255 255 / 60%), transparent),
+	radial-gradient(2px 2px at 81% 17%, $star-gold, transparent), radial-gradient(1.5px 1.5px at 54% 88%, rgb(255 255 255 / 90%), transparent);
+$stars-size:
+	260px 170px,
+	260px 170px,
+	260px 170px,
+	390px 240px,
+	390px 240px,
+	390px 240px;
+// The tiles take the whole height of short elements, otherwise some stars line up on their edges
+$stars-size-short:
+	260px 100%,
+	260px 100%,
+	260px 100%,
+	390px 100%,
+	390px 100%,
+	390px 100%;
+
+@mixin starry-sky($size: $stars-size) {
+	background-color: $night-900;
+	background-image: $stars, linear-gradient(135deg, $night-950 0%, $night-800 60%, $night-700 100%);
+	background-size:
+		$size,
+		100% 100%;
+}
+
+// Narrow layout, easier to read
+.container {
+	max-width: 960px;
+}
+
+// Page background, the cards use the Bootstrap body background
+:root,
+[data-bs-theme='light'] {
+	--kdos-page-bg: #f2f4f9;
+}
+
+[data-bs-theme='dark'] {
+	--kdos-page-bg: #{$night-950};
+}
+
+body {
+	background-color: var(--kdos-page-bg);
+}
+
+// Faint stars behind the pages with the dark theme
+[data-bs-theme='dark'] body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background-image: $stars;
+	background-size: $stars-size;
+	opacity: 0.35;
+}
+
+.navbar-night {
+	@include starry-sky($stars-size-short);
+	border-bottom: 1px solid rgb(255 255 255 / 8%);
+
+	.navbar-logo {
+		width: auto;
+		height: 2.75rem;
+	}
+
+	.family-select {
+		min-width: 8.5rem;
+
+		@include media-breakpoint-up(sm) {
+			min-width: 10rem;
+		}
+	}
+}
+
+.text-star {
+	color: $star-gold;
+}
+
+.hero {
+	@include starry-sky;
+	color: #fff;
+
+	.hero-logo {
+		width: 20rem;
+		max-width: 100%;
+	}
+}
+
+.auth-card {
+	max-width: 26rem;
+}
+
+.avatar {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 50%;
+	font-weight: 600;
+	color: #fff;
+	background: linear-gradient(135deg, $night-700, $primary);
+}
+
+.table > thead th {
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--bs-secondary-color);
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.app-footer {
+	border-top: 1px solid var(--bs-border-color-translucent);
+}
+
+// SweetAlert2 follows the Bootstrap color mode.
+// Its styles are injected at runtime by the library, hence a higher specificity than its :root rule.
+html:root {
+	--swal2-background: var(--bs-body-bg);
+	--swal2-color: var(--bs-body-color);
+	--swal2-border-radius: var(--bs-border-radius-lg);
+	--swal2-confirm-button-background-color: var(--bs-primary);
+	--swal2-input-background: var(--bs-body-bg);
+}

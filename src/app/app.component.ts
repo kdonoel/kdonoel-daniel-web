@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 import { ConfigurationService } from './components/conf/configuration.service';
 import { SessionService } from './components/session/session.service';
+import { getChristmasYear } from './components/utils/christmas.util';
 
 @Component({
 	selector: 'app-root',
@@ -22,7 +24,10 @@ export class AppComponent {
 		private sessionService: SessionService,
 		private conf: ConfigurationService,
 		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+		private titleService: Title,
 	) {
+		this.titleService.setTitle(`Kdos Noël ${getChristmasYear()}`);
+
 		// i18n configuration
 		this.translateService.setFallbackLang(`${this.localeFilePrefix}fr-FR`);
 		// this.translateService.use(this.localeFilePrefix + "fr-FR");

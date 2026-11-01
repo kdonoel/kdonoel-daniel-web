@@ -1,4 +1,12 @@
-<div class="disclaimer-container" [class]="type">
-	<i class="fa fa-warning"></i>
+<div
+	class="alert d-flex align-items-center gap-2 py-2"
+	role="alert"
+	[class.alert-info]="type === 'info'"
+	[class.alert-warning]="type === 'warn'"
+	[class.alert-danger]="type === 'error' || type === 'blocker'"
+>
+	@if (type !== 'info') {
+		<i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+	}
 	<span [innerHtml]="label | translate"></span>
 </div>

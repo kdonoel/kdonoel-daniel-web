@@ -1,32 +1,34 @@
-@if (!profile) {
-	<div class="container text-center">
-		<div class="panel panel-white">
-			<div class="panel-heading">
-				<h1 class="text-28-xs text-bold">
-					{{ 'home.title' | translate }}
-				</h1>
-			</div>
-			<div class="panel-body">
-				<img src="assets/logo.png" alt="Home" />
+<div class="container">
+	@if (!profile) {
+		<div class="card hero text-center border-0 shadow-sm overflow-hidden">
+			<div class="card-body py-5 px-4">
+				<img src="assets/logo.png" alt="Bourriquet sous la neige" class="hero-logo mb-4" />
+				<h1 class="h2 mb-3">{{ 'home.title' | translate: { year: year } }}</h1>
+				<p class="lead text-white-50 mb-4">{{ 'login.title' | translate }}</p>
+				<a routerLink="/login" class="btn btn-light btn-lg">
+					<i class="bi bi-box-arrow-in-right me-2" aria-hidden="true"></i>
+					{{ 'login.form.actions.submit' | translate }}
+				</a>
 			</div>
 		</div>
-	</div>
-}
-@if (profile) {
-	<div class="container text-left mb-5">
-		<h2>
-			{{ 'home.listUsers' | translate }}
-		</h2>
-		@for (user of usersObservable | async; track user) {
-			<div>
-				<a [routerLink]="['/users', user._id]">{{ user.firstName }}</a>
-				@if (user.kdosCount) {
-					<span> ({{ user.kdosCount }} {{ 'home.kdosCount' | translate }}) </span>
-				}
-				@if (user.lastSessionAt) {
-					<span class="small">Dernière connexion le {{ user.lastSessionAt | date: 'dd/MM' }}</span>
-				}
-			</div>
-		}
-	</div>
-}
+	} @else {
+		<h1 class="h3 mb-3">{{ 'home.listUsers' | translate }}</h1>
+		<div class="list-group shadow-sm">
+			@for (user of usersObservable | async; track user._id) {
+				<a class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3" [routerLink]="['/users', user._id]">
+					<span class="avatar" aria-hidden="true">{{ user.firstName.charAt(0) }}</span>
+					<span class="flex-grow-1">
+						<span class="d-block fw-semibold">{{ user.firstName }}</span>
+						@if (user.lastSessionAt) {
+							<small class="text-body-secondary">Dernière connexion le {{ user.lastSessionAt | date: 'dd/MM' }}</small>
+						}
+					</span>
+					@if (user.kdosCount) {
+						<span class="badge rounded-pill text-bg-primary">{{ user.kdosCount }} {{ 'home.kdosCount' | translate }}</span>
+					}
+					<i class="bi bi-chevron-right text-body-tertiary" aria-hidden="true"></i>
+				</a>
+			}
+		</div>
+	}
+</div>

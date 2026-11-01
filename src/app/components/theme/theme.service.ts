@@ -6,7 +6,8 @@ export type Theme = 'light' | 'dark' | 'auto';
 
 /**
  * Apply the Bootstrap color mode (data-bs-theme attribute) chosen by the user.
- * The choice is saved in the local storage with the same key as the former ng-bootstrap-darkmode library.
+ * The choice is saved in the local storage with the same key as the former ng-bootstrap-darkmode library,
+ * without any choice the theme follows the system preference.
  */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -27,7 +28,7 @@ export class ThemeService {
 
 	private static loadTheme(): Theme {
 		const theme = localStorage.getItem(ThemeService.storageKey);
-		return theme === 'dark' || theme === 'auto' ? theme : 'light';
+		return theme === 'light' || theme === 'dark' ? theme : 'auto';
 	}
 
 	public setTheme(theme: Theme): void {

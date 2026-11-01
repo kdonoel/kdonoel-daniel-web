@@ -1,9 +1,11 @@
-<html>
+<!doctype html>
+<html lang="fr">
 	<head>
-		<title>Kdos Noël 2024</title>
 		<meta charset="UTF-8" />
+		<title>Kdos Noël</title>
 		<base href="/" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#0a1430" />
 		<link rel="icon" type="image/png" href="assets/favicon.png" sizes="96x96" />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109228987-1"></script>
 		<script type="text/javascript">
@@ -17,10 +19,25 @@
 
 			gtag('config', 'UA-109228987-1');
 		</script>
+		<script type="text/javascript">
+			// Apply the color mode before the app starts to avoid a flash, see ThemeService
+			(function () {
+				var theme = localStorage.getItem('theme');
+				if (theme !== 'light' && theme !== 'dark') {
+					theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				}
+				document.documentElement.setAttribute('data-bs-theme', theme);
+			})();
+		</script>
 		<style>
 			body {
-				background-color: black;
-				color: white;
+				background-color: #f2f4f9;
+				color: #212529;
+			}
+
+			[data-bs-theme='dark'] body {
+				background-color: #050a1a;
+				color: #e2e8f5;
 			}
 		</style>
 	</head>

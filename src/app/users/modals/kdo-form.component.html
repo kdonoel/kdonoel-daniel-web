@@ -1,29 +1,32 @@
 <div class="modal-header">
-	<h4 class="modal-title pull-left">
+	<h2 class="modal-title h5">
 		{{ 'kdo.' + modalType + '.title' | translate }}
-	</h4>
+	</h2>
+	<button type="button" class="btn-close" aria-label="Fermer" (click)="close()"></button>
 </div>
 @if (!loading) {
-	<div class="modal-body">
-		<!--<pre>{{ form.value | json }}</pre>-->
-		<form class="p-2" [formGroup]="form" (submit)="onSubmit()">
-			<div class="form-group">
-				<label for="title">{{ 'kdo.form.title' | translate }}</label>
+	<form [formGroup]="form" (submit)="onSubmit()">
+		<div class="modal-body">
+			<div class="mb-3">
+				<label for="title" class="form-label">{{ 'kdo.form.title' | translate }}</label>
 				<input type="text" class="form-control" id="title" [placeholder]="'kdo.form.title' | translate" formControlName="title" />
 			</div>
-			<div class="form-group">
-				<label for="description">{{ 'kdo.form.description' | translate }}</label>
+			<div class="mb-3">
+				<label for="description" class="form-label">{{ 'kdo.form.description' | translate }}</label>
 				<textarea class="form-control" id="description" rows="5" [placeholder]="'kdo.form.description' | translate" formControlName="description"></textarea>
 			</div>
 			@if (form.controls.isSurprise) {
-				<div class="form-group">
-					<label>Est-ce une surprise ?</label>
-					<ng-toggle [disableInitialAnimation]="true" onText="oui" offText="non" size="sm" formControlName="isSurprise"> </ng-toggle>
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" role="switch" id="isSurprise" formControlName="isSurprise" />
+					<label class="form-check-label" for="isSurprise">Est-ce une surprise ?</label>
 				</div>
 			}
-			<button type="submit" class="btn btn-primary pull-right">
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-outline-secondary" (click)="close()">Annuler</button>
+			<button type="submit" class="btn btn-primary" [disabled]="form.invalid">
 				{{ 'kdo.form.submit.' + modalType | translate }}
 			</button>
-		</form>
-	</div>
+		</div>
+	</form>
 }

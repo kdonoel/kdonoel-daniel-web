@@ -87,7 +87,7 @@ export class ShowErrorsDirective implements AfterContentInit {
 
 	public createPicto(clazz: string): void {
 		const picto = this.renderer.createElement(null, 'i');
-		this.renderer.addClass(picto, 'fa');
+		this.renderer.addClass(picto, 'bi');
 		this.renderer.addClass(picto, clazz);
 		this.renderer.addClass(picto, 'validation-picto');
 		return picto;
@@ -108,7 +108,7 @@ export class ShowErrorsDirective implements AfterContentInit {
 	public displayValidState(): void {
 		if (!this.disableValidationPicto) {
 			if (!this.validPicto) {
-				this.validPicto = this.createPicto('fa-check');
+				this.validPicto = this.createPicto('bi-check-lg');
 			}
 			this.getInputNativeElement().parentNode.insertBefore(
 				this.validPicto,
@@ -147,7 +147,7 @@ export class ShowErrorsDirective implements AfterContentInit {
 		this.displayErrors();
 		if (!this.disableValidationPicto) {
 			if (!this.invalidPicto) {
-				this.invalidPicto = this.createPicto('fa-close');
+				this.invalidPicto = this.createPicto('bi-x-lg');
 			}
 			this.getInputNativeElement().parentNode.insertBefore(
 				this.invalidPicto,
@@ -160,7 +160,7 @@ export class ShowErrorsDirective implements AfterContentInit {
 	public displayInvalidStateWithoutErrors(): void {
 		if (!this.disableValidationPicto) {
 			if (!this.invalidPicto) {
-				this.invalidPicto = this.createPicto('fa-close');
+				this.invalidPicto = this.createPicto('bi-x-lg');
 			}
 			this.getInputNativeElement().parentNode.insertBefore(
 				this.invalidPicto,

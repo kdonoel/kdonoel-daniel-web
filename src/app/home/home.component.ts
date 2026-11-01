@@ -3,12 +3,12 @@ import { combineLatest, Observable, of, Subscription, switchMap } from 'rxjs';
 
 import { User } from '../components/models/users/users.models';
 import { Profile, SessionService } from '../components/session/session.service';
+import { getChristmasYear } from '../components/utils/christmas.util';
 import { UsersService } from '../users/users.service';
 
 @Component({
 	selector: 'n9-home',
 	templateUrl: 'home.component.html',
-	styleUrls: ['home.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,
 	standalone: false,
 })
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	profile: Profile;
 	subscription: Subscription;
 	usersObservable: Observable<User[]>;
+	readonly year: number = getChristmasYear();
 
 	constructor(
 		private sessionService: SessionService,

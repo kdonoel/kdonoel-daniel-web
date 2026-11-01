@@ -1,0 +1,24 @@
+// Night blue palette, a starry night
+$night-950: #050a1a;
+$night-900: #0a1430;
+$night-800: #112047;
+$night-700: #1a2f63;
+$star-gold: #f3c96b;
+
+// Bootstrap customisation, must be defined before importing Bootstrap
+$primary: #2b4c9c;
+
+$border-radius: 0.5rem;
+$border-radius-sm: 0.375rem;
+$border-radius-lg: 0.75rem;
+
+$headings-font-weight: 600;
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+// Dark color mode: night blue surfaces instead of the default grays
+$body-bg-dark: #0e1834;
+$body-color-dark: #e2e8f5;
+$body-secondary-bg-dark: #16244a;
+$body-tertiary-bg-dark: #0b1429;
+$border-color-dark: #26365e;

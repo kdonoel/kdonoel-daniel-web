@@ -39,6 +39,28 @@ export class SwalService {
 		this.alert('info', titleKey, key);
 	}
 
+	/**
+	 * Question answered by the user, resolved with true when confirmed
+	 */
+	public async confirm(
+		titleKey: string,
+		key: string,
+		confirmKey: string,
+		params?: object,
+	): Promise<boolean> {
+		const result = await sweetalert2.fire({
+			icon: 'question',
+			titleText: this.translateService.instant(titleKey, params),
+			text: this.translateService.instant(key, params),
+			showCancelButton: true,
+			confirmButtonText: this.translateService.instant(confirmKey),
+			cancelButtonText: this.translateService.instant('commons.cancel'),
+			// The cancel button on the left, like in the modals of the app
+			reverseButtons: true,
+		});
+		return result.isConfirmed;
+	}
+
 	private alert(icon: 'error' | 'info', titleKey: string, key: string, params?: object): void {
 		void sweetalert2.fire({
 			icon,

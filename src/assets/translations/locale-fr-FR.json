@@ -8,7 +8,8 @@
         "email": "Cette adresse e-mail n'est pas valide.",
         "pwdValid": "Le mot de passe doit contenir au moins 8 caractères, dont au moins une lettre et un chiffre."
       }
-    }
+    },
+    "cancel": "Annuler"
   },
   "errors": {
     "title": "Un problème est survenu",
@@ -24,6 +25,7 @@
       "409": "Cette information existe déjà."
     },
     "codes": {
+      "admin-required": "Seul l'administrateur du site peut faire cela.",
       "can-t-update-status": "Quelqu'un d'autre vient de choisir ce cadeau. La liste a été mise à jour.",
       "email-not-sent": "L'e-mail n'a pas pu être envoyé. Réessaie dans quelques minutes, et contacte BenJ si cela continue.",
       "invalid-credentials": "Adresse e-mail ou mot de passe incorrect.",
@@ -245,6 +247,22 @@
       "submit": "Changer mon mot de passe",
       "toast": "Ton mot de passe a été changé",
       "invalid": "Ton mot de passe actuel est incorrect."
+    },
+    "invitations": {
+      "title": "Invitations de Noël",
+      "description": "Envoie à chacun un e-mail avec son lien de connexion personnel : plus besoin de retenir l'adresse du site, son e-mail ou son mot de passe. À faire au début de la saison.",
+      "send": "Envoyer l'invitation à la famille {{family}}",
+      "confirm": {
+        "title": "Envoyer les invitations ?",
+        "text": "Chaque membre de la famille {{family}} va recevoir un e-mail avec son lien de connexion personnel.",
+        "send": "Envoyer"
+      },
+      "sent": {
+        "zero": "Aucune invitation envoyée",
+        "one": "Invitation envoyée",
+        "other": "{{count}} invitations envoyées"
+      },
+      "failed": "Certains e-mails n'ont pas pu être envoyés ({{failedCount}} en échec, {{sentCount}} envoyés). Réessaie dans quelques minutes."
     }
   }
 }

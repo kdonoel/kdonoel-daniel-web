@@ -13,6 +13,8 @@ export interface Profile {
 	lastName: string;
 	email: string;
 	_id: string;
+	// The admins send the invitations, missing in the sessions opened before
+	isAdmin?: boolean;
 }
 
 export interface Session {

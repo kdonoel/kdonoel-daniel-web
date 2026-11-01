@@ -71,6 +71,24 @@
 					</div>
 				</div>
 			}
+			@if (profile.isAdmin) {
+				<div class="col-12">
+					<div class="card shadow-sm">
+						<div class="card-body">
+							<h2 class="h5 mb-1">{{ 'account.invitations.title' | translate }}</h2>
+							<p class="text-body-secondary">{{ 'account.invitations.description' | translate }}</p>
+							<div class="d-flex flex-wrap gap-2">
+								@for (familyCode of profile.familyCodes; track familyCode) {
+									<button type="button" class="btn btn-primary" [disabled]="inviting" (click)="invite(familyCode)">
+										<i class="bi bi-envelope-paper-heart me-1" aria-hidden="true"></i>
+										{{ 'account.invitations.send' | translate: { family: familyCode } }}
+									</button>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			}
 		</div>
 	}
 </div>

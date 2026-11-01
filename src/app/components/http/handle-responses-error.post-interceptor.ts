@@ -1,8 +1,15 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+	HttpErrorResponse,
+	HttpEvent,
+	HttpHandler,
+	HttpInterceptor,
+	HttpRequest,
+} from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { LoadingBarService } from '../angular-components/loading-bar/loading-bar.service';
 import { SessionService } from '../session/session.service';
 import { SwalService } from '../utils/swal.service';

@@ -1,30 +1,32 @@
 @if (!profile) {
-<div class="container text-center">
-	<div class="panel panel-white">
-		<div class="panel-heading">
-			<h1 class="text-28-xs text-bold">
-				{{ 'home.title' | translate }}
-			</h1>
-		</div>
-		<div class="panel-body">
-			<img src="assets/logo.png" alt="Home" />
+	<div class="container text-center">
+		<div class="panel panel-white">
+			<div class="panel-heading">
+				<h1 class="text-28-xs text-bold">
+					{{ 'home.title' | translate }}
+				</h1>
+			</div>
+			<div class="panel-body">
+				<img src="assets/logo.png" alt="Home" />
+			</div>
 		</div>
 	</div>
-</div>
-} @if (profile) {
-<div class="container text-left mb-5">
-	<h2>
-		{{ 'home.listUsers' | translate }}
-	</h2>
-	@for (user of usersObservable | async; track user) {
-	<div>
-		<a [routerLink]="['/users', user._id]">{{ user.firstName }}</a>
-		@if (user.kdosCount) {
-		<span> ({{ user.kdosCount }} {{ 'home.kdosCount' | translate }}) </span>
-		} @if (user.lastSessionAt) {
-		<span class="small">Dernière connexion le {{ user.lastSessionAt | date: 'dd/MM' }}</span>
+}
+@if (profile) {
+	<div class="container text-left mb-5">
+		<h2>
+			{{ 'home.listUsers' | translate }}
+		</h2>
+		@for (user of usersObservable | async; track user) {
+			<div>
+				<a [routerLink]="['/users', user._id]">{{ user.firstName }}</a>
+				@if (user.kdosCount) {
+					<span> ({{ user.kdosCount }} {{ 'home.kdosCount' | translate }}) </span>
+				}
+				@if (user.lastSessionAt) {
+					<span class="small">Dernière connexion le {{ user.lastSessionAt | date: 'dd/MM' }}</span>
+				}
+			</div>
 		}
 	</div>
-	}
-</div>
 }

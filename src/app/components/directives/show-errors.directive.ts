@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 import { combineLatest, fromEvent, merge, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+
 import { FocusableComponent } from './focusable.component';
 
 export type EditActionType = 'create' | 'update';
@@ -23,9 +24,9 @@ declare type InputFocusStatus = 'untouched' | 'blur' | 'focus' | 'submit';
 
 // todo: add doc
 @Directive({
-    selector: '[n9ShowErrors]',
-    exportAs: 'n9ShowErrors',
-    standalone: false
+	selector: '[n9ShowErrors]',
+	exportAs: 'n9ShowErrors',
+	standalone: false,
 })
 export class ShowErrorsDirective implements AfterContentInit {
 	@Input() private n9ShowErrors: NgForm;

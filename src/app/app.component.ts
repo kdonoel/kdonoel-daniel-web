@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Angulartics2GoogleAnalytics } from 'angulartics2';
+
 import { LoadingBarService } from './components/angular-components/loading-bar/loading-bar.service';
 import { ConfigurationService } from './components/conf/configuration.service';
 import { SessionService } from './components/session/session.service';

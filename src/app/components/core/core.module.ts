@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
+
 import { ConfigurationModule } from '../conf/configuration.module';
 import { LoggedInGuard } from '../session/logged-in.guard';
 import { SessionService } from '../session/session.service';

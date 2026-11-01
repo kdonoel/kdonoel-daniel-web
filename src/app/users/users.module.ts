@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgToggleModule } from '@nth-cloud/ng-toggle';
 import { ModalModule } from 'ngx-bootstrap/modal';
+
 import { AlLinkifyPipe } from '../components/pipes/linkyfy.pipe';
 import { Nl2brPipe } from '../components/pipes/nl2br.pipe';
 import { SharedModule } from '../components/shared/shared.module';

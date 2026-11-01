@@ -123,12 +123,11 @@ export class SwalService {
 	}
 
 	public translateError(title: string, description: string = SwalService.empty): void {
-		forkJoin([
-			this.translateService.get(title),
-			this.translateService.get(description),
-		]).subscribe(([titleTranslated, descriptionTranslated]) => {
-			SwalService.error(titleTranslated, descriptionTranslated);
-		});
+		forkJoin([this.translateService.get(title), this.translateService.get(description)]).subscribe(
+			([titleTranslated, descriptionTranslated]) => {
+				SwalService.error(titleTranslated, descriptionTranslated);
+			},
+		);
 	}
 
 	public translateInfo(
@@ -137,12 +136,11 @@ export class SwalService {
 		allowOutsideClick: boolean = true,
 		allowEscapeKey: boolean = true,
 	): void {
-		forkJoin([
-			this.translateService.get(title),
-			this.translateService.get(description),
-		]).subscribe(([titleTranslated, descriptionTranslated]) => {
-			SwalService.info(titleTranslated, descriptionTranslated, allowOutsideClick, allowEscapeKey);
-		});
+		forkJoin([this.translateService.get(title), this.translateService.get(description)]).subscribe(
+			([titleTranslated, descriptionTranslated]) => {
+				SwalService.info(titleTranslated, descriptionTranslated, allowOutsideClick, allowEscapeKey);
+			},
+		);
 	}
 
 	public translateConfirm(

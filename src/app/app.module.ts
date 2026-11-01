@@ -1,10 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
-
 import { CommonModule, registerLocaleData } from '@angular/common';
 import {
+	HTTP_INTERCEPTORS,
 	HttpBackend,
 	HttpClient,
-	HTTP_INTERCEPTORS,
 	provideHttpClient,
 	withInterceptorsFromDi,
 	withXhr,
@@ -12,6 +10,7 @@ import {
 import fr from '@angular/common/locales/fr';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -20,8 +19,9 @@ import { NgToggleModule } from '@nth-cloud/ng-toggle';
 import { Angulartics2Module } from 'angulartics2';
 import { NgBootstrapDarkmodeModule } from 'ng-bootstrap-darkmode';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { LoadingBarModule } from './components/angular-components/loading-bar/loading-bar.module';
 import { CoreModule } from './components/core/core.module';
 import { BaseHrefApiPreInterceptor } from './components/http/base-href-api.pre-interceptor';

@@ -1,74 +1,77 @@
 <div class="container">
 	@if (!loading) {
-	<div>
-		<h1>
-			{{ 'user.listKdos' | translate: { name: user.firstName } }}
-			<span class="pull-right">
-				<button class="btn btn-primary" (click)="addKdo()">
-					<i class="fa fa-plus"></i>
-					{{ 'user.kdos.add' | translate }}
-				</button>
-			</span>
-		</h1>
-		@if (user.kdos?.length) {
-		<table class="table">
-			<thead>
-				<tr>
-					<th>{{ 'user.kdos.title' | translate }}</th>
-					@if (!isConnectedUser) {
-					<th width="100px">Surprise ?</th>
-					} @if (!isConnectedUser) {
-					<th width="200px">
-						{{ 'user.kdos.state' | translate }}
-					</th>
-					}
-					<th class="col-edit"></th>
-					<th class="col-view"></th>
-				</tr>
-			</thead>
-			<tbody>
-				@for (kdo of user.kdos; track kdo; let index = $index) {
-				<tr>
-					<td (click)="showKdo(index)" class="pointer">
-						{{ kdo.title }}
-					</td>
-					@if (!isConnectedUser) {
-					<td [class.text-danger]="kdo.isSurprise">
-						{{ kdo.isSurprise ? 'Oui' : 'Non' }}
-					</td>
-					} @if (!isConnectedUser) {
-					<td
-						(click)="showKdo(index)"
-						class="pointer"
-						[class.font-weight-bold]="currentUserId === kdo.status?.userId"
-						[class.text-warning]="currentUserId === kdo.status?.userId"
-						[title]="kdo.status?.lastUpdateDate ? 'Dernière modification de status le ' + ($safeNavigationMigration(kdo.status?.lastUpdateDate) | date: 'short') : ''"
-					>
-						{{ 'kdo.state.' + $safeNavigationMigration(kdo.status?.code) | translate }}
-						@if (currentUserId === kdo.status?.userId) {
-						<span>(Par toi)</span>
+		<div>
+			<h1>
+				{{ 'user.listKdos' | translate: { name: user.firstName } }}
+				<span class="pull-right">
+					<button class="btn btn-primary" (click)="addKdo()">
+						<i class="fa fa-plus"></i>
+						{{ 'user.kdos.add' | translate }}
+					</button>
+				</span>
+			</h1>
+			@if (user.kdos?.length) {
+				<table class="table">
+					<thead>
+						<tr>
+							<th>{{ 'user.kdos.title' | translate }}</th>
+							@if (!isConnectedUser) {
+								<th width="100px">Surprise ?</th>
+							}
+							@if (!isConnectedUser) {
+								<th width="200px">
+									{{ 'user.kdos.state' | translate }}
+								</th>
+							}
+							<th class="col-edit"></th>
+							<th class="col-view"></th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (kdo of user.kdos; track kdo; let index = $index) {
+							<tr>
+								<td (click)="showKdo(index)" class="pointer">
+									{{ kdo.title }}
+								</td>
+								@if (!isConnectedUser) {
+									<td [class.text-danger]="kdo.isSurprise">
+										{{ kdo.isSurprise ? 'Oui' : 'Non' }}
+									</td>
+								}
+								@if (!isConnectedUser) {
+									<td
+										(click)="showKdo(index)"
+										class="pointer"
+										[class.font-weight-bold]="currentUserId === kdo.status?.userId"
+										[class.text-warning]="currentUserId === kdo.status?.userId"
+										[title]="kdo.status?.lastUpdateDate ? 'Dernière modification de status le ' + ($safeNavigationMigration(kdo.status?.lastUpdateDate) | date: 'short') : ''"
+									>
+										{{ 'kdo.state.' + $safeNavigationMigration(kdo.status?.code) | translate }}
+										@if (currentUserId === kdo.status?.userId) {
+											<span>(Par toi)</span>
+										}
+									</td>
+								}
+								<td>
+									<button class="btn btn-primary btn-sm" (click)="edit(kdo, index)">
+										<i class="fa fa-edit"></i>
+									</button>
+								</td>
+								<td>
+									<button class="btn btn-primary btn-sm" (click)="showKdo(index)">
+										<i class="fa fa-eye"></i>
+									</button>
+								</td>
+							</tr>
 						}
-					</td>
-					}
-					<td>
-						<button class="btn btn-primary btn-sm" (click)="edit(kdo, index)">
-							<i class="fa fa-edit"></i>
-						</button>
-					</td>
-					<td>
-						<button class="btn btn-primary btn-sm" (click)="showKdo(index)">
-							<i class="fa fa-eye"></i>
-						</button>
-					</td>
-				</tr>
-				}
-			</tbody>
-		</table>
-		} @if (!user.kdos?.length) {
-		<div class="my-5">La liste d'idées de {{ user.firstName }} {{ user.lastName }} est vide.</div>
-		}
-	</div>
+					</tbody>
+				</table>
+			}
+			@if (!user.kdos?.length) {
+				<div class="my-5">La liste d'idées de {{ user.firstName }} {{ user.lastName }} est vide.</div>
+			}
+		</div>
 	} @else {
-	<al-loading></al-loading>
+		<al-loading></al-loading>
 	}
 </div>

@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { SessionService } from '../components/session/session.service';
 
+import { SessionService } from '../components/session/session.service';
 import { SwalService } from '../components/utils/swal.service';
 import { PwdValidatorDirective } from '../components/validators/pwd.validator.directive';
 import { InitPasswordRequest, PasswordService } from './password.service';

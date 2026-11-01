@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { User } from '../components/models/users/users.models';
 import { SessionService } from '../components/session/session.service';
-
 import { noop } from '../components/utils/misc.util';
 import { SwalService } from '../components/utils/swal.service';
 import { PwdValidatorDirective } from '../components/validators/pwd.validator.directive';

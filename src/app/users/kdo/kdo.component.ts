@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Kdo, KdoState } from '../../components/models/users/kdos.models';
 import { User } from '../../components/models/users/users.models';
 import { SessionService } from '../../components/session/session.service';

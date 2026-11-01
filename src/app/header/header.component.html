@@ -2,51 +2,52 @@
 	<div class="w-100 d-flex justify-content-between">
 		<div>
 			@if (profile || (!profile && !isOnHomePage())) {
-			<a routerLink="/">
-				<img alt="Bourriquet sous la neige" src="assets/logo.png" class="logo" height="80" />
-			</a>
+				<a routerLink="/">
+					<img alt="Bourriquet sous la neige" src="assets/logo.png" class="logo" height="80" />
+				</a>
 			}
 		</div>
 		<div>
 			@if (!profile) {
-			<ul class="pull-right line-height-14-xs">
-				<li class="border-icon">
-					<a routerLink="/login" class="text-center">
-						<div class="btn btn-primary round-btn box-shadow">
-							<i class="fa fa-sign-in" aria-hidden="true"></i>
-						</div>
-						<div class="text-description-link">
-							{{ 'header.links.login' | translate }}
-						</div>
-					</a>
-				</li>
-			</ul>
-			} @if (profile) {
-			<div class="pull-right line-height-14-xs">
-				@if (families?.length > 1) {
-				<span>
-					<ng-select [clearable]="false" bindValue="id" [items]="families" (change)="onFamilySelect($event)" [ngModel]="family"></ng-select>
-				</span>
-				}
-				<span class="border-icon">
-					<a routerLink="/" class="text-center">
-						<div class="btn btn-primary round-btn box-shadow">
-							<i class="fa fa-home" aria-hidden="true"></i>
-						</div>
-						<div class="text-description-link">Accueil</div>
-					</a>
-				</span>
-				<span class="border-icon">
-					<a class="text-center" routerLink="/profile">
-						<div class="btn btn-primary round-btn box-shadow">
-							<i class="fa fa-user" aria-hidden="true"></i>
-						</div>
-						<div class="ellipsis">
-							<span class="text-description-link">{{ profile.firstName }}</span>
-						</div>
-					</a>
-				</span>
-			</div>
+				<ul class="pull-right line-height-14-xs">
+					<li class="border-icon">
+						<a routerLink="/login" class="text-center">
+							<div class="btn btn-primary round-btn box-shadow">
+								<i class="fa fa-sign-in" aria-hidden="true"></i>
+							</div>
+							<div class="text-description-link">
+								{{ 'header.links.login' | translate }}
+							</div>
+						</a>
+					</li>
+				</ul>
+			}
+			@if (profile) {
+				<div class="pull-right line-height-14-xs">
+					@if (families?.length > 1) {
+						<span>
+							<ng-select [clearable]="false" bindValue="id" [items]="families" (change)="onFamilySelect($event)" [ngModel]="family"></ng-select>
+						</span>
+					}
+					<span class="border-icon">
+						<a routerLink="/" class="text-center">
+							<div class="btn btn-primary round-btn box-shadow">
+								<i class="fa fa-home" aria-hidden="true"></i>
+							</div>
+							<div class="text-description-link">Accueil</div>
+						</a>
+					</span>
+					<span class="border-icon">
+						<a class="text-center" routerLink="/profile">
+							<div class="btn btn-primary round-btn box-shadow">
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</div>
+							<div class="ellipsis">
+								<span class="text-description-link">{{ profile.firstName }}</span>
+							</div>
+						</a>
+					</span>
+				</div>
 			}
 		</div>
 	</div>

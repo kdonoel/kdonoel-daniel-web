@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { DisclaimerComponent } from '../angular-components/disclaimers/disclaimer.component';
 import { LoadingComponent } from '../angular-components/loading/loading.component';
 import { FocusableComponent } from '../directives/focusable.component';

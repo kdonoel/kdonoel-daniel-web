@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {map, Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
+
 import { Kdo } from '../components/models/users/kdos.models';
 import { User } from '../components/models/users/users.models';
 import { SessionService } from '../components/session/session.service';
@@ -10,7 +11,10 @@ import { StatusRequest } from './users.models';
 export class UsersService {
 	private usersCache: { [id: string]: User };
 
-	constructor(private sessionService: SessionService, private http: HttpClient) {
+	constructor(
+		private sessionService: SessionService,
+		private http: HttpClient,
+	) {
 		this.usersCache = {};
 	}
 

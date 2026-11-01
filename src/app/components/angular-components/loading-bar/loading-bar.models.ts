@@ -6,5 +6,8 @@ export enum LoadingBarEventType {
 }
 
 export class LoadingBarEvent {
-	constructor(public type: LoadingBarEventType, public value: boolean | string) {}
+	constructor(
+		public type: LoadingBarEventType,
+		public value: boolean | string,
+	) {}
 }

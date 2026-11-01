@@ -9,7 +9,7 @@ import {
 	Renderer2,
 	SkipSelf,
 } from '@angular/core';
-import { AbstractControl, NgControl, NgForm } from '@angular/forms';
+import { AbstractControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 import { combineLatest, fromEvent, merge, Observable } from 'rxjs';
@@ -29,7 +29,8 @@ declare type InputFocusStatus = 'untouched' | 'blur' | 'focus' | 'submit';
 	standalone: false,
 })
 export class ShowErrorsDirective implements AfterContentInit {
-	@Input() private n9ShowErrors: NgForm;
+	// The form, to display the errors when it is submitted
+	@Input() private n9ShowErrors: NgForm | FormGroupDirective;
 	@Input() private n9ShowErrorsDisabled: boolean;
 	@Input() private disableValidationPicto: boolean = true;
 	@Input() private errorsTranslationPrefix: string;

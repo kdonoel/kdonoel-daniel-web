@@ -1,14 +1,23 @@
-// Fixed widths on large screens only, the title takes the remaining space on small ones
-@media (min-width: 768px) {
-	.col-surprise {
-		width: 7rem;
-	}
+// The ideas reserved or bought by the connected user stand out
+.kdo-card-reservedByMe {
+	border-left: 0.3rem solid var(--bs-warning);
+}
 
-	.col-state {
-		width: 14rem;
-	}
+.kdo-card-boughtByMe {
+	border-left: 0.3rem solid var(--bs-primary);
+}
 
-	.col-actions {
-		width: 6.5rem;
-	}
+// Someone else takes care of these ideas: no action, faded
+.kdo-card-reservedByOther,
+.kdo-card-boughtByOther {
+	color: var(--bs-secondary-color);
+	background-color: var(--bs-tertiary-bg);
+	box-shadow: none !important;
+}
+
+.kdo-state {
+	font-size: 0.875rem;
+	font-weight: 600;
+	white-space: normal;
+	text-align: left;
 }

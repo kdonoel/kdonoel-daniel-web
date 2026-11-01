@@ -1,32 +1,34 @@
 <div class="modal-header">
-	<h2 class="modal-title h5">
-		{{ 'kdo.' + modalType + '.title' | translate }}
-	</h2>
-	<button type="button" class="btn-close" aria-label="Fermer" (click)="close()"></button>
+	<h2 class="modal-title h5">{{ titleKey | translate: { name: user.firstName } }}</h2>
+	<button type="button" class="btn-close" [attr.aria-label]="'kdoForm.close' | translate" (click)="close()"></button>
 </div>
-@if (!loading) {
-	<form [formGroup]="form" (submit)="onSubmit()">
-		<div class="modal-body">
-			<div class="mb-3">
-				<label for="title" class="form-label">{{ 'kdo.form.title' | translate }}</label>
-				<input type="text" class="form-control" id="title" [placeholder]="'kdo.form.title' | translate" formControlName="title" />
+<form novalidate [formGroup]="form" (ngSubmit)="onSubmit()" #formRef="ngForm">
+	<div class="modal-body">
+		<div class="form-group mb-3" [n9ShowErrors]="formRef" errorsTranslationPrefix="kdoForm.errors">
+			<label for="kdo-title" class="form-label fw-semibold">{{ 'kdoForm.kdoTitle.label' | translate }}</label>
+			<input #titleInput type="text" id="kdo-title" class="form-control" formControlName="title" autocomplete="off" aria-describedby="kdo-title-help" />
+			<div id="kdo-title-help" class="form-text">{{ 'kdoForm.kdoTitle.help' | translate }}</div>
+		</div>
+		<div class="form-group mb-3">
+			<label for="kdo-description" class="form-label fw-semibold">{{ 'kdoForm.description.label' | translate }}</label>
+			<textarea id="kdo-description" class="form-control" rows="4" formControlName="description" aria-describedby="kdo-description-help"></textarea>
+			<div id="kdo-description-help" class="form-text">{{ 'kdoForm.description.help' | translate }}</div>
+		</div>
+		@if (form.controls['isSurprise']) {
+			<div class="form-check form-switch form-switch-lg mb-0">
+				<input class="form-check-input" type="checkbox" role="switch" id="kdo-surprise" formControlName="isSurprise" aria-describedby="kdo-surprise-help" />
+				<label class="form-check-label fw-semibold" for="kdo-surprise">{{ 'kdoForm.surprise.label' | translate }}</label>
+				<div id="kdo-surprise-help" class="form-text">{{ (form.value.isSurprise ? 'kdoForm.surprise.on' : 'kdoForm.surprise.off') | translate: { name: user.firstName } }}</div>
 			</div>
-			<div class="mb-3">
-				<label for="description" class="form-label">{{ 'kdo.form.description' | translate }}</label>
-				<textarea class="form-control" id="description" rows="5" [placeholder]="'kdo.form.description' | translate" formControlName="description"></textarea>
-			</div>
-			@if (form.controls.isSurprise) {
-				<div class="form-check form-switch">
-					<input class="form-check-input" type="checkbox" role="switch" id="isSurprise" formControlName="isSurprise" />
-					<label class="form-check-label" for="isSurprise">Est-ce une surprise ?</label>
-				</div>
+		}
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" (click)="close()">{{ 'kdoForm.cancel' | translate }}</button>
+		<button type="submit" class="btn btn-primary" [disabled]="saving">
+			@if (saving) {
+				<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
 			}
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-outline-secondary" (click)="close()">Annuler</button>
-			<button type="submit" class="btn btn-primary" [disabled]="form.invalid">
-				{{ 'kdo.form.submit.' + modalType | translate }}
-			</button>
-		</div>
-	</form>
-}
+			{{ (kdo ? 'kdoForm.submit.edit' : 'kdoForm.submit.new') | translate }}
+		</button>
+	</div>
+</form>

@@ -2,10 +2,10 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { NEVER, Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 
-import { UsersService } from '../../users/users.service';
 import { ConfigurationService } from '../conf/configuration.service';
+import { navigateToLogin } from '../session/login-redirect';
 import { Session, SessionService } from '../session/session.service';
 
 @Injectable()
@@ -17,7 +17,6 @@ export class DefaultHeadersApiPreInterceptor implements HttpInterceptor {
 	constructor(
 		private conf: ConfigurationService,
 		private router: Router,
-		private usersService: UsersService,
 		private sessionService: SessionService,
 		private translateService: TranslateService,
 	) {
@@ -42,12 +41,11 @@ export class DefaultHeadersApiPreInterceptor implements HttpInterceptor {
 			if (this.session) {
 				if (!this.sessionService.isTokenValid()) {
 					// eslint-disable-next-line no-console
-					console.error('jwt invalid, logout and redirect to login');
-					this.usersService.clearCache();
+					console.error('jwt expired, logout and redirect to login');
 					this.sessionService.logout();
-					void this.router.navigate(['/login']);
+					void navigateToLogin(this.router, this.router.url, true);
 
-					return NEVER;
+					return EMPTY;
 				}
 				newHeaders = newHeaders.append(this.AUTHORIZATION_HEADER, this.session.token);
 			}

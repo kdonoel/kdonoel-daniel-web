@@ -1,33 +1,32 @@
 <nav class="navbar navbar-expand navbar-night sticky-top" data-bs-theme="dark">
-	<div class="container">
+	<div class="container flex-nowrap">
 		<a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
-			<img alt="Bourriquet sous la neige" src="assets/logo.png" class="navbar-logo" />
+			<img [alt]="'header.logoAlt' | translate" src="assets/logo.png" class="navbar-logo" />
 			<span class="d-none d-sm-inline fw-semibold">
 				Kdos Noël
 				<span class="text-star">{{ year }}</span>
 			</span>
 		</a>
-		<div class="d-flex align-items-center gap-1 gap-sm-2">
-			@if (profile) {
-				@if (families?.length > 1) {
-					<ng-select class="family-select" [clearable]="false" bindValue="id" [items]="families" (change)="onFamilySelect($event)" [ngModel]="family"></ng-select>
-				}
-				<div class="navbar-nav">
-					<a class="nav-link px-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" title="Accueil">
-						<i class="bi bi-house-door" aria-hidden="true"></i>
-						<span class="d-none d-md-inline ms-1">Accueil</span>
-					</a>
-					<a class="nav-link px-2" routerLink="/profile" routerLinkActive="active" title="Profil">
-						<i class="bi bi-person-circle" aria-hidden="true"></i>
-						<span class="d-none d-md-inline ms-1">{{ profile.firstName }}</span>
-					</a>
-				</div>
-			} @else {
-				<a class="btn btn-light btn-sm" routerLink="/login">
-					<i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>
-					{{ 'header.links.login' | translate }}
+		@if (profile) {
+			<div class="navbar-nav ms-auto">
+				<a class="nav-link nav-link-labeled" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+					<i class="bi bi-house-door" aria-hidden="true"></i>
+					<span>{{ 'header.home' | translate }}</span>
 				</a>
-			}
-		</div>
+				<a class="nav-link nav-link-labeled" [routerLink]="['/users', profile._id]" routerLinkActive="active">
+					<i class="bi bi-gift" aria-hidden="true"></i>
+					<span>{{ 'header.myList' | translate }}</span>
+				</a>
+				<a class="nav-link nav-link-labeled" routerLink="/profile" routerLinkActive="active">
+					<i class="bi bi-person-circle" aria-hidden="true"></i>
+					<span>{{ 'header.account' | translate }}</span>
+				</a>
+			</div>
+		} @else if (showLoginButton) {
+			<a class="btn btn-light ms-auto" routerLink="/login">
+				<i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>
+				{{ 'header.login' | translate }}
+			</a>
+		}
 	</div>
 </nav>

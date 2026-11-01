@@ -1,28 +1,49 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+	AfterViewInit,
+	ChangeDetectionStrategy,
+	Component,
+	ElementRef,
+	OnInit,
+	ViewChild,
+} from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { Kdo } from '../../components/models/users/kdos.models';
 import { User } from '../../components/models/users/users.models';
 import { SessionService } from '../../components/session/session.service';
+import { SharedModule } from '../../components/shared/shared.module';
 import { SwalService } from '../../components/utils/swal.service';
 import { UsersService } from '../users.service';
 
+// A title made of spaces is empty
+function notBlank(control: AbstractControl): ValidationErrors | null {
+	return `${control.value ?? ''}`.trim() ? null : { required: true };
+}
+
+/**
+ * Add an idea to a list or edit one, opened in a modal
+ */
 @Component({
-	selector: 'al-kdo-form',
+	selector: 'kdos-kdo-form',
 	templateUrl: 'kdo-form.component.html',
+	imports: [SharedModule],
 	changeDetection: ChangeDetectionStrategy.Eager,
-	standalone: false,
 })
-export class KdoFormComponent {
-	kdoIndex: number;
-	onChange: Subject<User>;
+export class KdoFormComponent implements OnInit, AfterViewInit {
+	// Set through the initial state of the modal: the owner of the list and the edited idea
+	user: User;
+	kdo?: Kdo;
+	kdoIndex?: number;
+
+	readonly saved: Subject<void> = new Subject<void>();
 	form: FormGroup;
-	modalType: 'edit' | 'new' = 'edit';
-	loading: boolean = true;
-	kdo: Kdo;
-	userId: string;
+	titleKey: string;
+	saving: boolean = false;
+
+	@ViewChild('titleInput') private titleInput: ElementRef<HTMLInputElement>;
 
 	constructor(
 		private bsModalRef: BsModalRef,
@@ -30,8 +51,29 @@ export class KdoFormComponent {
 		private sessionService: SessionService,
 		private usersService: UsersService,
 		private swalService: SwalService,
-	) {
-		this.onChange = new Subject<User>();
+	) {}
+
+	ngOnInit(): void {
+		const isOwnList = this.user._id === this.sessionService.session$.getValue()?.profile._id;
+		if (this.kdo) {
+			this.titleKey = 'kdoForm.title.edit';
+		} else {
+			this.titleKey = isOwnList ? 'kdoForm.title.newOwn' : 'kdoForm.title.newOther';
+		}
+
+		this.form = this.fb.group({
+			title: [this.kdo?.title ?? '', [notBlank]],
+			description: [this.kdo?.description ?? ''],
+		});
+		// An idea added to the list of someone else is a surprise by default
+		if (!this.kdo && !isOwnList) {
+			this.form.addControl('isSurprise', this.fb.control(true));
+		}
+	}
+
+	ngAfterViewInit(): void {
+		// The modal takes the focus when it opens
+		setTimeout(() => this.titleInput?.nativeElement.focus());
 	}
 
 	close(): void {
@@ -39,54 +81,25 @@ export class KdoFormComponent {
 	}
 
 	onSubmit(): void {
-		if (this.modalType === 'new') {
-			this.usersService.addKdo(this.userId, this.form.value).subscribe(
-				(newUsers) => {
-					this.swalService.translateSuccess('kdo.add.confirm.success');
-					this.onChange.next(newUsers);
-					this.bsModalRef.hide();
-				},
-				(errorCode) => {
-					this.swalService.translateError('commons.error', `kdo.add.confirm.error.${errorCode}`);
-				},
-			);
-		} else {
-			this.usersService.editKdo(this.userId, this.kdoIndex, this.form.value).subscribe(
-				(newUsers) => {
-					this.swalService.translateSuccess('kdo.edit.confirm.success');
-					this.onChange.next(newUsers);
-					this.bsModalRef.hide();
-				},
-				(errorCode) => {
-					this.swalService.translateError('commons.error', `kdo.edit.confirm.error.${errorCode}`);
-				},
-			);
-		}
-	}
-
-	onShow(userId: string, kdo?: Kdo, kdoIndex?: number): void {
-		this.kdo = kdo;
-		this.userId = userId;
-		this.kdoIndex = kdoIndex;
-
-		if (!kdo) {
-			this.modalType = 'new';
-			kdo = {
-				title: '',
-			};
+		if (this.form.invalid) {
+			this.titleInput?.nativeElement.focus();
+			return;
 		}
 
-		this.form = this.fb.group({
-			title: this.fb.control(kdo.title, [Validators.required]),
-			description: this.fb.control(kdo.description, []),
+		const kdo: Kdo = {
+			...this.form.value,
+			title: this.form.value.title.trim(),
+			description: this.form.value.description?.trim(),
+		};
+		const request = this.kdo
+			? this.usersService.editKdo(this.user._id, this.kdoIndex, kdo)
+			: this.usersService.addKdo(this.user._id, kdo);
+
+		this.saving = true;
+		request.pipe(finalize(() => (this.saving = false))).subscribe(() => {
+			this.swalService.toast(this.kdo ? 'kdoForm.toast.edited' : 'kdoForm.toast.added');
+			this.saved.next();
+			this.close();
 		});
-		if (
-			this.modalType === 'new' &&
-			this.userId !== this.sessionService.session$.value.profile._id
-		) {
-			this.form.addControl('isSurprise', this.fb.control(false));
-		}
-
-		this.loading = false;
 	}
 }

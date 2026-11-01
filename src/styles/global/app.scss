@@ -2,47 +2,6 @@
 @import 'variables';
 @import 'node_modules/bootstrap/scss/bootstrap';
 
-// ng-select themes follow the Bootstrap color mode, see ThemeService.
-// The dark theme is declared last so that it also applies in the night navbar.
-[data-bs-theme='light'] {
-	$ng-select-highlight: $primary;
-	$ng-select-border-radius: $border-radius;
-	@import 'node_modules/@ng-select/ng-select/scss/default.theme';
-}
-
-[data-bs-theme='dark'] {
-	$ng-select-highlight: #6f8fdc;
-	$ng-select-primary-text: $body-color-dark;
-	$ng-select-disabled-text: #8a96b3;
-	$ng-select-border: $border-color-dark;
-	$ng-select-border-radius: $border-radius;
-	$ng-select-bg: $body-bg-dark;
-	$ng-select-marked: $body-secondary-bg-dark;
-	$ng-select-selected: $night-700;
-	$ng-select-placeholder: #8a96b3;
-	$ng-select-input-text: $body-color-dark;
-	$ng-select-dropdown-option-text: $body-color-dark;
-	$ng-select-dropdown-optgroup-text: #8a96b3;
-	$ng-select-dropdown-option-disabled: #6b7591;
-	$ng-select-arrow: #8a96b3;
-	$ng-select-arrow-hover: #c3cbe0;
-	$ng-select-arrow-active: #c3cbe0;
-	@import 'node_modules/@ng-select/ng-select/scss/default.theme';
-}
-
-.ng-select.auto-grow {
-	display: flex;
-
-	.ng-select-container {
-		min-width: 100px;
-		width: auto;
-	}
-
-	.ng-dropdown-panel {
-		width: auto;
-	}
-}
-
 // App
 @import 'theme';
 @import 'forms';

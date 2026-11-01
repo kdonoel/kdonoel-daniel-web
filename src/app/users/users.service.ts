@@ -1,38 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
+import { InterceptorForwardErrorHeader } from '../components/http/handle-responses-error.post-interceptor';
 import { Kdo } from '../components/models/users/kdos.models';
 import { User } from '../components/models/users/users.models';
-import { SessionService } from '../components/session/session.service';
 import { StatusRequest } from './users.models';
 
+/**
+ * The lists are always loaded from the API: the family changes them at the same time.
+ * The responses of the updates are not used, the API in production returned hidden data in them.
+ */
 @Injectable()
 export class UsersService {
-	private usersCache: { [id: string]: User };
-
-	constructor(
-		private sessionService: SessionService,
-		private http: HttpClient,
-	) {
-		this.usersCache = {};
-	}
-
-	clearCache(): void {
-		this.usersCache = {};
-	}
+	constructor(private http: HttpClient) {}
 
 	getUser(userId: string): Observable<User> {
-		if (this.usersCache[userId]) {
-			return of(this.usersCache[userId]);
-		}
-
-		return this.http.get(`/users/${userId}`).pipe(
-			map((res: User) => {
-				this.usersCache[res._id] = res;
-				return res;
-			}),
-		);
+		return this.http.get<User>(`/users/${userId}`);
 	}
 
 	getUsers(familyCode: string): Observable<User[]> {
@@ -41,35 +25,23 @@ export class UsersService {
 		});
 	}
 
-	addKdo(userId: string, kdo: Kdo): Observable<User> {
-		return this.http
-			.post(`/users/${userId}/kdos`, {
-				isSurprise: false,
-				...kdo,
-			})
-			.pipe(
-				map((res: User) => {
-					this.usersCache[res._id] = res;
-					return res;
-				}),
-			);
+	addKdo(userId: string, kdo: Kdo): Observable<unknown> {
+		return this.http.post(`/users/${userId}/kdos`, {
+			isSurprise: false,
+			...kdo,
+		});
 	}
 
-	editKdo(userId: string, index: number, kdo: Kdo): Observable<User> {
-		return this.http.put(`/users/${userId}/kdos/${index}`, kdo).pipe(
-			map((res: User) => {
-				this.usersCache[res._id] = res;
-				return res;
-			}),
-		);
+	editKdo(userId: string, index: number, kdo: Kdo): Observable<unknown> {
+		return this.http.put(`/users/${userId}/kdos/${index}`, kdo);
 	}
 
-	setStatus(userId: string, index: number, status: StatusRequest): Observable<User> {
-		return this.http.put(`/users/${userId}/kdos/${index}/status`, status).pipe(
-			map((res: User) => {
-				this.usersCache[res._id] = res;
-				return res;
-			}),
-		);
+	/**
+	 * The errors are forwarded: someone else may have reserved the idea meanwhile, the list has to be reloaded
+	 */
+	setStatus(userId: string, index: number, status: StatusRequest): Observable<unknown> {
+		return this.http.put(`/users/${userId}/kdos/${index}/status`, status, {
+			headers: { [InterceptorForwardErrorHeader]: '-' },
+		});
 	}
 }

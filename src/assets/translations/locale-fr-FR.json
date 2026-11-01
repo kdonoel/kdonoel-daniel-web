@@ -1,212 +1,225 @@
 {
   "commons": {
-    "error": "Erreur",
-    "errors": {
-      "required": "Une réponse est requise!",
-      "unknown-error": "Erreur inconnue.",
-      "http": {
-        "400": "400 - Données invalides",
-        "401": "401 - Action non autorisée",
-        "404": "404 - Non trouvé",
-        "504": "504 - Serveur inaccessible"
-      }
-    },
-    "no": "NON",
-    "yes": "OUI",
+    "backToHome": "Retour à l'accueil",
+    "showPassword": "Afficher le mot de passe",
     "form": {
       "errors": {
-        "earlierThan": "La date doit être plus récente",
-        "greatherThan": "La date est trop vieille",
-        "maxDate": "La date doit être plus récente",
-        "minDate": "La date est trop vieille",
-        "n9Email": "Format d'email invalide",
-        "n9EqualsTo": "Les mots de passe doivent être identiques",
-        "pwdValid": "Le mot de passe ne rempli pas les règles de complexité",
-        "required": "Ce champ est obligatoire",
-        "account-locked": "Compte bloqué, veuillez contactez BenJ.",
-        "email": "Format d'email invalide",
-        "invalid-credentials": "Mot de passe ou identifiant incorrect.",
-        "valid-credentials-token-not-found": "Impossible de trouver votre token d'authentification "
+        "required": "Ce champ est obligatoire.",
+        "email": "Cette adresse e-mail n'est pas valide.",
+        "pwdValid": "Le mot de passe doit contenir au moins 8 caractères, dont au moins une lettre et un chiffre."
       }
     }
   },
-  "empty": {
-    "empty": " "
-  },
-  "footer": {
-    "contactus": "Un problème ? Une question ? Contactez BenJ ^_^",
-    "copyright": "Réalisé par Benjamin DANIEL"
+  "errors": {
+    "title": "Un problème est survenu",
+    "close": "J'ai compris",
+    "network": "Impossible de joindre le site. Vérifie ta connexion à internet, puis réessaie.",
+    "server": "Le site rencontre un problème. Réessaie dans quelques minutes, et contacte BenJ si cela continue.",
+    "unknown": "Une erreur inattendue est survenue. Réessaie dans quelques minutes, et contacte BenJ si cela continue.",
+    "http": {
+      "400": "Certaines informations ne sont pas valides : vérifie-les, puis réessaie.",
+      "401": "Tu n'as pas le droit de faire cela.",
+      "403": "Tu n'as pas le droit de faire cela.",
+      "404": "Cette information est introuvable.",
+      "409": "Cette information existe déjà."
+    },
+    "codes": {
+      "account-locked": "Ton compte est bloqué : contacte BenJ.",
+      "can-t-update-status": "Quelqu'un d'autre vient de choisir ce cadeau. La liste a été mise à jour.",
+      "invalid-credentials": "Adresse e-mail ou mot de passe incorrect.",
+      "kdo-not-found": "Cette idée n'existe plus. La liste a été mise à jour.",
+      "password-already-set": "Tu as déjà choisi ton mot de passe : connecte-toi avec.",
+      "user-already-exists": "Un compte existe déjà avec cette adresse e-mail.",
+      "user-not-found": "Cette personne est introuvable.",
+      "user-not-valid": "Tu ne peux pas réserver tes propres idées.",
+      "wrong-family": "Tu ne fais pas partie de cette famille."
+    }
   },
   "header": {
-    "langselector": {
-      "locale-fr-FR": "Français"
+    "home": "Accueil",
+    "myList": "Ma liste",
+    "account": "Mon compte",
+    "login": "Se connecter",
+    "logoAlt": "Bourriquet sous la neige"
+  },
+  "footer": {
+    "copyright": "Réalisé par Benjamin DANIEL",
+    "theme": "Thème",
+    "contact": "Un problème ou une question ? Contacte BenJ ^_^"
+  },
+  "theme": {
+    "light": {
+      "label": "Clair",
+      "title": "Thème clair"
     },
-    "links": {
-      "home": "Accueil",
-      "login": "Se connecter",
-      "logout": "Se déconnecter"
+    "auto": {
+      "label": "Auto",
+      "title": "Thème automatique, comme ton appareil"
     },
-    "profile": "Profil",
-    "search": {
-      "no-results": "Aucun résultat trouvé",
-      "placeholder": "Rechercher un patient"
-    },
-    "welcome": "Bonjour {{firstName}}"
+    "dark": {
+      "label": "Sombre",
+      "title": "Thème sombre"
+    }
   },
   "families": {
     "Daniel": "Famille Daniel",
     "Chaboud": "Famille Chaboud"
   },
   "home": {
-    "title": "Site d'échange d'idées de cadeaux {{year}}",
-    "listUsers": "Listes d'idées",
-    "kdosCount": "idées"
+    "welcome": {
+      "title": "Les idées de cadeaux de Noël {{year}}",
+      "description": "Connecte-toi pour voir les listes d'idées de ta famille et réserver les cadeaux que tu veux offrir.",
+      "login": "Se connecter",
+      "firstLogin": "Première connexion ? Crée ton mot de passe"
+    },
+    "greeting": "Bonjour {{firstName}} !",
+    "intro": "Bienvenue sur les listes d'idées de cadeaux de Noël {{year}}.",
+    "myList": {
+      "title": "Ma liste d'idées",
+      "description": "Les cadeaux qui te feraient plaisir.",
+      "count": {
+        "zero": "Ta liste est vide pour l'instant : ajoute les cadeaux qui te feraient plaisir.",
+        "one": "Tu as noté 1 idée de cadeau.",
+        "other": "Tu as noté {{count}} idées de cadeaux."
+      },
+      "see": "Voir ma liste",
+      "add": "Ajouter une idée"
+    },
+    "family": {
+      "title": "Les listes de ta famille",
+      "select": "Famille :",
+      "empty": "Personne d'autre n'est encore inscrit dans cette famille.",
+      "seeList": "Voir sa liste",
+      "lastVisit": "Dernière visite le {{date}}",
+      "count": {
+        "zero": "Aucune idée pour l'instant",
+        "one": "1 idée",
+        "other": "{{count}} idées"
+      }
+    }
+  },
+  "list": {
+    "notFound": "Cette liste est introuvable.",
+    "tooLate": "Trop tard !",
+    "own": {
+      "title": "Ma liste d'idées",
+      "description": "Note ici les cadeaux qui te feraient plaisir : toute ta famille peut les voir.",
+      "secret": "Pour garder la surprise, tu ne vois pas si tes idées sont réservées, ni les idées surprises que ta famille ajoute pour toi.",
+      "add": "Ajouter une idée",
+      "empty": "Ta liste est vide pour l'instant.",
+      "emptyHelp": "Ajoute les cadeaux qui te feraient plaisir : ta famille pourra s'en inspirer.",
+      "addFirst": "Ajouter ma première idée"
+    },
+    "other": {
+      "title": "La liste d'idées {{ofName}}",
+      "description": "Réserve l'idée que tu veux offrir : ta famille verra qu'elle est déjà prise, mais {{name}} ne le saura pas.",
+      "add": "Ajouter une idée pour {{name}}",
+      "empty": "{{name}} n'a pas encore ajouté d'idée.",
+      "emptyHelp": "Tu peux ajouter une idée surprise pour {{name}} : seul le reste de la famille la verra."
+    },
+    "surprise": "Surprise : {{name}} ne voit pas cette idée",
+    "state": {
+      "free": "Disponible",
+      "reservedByMe": "Réservé par toi",
+      "boughtByMe": "Acheté par toi",
+      "reservedByOther": "Déjà réservé",
+      "boughtByOther": "Déjà acheté"
+    },
+    "taken": {
+      "reserved": "Quelqu'un d'autre a déjà réservé ce cadeau.",
+      "bought": "Quelqu'un d'autre a déjà acheté ce cadeau."
+    },
+    "actions": {
+      "reserve": "Je le réserve",
+      "buy": "Je l'ai acheté",
+      "cancelReservation": "Annuler ma réservation",
+      "cancelPurchase": "Annuler mon achat",
+      "edit": "Modifier"
+    },
+    "toast": {
+      "reserved": "Tu as réservé « {{title}} »",
+      "bought": "C'est noté : tu as acheté « {{title}} »",
+      "free": "« {{title}} » est de nouveau disponible"
+    }
+  },
+  "kdoForm": {
+    "title": {
+      "newOwn": "Nouvelle idée",
+      "newOther": "Nouvelle idée pour {{name}}",
+      "edit": "Modifier l'idée"
+    },
+    "close": "Fermer",
+    "kdoTitle": {
+      "label": "Idée de cadeau",
+      "help": "Par exemple : une écharpe rouge, un livre de cuisine…"
+    },
+    "description": {
+      "label": "Précisions (facultatif)",
+      "help": "La taille, la couleur, le magasin… Tu peux aussi coller l'adresse d'une page internet où trouver le cadeau."
+    },
+    "surprise": {
+      "label": "C'est une surprise",
+      "on": "{{name}} ne verra pas cette idée, seul le reste de la famille la verra.",
+      "off": "{{name}} verra cette idée dans sa liste."
+    },
+    "errors": {
+      "required": "Écris ton idée de cadeau."
+    },
+    "cancel": "Annuler",
+    "submit": {
+      "new": "Ajouter l'idée",
+      "edit": "Enregistrer"
+    },
+    "toast": {
+      "added": "Idée ajoutée",
+      "edited": "Idée modifiée"
+    }
   },
   "login": {
-    "form": {
-      "actions": {
-        "submit": "Se connecter"
-      },
-      "placeholders": {
-        "email": "Email",
-        "password": "Mot de passe"
-      },
-      "initPassword": {
-        "errors": {
-          "account-locked": "Compte bloqué.",
-          "password-already-use": "Mot de passe déjà utilisé"
-        },
-        "label": "Initialisation de votre mot de passe",
-        "success": {
-          "description": "Mot de passe initialisé avec succès.",
-          "title": "Félicitations!"
-        }
-      },
-      "resetPassword": {
-        "success": {
-          "description": "Mot de passe modifié avec succès.",
-          "title": "Félicitations !"
-        }
-      },
-      "title": "Connexion"
-    },
-    "title": "Connectez-vous pour accéder aux listes de cadeaux !"
+    "title": "Connexion",
+    "description": "Connecte-toi pour voir les listes d'idées de ta famille.",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "firstLogin": "Première connexion ? Crée ton mot de passe",
+    "sessionExpired": "Ta session a expiré : reconnecte-toi pour continuer."
+  },
+  "initPassword": {
+    "title": "Première connexion",
+    "description": "Choisis ton mot de passe pour accéder aux listes de ta famille.",
+    "firstLogin": "C'est ta première connexion : choisis d'abord ton mot de passe.",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirme le mot de passe",
+    "submit": "Enregistrer mon mot de passe",
+    "login": "J'ai déjà un mot de passe",
+    "loginNow": "Se connecter",
+    "toast": "Bienvenue ! Ton mot de passe est enregistré.",
+    "userNotFound": "Aucun compte n'existe avec cette adresse e-mail. Vérifie-la ou contacte BenJ."
   },
   "password": {
-    "lost": {
-      "form": {
-        "actions": {
-          "submit": "Modifier mon mot de passe"
-        },
-        "placeholders": {
-          "email": "Votre email"
-        }
-      },
-      "title": "Mot de passe oublié :"
-    },
-    "reset": {
-      "form": {
-        "actions": {
-          "submit": "Modifier mon mot de passe"
-        },
-        "placeholders": {
-          "confirmed-pwd": "La confirmation de votre nouveau mot de passe",
-          "oldPwd": "Votre ancien mot de passe",
-          "pwd": "Votre nouveau mot de passe"
-        }
-      },
-      "security": {
-        "character": "Avoir au moins 8 caractères",
-        "digit": "Contenir des chiffres",
-        "title": "Votre mot de passe doit :",
-        "uppercase": "Contenir des majuscules et minuscules"
-      },
-      "title": "Réinitialiser votre mot de passe"
-    },
-    "signup": {
-      "form": {
-        "actions": {
-          "submit": "Envoyer"
-        },
-        "placeholders": {
-          "email": "Email",
-          "confirmed-pwd": "La confirmation de votre mot de passe",
-          "pwd": "Votre mot de passe"
-        }
-      },
-      "title": "Veuillez définir un mot de passe pour activer votre compte:"
-    }
+    "rules": "Au moins 8 caractères, dont au moins une lettre et un chiffre.",
+    "mismatch": "Les deux mots de passe ne sont pas identiques."
   },
-  "user": {
-    "personal": {
-      "info": {
-        "email": "Email",
-        "firstName": "Prénom",
-        "lastName": "Nom",
-        "title": "Informations personnelles"
-      }
+  "account": {
+    "title": "Mon compte",
+    "logout": "Se déconnecter",
+    "info": {
+      "title": "Mes informations",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Adresse e-mail",
+      "family": "Famille",
+      "families": "Familles"
     },
-    "listKdos": "Liste d'idées de {{name}}",
-    "kdos": {
-      "title": "Titre",
-      "state": "État",
-      "edit": "Éditer",
-      "add": "Ajouter une idée de cadeau"
-    }
-  },
-  "users": {
-    "user": {
-      "load": {
-        "error": {
-          "description": "Erreur au chargement des informations utilisateur",
-          "title": "Erreur"
-        }
-      }
-    }
-  },
-  "kdo": {
-    "new": {
-      "title": "Ajouter une idée de cadeau"
-    },
-    "edit": {
-      "title": "Éditer l'idée de cadeau",
-      "confirm": {
-        "success": "Idée de cadeau modifiée :)",
-        "error": {
-          "user-not-valid": "Vous n'êtes pas autorisé à faire cela"
-        }
-      }
-    },
-    "form": {
-      "title": "Titre",
-      "description": "Description",
-      "submit": {
-        "new": "Créer",
-        "edit": "Éditer"
-      }
-    },
-    "add": {
-      "confirm": {
-        "success": "Idée de cadeau ajoutée :)"
-      }
-    },
-    "backToList": "Retourner à la liste des cadeaux",
-    "state": {
-      "placeholder": " Libre (non réservé)",
-      "label": "État",
-      "edit": "Modifier",
-      "undefined": "Libre (non réservé)",
-      "null": "Libre (non réservé)",
-      "free": "Libre (non réservé)",
-      "reserved": "Réservé",
-      "bought": "Acheté"
-    },
-    "status": {
-      "edit": {
-        "confirm": {
-          "success": "Statut du cadeau modifié avec succès"
-        }
-      }
+    "password": {
+      "title": "Changer mon mot de passe",
+      "current": "Mot de passe actuel",
+      "new": "Nouveau mot de passe",
+      "confirm": "Confirme le nouveau mot de passe",
+      "submit": "Changer mon mot de passe",
+      "toast": "Ton mot de passe a été changé",
+      "invalid": "Ton mot de passe actuel est incorrect."
     }
   }
 }

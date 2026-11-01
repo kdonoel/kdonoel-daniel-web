@@ -1,7 +1,10 @@
 <footer class="app-footer py-3">
 	<div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 small text-body-secondary">
 		<span>{{ 'footer.copyright' | translate }}</span>
-		<span class="d-flex align-items-center gap-2">Thème <kdos-theme-switch></kdos-theme-switch></span>
-		<span>{{ 'footer.contactus' | translate }}</span>
+		<span class="d-flex align-items-center gap-2">
+			{{ 'footer.theme' | translate }}
+			<kdos-theme-switch></kdos-theme-switch>
+		</span>
+		<span>{{ 'footer.contact' | translate }}</span>
 	</div>
 </footer>

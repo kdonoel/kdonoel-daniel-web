@@ -91,17 +91,32 @@
       "inlineStyle": false,
       "inlineTemplate": false,
       "prefix": "n9c",
-      "style": "scss"
+      "style": "scss",
+      "type": "component"
     },
     "@schematics/angular:directive": {
-      "prefix": "n9c"
+      "prefix": "n9c",
+      "type": "directive"
     },
-    "@schematics/angular:guard": {},
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
     "@schematics/angular:module": {
-      "spec": false
+      "spec": false,
+      "typeSeparator": "."
     },
-    "@schematics/angular:pipe": {},
-    "@schematics/angular:service": {}
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   },
   "cli": {
     "analytics": false

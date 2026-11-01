@@ -1,13 +1,13 @@
 // Mixins
-// @import '~mixgen/assets/sass/variables';
-// @import '~mixgen/assets/sass/borders';
-// @import '~mixgen/assets/sass/colors';
-// @import '~mixgen/assets/sass/margins';
-// @import '~mixgen/assets/sass/paddings';
-// @import '~mixgen/assets/sass/text-align';
-// @import '~mixgen/assets/sass/texts';
-// @import '~mixgen/assets/sass/lineheights';
-// @import '~mixgen/assets/sass/verticals';
+// @import 'mixgen/assets/sass/variables';
+// @import 'mixgen/assets/sass/borders';
+// @import 'mixgen/assets/sass/colors';
+// @import 'mixgen/assets/sass/margins';
+// @import 'mixgen/assets/sass/paddings';
+// @import 'mixgen/assets/sass/text-align';
+// @import 'mixgen/assets/sass/texts';
+// @import 'mixgen/assets/sass/lineheights';
+// @import 'mixgen/assets/sass/verticals';
 
 // Font Awesome
 $fa-font-path: '~font-awesome/fonts';
@@ -57,7 +57,7 @@ $table-dark-bg: #000;
 @import 'node_modules/bootstrap-darkmode/scss/darktheme';
 
 // ng-select
-// @import '~swiper/dist/css/swiper.min.css';
+// @import 'swiper/dist/css/swiper.min.css';
 
 //Components
 @import 'forms';

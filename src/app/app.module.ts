@@ -9,7 +9,6 @@ import fr from '@angular/common/locales/fr';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Angulartics2Module } from 'angulartics2';
@@ -44,7 +43,6 @@ registerLocaleData(fr);
 		CoreModule,
 		SharedModule.forRoot(),
 		LoadingBarModule,
-		NgSelectModule,
 		ThemeSwitchComponent,
 	],
 	providers: [

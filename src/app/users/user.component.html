@@ -1,76 +1,118 @@
 <div class="container">
-	@if (!loading) {
-		<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
-			<h1 class="h3 mb-0">{{ 'user.listKdos' | translate: { name: user.firstName } }}</h1>
-			<button class="btn btn-primary" (click)="addKdo()">
-				<i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
-				{{ 'user.kdos.add' | translate }}
-			</button>
+	<a routerLink="/" class="d-inline-flex align-items-center gap-1 mb-3">
+		<i class="bi bi-arrow-left" aria-hidden="true"></i>
+		{{ 'commons.backToHome' | translate }}
+	</a>
+	@if (loading) {
+		<al-loading></al-loading>
+	} @else if (user) {
+		<div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-2">
+			<h1 class="h3 mb-0">{{ (isConnectedUser ? 'list.own.title' : 'list.other.title') | translate: { ofName: ofName } }}</h1>
+			@if (kdos.length) {
+				<button type="button" class="btn" [class.btn-primary]="isConnectedUser" [class.btn-outline-primary]="!isConnectedUser" (click)="openKdoForm()">
+					<i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
+					{{ (isConnectedUser ? 'list.own.add' : 'list.other.add') | translate: { name: user.firstName } }}
+				</button>
+			}
 		</div>
-		@if (user.kdos?.length) {
-			<div class="card shadow-sm overflow-hidden">
-				<div class="table-responsive">
-					<table class="table table-hover align-middle mb-0">
-						<thead>
-							<tr>
-								<th>{{ 'user.kdos.title' | translate }}</th>
-								@if (!isConnectedUser) {
-									<th class="col-surprise d-none d-sm-table-cell">Surprise ?</th>
-									<th class="col-state">{{ 'user.kdos.state' | translate }}</th>
+		<p class="mb-1">{{ (isConnectedUser ? 'list.own.description' : 'list.other.description') | translate: { name: user.firstName } }}</p>
+		@if (isConnectedUser) {
+			<p class="small text-body-secondary mb-0">
+				<i class="bi bi-eye-slash me-1" aria-hidden="true"></i>
+				{{ 'list.own.secret' | translate }}
+			</p>
+		}
+
+		@if (kdos.length) {
+			<ol class="list-unstyled d-grid gap-3 mt-4 mb-0">
+				@for (view of kdos; track view.index) {
+					<li class="card shadow-sm kdo-card" [ngClass]="'kdo-card-' + view.state">
+						<div class="card-body">
+							<div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+								<h2 class="h5 mb-0 text-break">{{ view.kdo.title }}</h2>
+								@if (view.state !== 'own') {
+									<span class="badge rounded-pill kdo-state" [ngClass]="stateStyles[view.state].badge">
+										<i class="bi me-1" [ngClass]="stateStyles[view.state].icon" aria-hidden="true"></i>
+										{{ 'list.state.' + view.state | translate }}
+									</span>
 								}
-								<th class="col-actions"><span class="visually-hidden">Actions</span></th>
-							</tr>
-						</thead>
-						<tbody>
-							@for (kdo of user.kdos; track $index; let index = $index) {
-								<tr>
-									<td (click)="showKdo(index)" class="pointer fw-medium">
-										{{ kdo.title }}
-										<!-- The surprise column is hidden on small screens -->
-										@if (!isConnectedUser && kdo.isSurprise) {
-											<i class="bi bi-stars text-danger-emphasis d-sm-none ms-1" title="Surprise" aria-label="Surprise"></i>
-										}
-									</td>
-									@if (!isConnectedUser) {
-										<td class="d-none d-sm-table-cell">
-											@if (kdo.isSurprise) {
-												<span class="badge rounded-pill bg-danger-subtle text-danger-emphasis"><i class="bi bi-stars me-1" aria-hidden="true"></i>Oui</span>
-											} @else {
-												<span class="text-body-secondary">Non</span>
-											}
-										</td>
-										<td (click)="showKdo(index)" class="pointer" [title]="kdo.status?.lastUpdateDate ? 'Dernière modification de status le ' + (kdo.status?.lastUpdateDate | date: 'short') : ''">
-											<span class="badge rounded-pill" [class]="getStatusBadgeClass(kdo.status?.code)">{{ 'kdo.state.' + kdo.status?.code | translate }}</span>
-											@if (currentUserId === kdo.status?.userId) {
-												<small class="d-block d-sm-inline text-body-secondary ms-sm-1">(Par toi)</small>
-											}
-										</td>
-									}
-									<td class="text-end text-nowrap">
-										<button class="btn btn-outline-secondary btn-sm" title="Éditer" (click)="edit(kdo, index)">
-											<i class="bi bi-pencil" aria-hidden="true"></i>
-											<span class="visually-hidden">Éditer</span>
-										</button>
-										<button class="btn btn-outline-secondary btn-sm ms-1 d-none d-sm-inline-block" title="Voir" (click)="showKdo(index)">
-											<i class="bi bi-eye" aria-hidden="true"></i>
-											<span class="visually-hidden">Voir</span>
-										</button>
-									</td>
-								</tr>
+							</div>
+							@if (view.kdo.isSurprise && !isConnectedUser) {
+								<p class="small text-danger-emphasis mt-2 mb-0">
+									<i class="bi bi-stars me-1" aria-hidden="true"></i>
+									{{ 'list.surprise' | translate: { name: user.firstName } }}
+								</p>
 							}
-						</tbody>
-					</table>
-				</div>
-			</div>
+							@if (view.kdo.description) {
+								<p class="kdo-description mt-2 mb-0 text-break" [innerHTML]="view.kdo.description | alLinkify | alNl2br"></p>
+							}
+							<div class="d-grid d-sm-flex flex-wrap align-items-center gap-2 mt-3">
+								@switch (view.state) {
+									@case ('free') {
+										<button type="button" class="btn btn-primary" [disabled]="pendingIndex !== undefined" (click)="setStatus(view, KdoState.RESERVED)">
+											@if (pendingIndex === view.index) {
+												<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+											} @else {
+												<i class="bi bi-bookmark-check me-1" aria-hidden="true"></i>
+											}
+											{{ 'list.actions.reserve' | translate }}
+										</button>
+									}
+									@case ('reservedByMe') {
+										<button type="button" class="btn btn-primary" [disabled]="pendingIndex !== undefined" (click)="setStatus(view, KdoState.BOUGHT)">
+											@if (pendingIndex === view.index) {
+												<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+											} @else {
+												<i class="bi bi-bag-check me-1" aria-hidden="true"></i>
+											}
+											{{ 'list.actions.buy' | translate }}
+										</button>
+										<button type="button" class="btn btn-outline-secondary" [disabled]="pendingIndex !== undefined" (click)="setStatus(view, KdoState.FREE)">
+											{{ 'list.actions.cancelReservation' | translate }}
+										</button>
+									}
+									@case ('boughtByMe') {
+										<button type="button" class="btn btn-outline-secondary" [disabled]="pendingIndex !== undefined" (click)="setStatus(view, KdoState.FREE)">
+											@if (pendingIndex === view.index) {
+												<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+											}
+											{{ 'list.actions.cancelPurchase' | translate }}
+										</button>
+									}
+									@case ('reservedByOther') {
+										<p class="mb-0">{{ 'list.taken.reserved' | translate }}</p>
+									}
+									@case ('boughtByOther') {
+										<p class="mb-0">{{ 'list.taken.bought' | translate }}</p>
+									}
+								}
+								@if (canEdit(view)) {
+									<button type="button" class="btn btn-outline-secondary ms-sm-auto" [disabled]="pendingIndex !== undefined" (click)="openKdoForm(view)">
+										<i class="bi bi-pencil me-1" aria-hidden="true"></i>
+										{{ 'list.actions.edit' | translate }}
+									</button>
+								}
+							</div>
+						</div>
+					</li>
+				}
+			</ol>
 		} @else {
-			<div class="card shadow-sm">
-				<div class="card-body text-center text-body-secondary py-5">
-					<i class="bi bi-gift fs-1 d-block mb-2" aria-hidden="true"></i>
-					La liste d'idées de {{ user.firstName }} {{ user.lastName }} est vide.
+			<div class="card shadow-sm mt-4">
+				<div class="card-body text-center py-5 px-4">
+					<i class="bi bi-gift fs-1 d-block text-primary mb-2" aria-hidden="true"></i>
+					<p class="fw-semibold mb-1">{{ (isConnectedUser ? 'list.own.empty' : 'list.other.empty') | translate: { name: user.firstName } }}</p>
+					<p class="text-body-secondary mb-4">{{ (isConnectedUser ? 'list.own.emptyHelp' : 'list.other.emptyHelp') | translate: { name: user.firstName } }}</p>
+					<button type="button" class="btn btn-primary" (click)="openKdoForm()">
+						<i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
+						{{ (isConnectedUser ? 'list.own.addFirst' : 'list.other.add') | translate: { name: user.firstName } }}
+					</button>
 				</div>
 			</div>
 		}
 	} @else {
-		<al-loading></al-loading>
+		<div class="card shadow-sm">
+			<div class="card-body text-center text-body-secondary py-5">{{ 'list.notFound' | translate }}</div>
+		</div>
 	}
 </div>

@@ -1,30 +1,30 @@
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { Theme, ThemeService } from './theme.service';
 
 interface ThemeOption {
 	theme: Theme;
-	label: string;
 	icon: string;
 }
 
 @Component({
 	selector: 'kdos-theme-switch',
-	imports: [AsyncPipe],
+	imports: [AsyncPipe, TranslatePipe],
 	template: `
-		<div class="btn-group btn-group-sm" role="group" aria-label="Thème">
+		<div class="btn-group btn-group-sm" role="group" [attr.aria-label]="'footer.theme' | translate">
 			@for (option of options; track option.theme) {
 				<button
 					type="button"
 					class="btn btn-outline-secondary"
-					[title]="option.label"
+					[title]="'theme.' + option.theme + '.title' | translate"
 					[class.active]="(themeService.theme$ | async) === option.theme"
 					[attr.aria-pressed]="(themeService.theme$ | async) === option.theme"
 					(click)="setTheme(option.theme)"
 				>
-					<i class="bi" [class]="option.icon" aria-hidden="true"></i>
-					<span class="visually-hidden">{{ option.label }}</span>
+					<i class="bi me-1" [class]="option.icon" aria-hidden="true"></i>
+					{{ 'theme.' + option.theme + '.label' | translate }}
 				</button>
 			}
 		</div>
@@ -32,9 +32,9 @@ interface ThemeOption {
 })
 export class ThemeSwitchComponent {
 	readonly options: ThemeOption[] = [
-		{ theme: 'light', label: 'Clair', icon: 'bi-sun' },
-		{ theme: 'auto', label: 'Automatique', icon: 'bi-circle-half' },
-		{ theme: 'dark', label: 'Sombre', icon: 'bi-moon-stars' },
+		{ theme: 'light', icon: 'bi-sun' },
+		{ theme: 'auto', icon: 'bi-circle-half' },
+		{ theme: 'dark', icon: 'bi-moon-stars' },
 	];
 
 	constructor(public themeService: ThemeService) {}

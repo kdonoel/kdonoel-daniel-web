@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
+import { getErrorCode, getErrorMessageKey } from '../components/http/http-errors';
 import { User } from '../components/models/users/users.models';
 import { SessionService } from '../components/session/session.service';
 import { SwalService } from '../components/utils/swal.service';
@@ -19,18 +22,25 @@ export class UserProfileComponent implements OnInit {
 	resetForm: FormGroup;
 	user: User;
 	loading: boolean = false;
+	saving: boolean = false;
+	submitted: boolean = false;
+	showPassword: boolean = false;
+	// Translation key of the error of the last attempt
+	error: string;
 
 	constructor(
 		private fb: FormBuilder,
 		private router: Router,
+		private elementRef: ElementRef<HTMLElement>,
 		private passwordService: PasswordService,
 		private sessionService: SessionService,
-		private swal: SwalService,
-		private userServices: UsersService,
+		private swalService: SwalService,
+		private usersService: UsersService,
 	) {
 		this.resetForm = fb.group(
 			{
-				oldPwd: ['', [Validators.required, PwdValidatorDirective.validPwd]],
+				// The rules are only checked when the password is chosen, older passwords may not follow them
+				oldPwd: ['', [Validators.required]],
 				pwd: ['', [Validators.required, PwdValidatorDirective.validPwd]],
 				confirmedPwd: ['', [Validators.required]],
 			},
@@ -55,7 +65,6 @@ export class UserProfileComponent implements OnInit {
 	}
 
 	logout(): void {
-		this.userServices.clearCache();
 		this.sessionService.logout();
 		void this.router.navigate(['/']);
 	}
@@ -63,30 +72,47 @@ export class UserProfileComponent implements OnInit {
 	ngOnInit(): void {
 		this.loading = true;
 		const userId = this.sessionService.session$.getValue().profile._id;
-		this.userServices.getUser(userId).subscribe((user) => {
-			this.user = user;
-			this.loading = false;
-		});
+		this.usersService
+			.getUser(userId)
+			.pipe(finalize(() => (this.loading = false)))
+			.subscribe((user) => (this.user = user));
 	}
 
 	onSubmit(): void {
-		if (!this.resetForm.valid) return;
+		this.submitted = true;
+		if (this.resetForm.invalid) {
+			// The confirmation is the field to fix when the passwords are different
+			const element = this.elementRef.nativeElement;
+			(
+				element.querySelector<HTMLInputElement>('input.ng-invalid') ??
+				element.querySelector<HTMLInputElement>('#confirmedPwd')
+			)?.focus();
+			return;
+		}
 
 		const reqReset: PasswordResetRequest = {
 			oldPassword: this.resetForm.value.oldPwd,
 			newPassword: this.resetForm.value.pwd,
 		};
 
-		this.passwordService.resetPassword(reqReset).subscribe(
-			() => {
-				this.swal.translateSuccess(
-					'login.form.resetPassword.success.title',
-					'login.form.resetPassword.success.description',
-				);
-			},
-			(errorCode) => {
-				this.swal.translateError('commons.error', `login.form.resetPassword.errors.${errorCode}`);
-			},
-		);
+		this.saving = true;
+		this.error = undefined;
+		this.passwordService
+			.resetPassword(reqReset)
+			.pipe(finalize(() => (this.saving = false)))
+			.subscribe({
+				next: () => {
+					this.swalService.toast('account.password.toast');
+					this.submitted = false;
+					// Without any event, the empty fields are not displayed as errors
+					this.resetForm.reset(undefined, { emitEvent: false });
+				},
+				error: (error: HttpErrorResponse) => {
+					this.error =
+						getErrorCode(error) === 'invalid-credentials'
+							? 'account.password.invalid'
+							: getErrorMessageKey(error);
+				},
+			});
 	}
 }

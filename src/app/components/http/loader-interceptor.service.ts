@@ -1,14 +1,7 @@
-import {
-	HttpErrorResponse,
-	HttpEvent,
-	HttpHandler,
-	HttpInterceptor,
-	HttpRequest,
-	HttpResponse,
-} from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { LoadingBarService } from '../angular-components/loading-bar/loading-bar.service';
 
@@ -19,17 +12,7 @@ export class LoaderInterceptor implements HttpInterceptor {
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		this.loadingBarService.start();
 
-		return next.handle(req).pipe(
-			catchError((error: HttpErrorResponse) => {
-				this.loadingBarService.complete();
-				return throwError(error);
-			}),
-			map((event) => {
-				if (event instanceof HttpResponse) {
-					this.loadingBarService.complete();
-				}
-				return event;
-			}),
-		);
+		// The other interceptors can complete the request without any response, on errors
+		return next.handle(req).pipe(finalize(() => this.loadingBarService.complete()));
 	}
 }

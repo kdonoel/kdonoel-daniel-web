@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
+import { getErrorCode, getErrorMessageKey } from '../components/http/http-errors';
+import { getLoginQueryParams, isSafeReturnUrl } from '../components/session/login-redirect';
 import { SessionService } from '../components/session/session.service';
 import { SwalService } from '../components/utils/swal.service';
 import { PwdValidatorDirective } from '../components/validators/pwd.validator.directive';
@@ -14,21 +17,37 @@ import { InitPasswordRequest, PasswordService } from './password.service';
 	changeDetection: ChangeDetectionStrategy.Eager,
 	standalone: false,
 })
-export class InitPasswordComponent {
+export class InitPasswordComponent implements OnInit {
 	resetForm: FormGroup;
-	token: string;
+	// Redirected from the login page
+	firstLogin: boolean;
+	// Translation key of the error of the last attempt
+	error: string;
+	passwordAlreadySet: boolean;
+	submitted: boolean = false;
+	loading: boolean = false;
+	showPassword: boolean = false;
+
+	private returnUrl: string;
 
 	constructor(
 		private fb: FormBuilder,
 		private router: Router,
 		private route: ActivatedRoute,
+		private elementRef: ElementRef<HTMLElement>,
 		private passwordService: PasswordService,
 		private sessionService: SessionService,
 		private swalService: SwalService,
-	) {
-		this.resetForm = fb.group(
+	) {}
+
+	ngOnInit(): void {
+		const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+		this.returnUrl = isSafeReturnUrl(returnUrl) ? returnUrl : '/';
+		this.firstLogin = !!history.state?.firstLogin;
+
+		this.resetForm = this.fb.group(
 			{
-				email: ['', [Validators.required, Validators.email]],
+				email: [history.state?.email ?? '', [Validators.required, Validators.email]],
 				pwd: ['', [Validators.required, PwdValidatorDirective.validPwd]],
 				confirmedPwd: ['', [Validators.required]],
 			},
@@ -38,31 +57,46 @@ export class InitPasswordComponent {
 		);
 	}
 
+	get loginQueryParams(): object {
+		return getLoginQueryParams(this.returnUrl);
+	}
+
 	onSubmit(): void {
-		if (!this.resetForm.valid) return;
+		this.submitted = true;
+		if (this.resetForm.invalid) {
+			// The confirmation is the field to fix when the passwords are different
+			const element = this.elementRef.nativeElement;
+			(
+				element.querySelector<HTMLInputElement>('input.ng-invalid') ??
+				element.querySelector<HTMLInputElement>('#confirmedPwd')
+			)?.focus();
+			return;
+		}
 
 		const req: InitPasswordRequest = {
 			email: this.resetForm.value.email,
 			pwd: this.resetForm.value.pwd,
 		};
 
-		this.passwordService.initPassword(req).subscribe(
-			(res) => {
-				this.swalService.translateSuccess(
-					'login.form.initPassword.success.title',
-					'login.form.initPassword.success.description',
-				);
-				this.sessionService.openSession(res);
-				(this.sessionService.login$ as Subject<any>).next(undefined);
-				return this.router.navigate(['']);
-			},
-			(errorCode) => {
-				this.swalService.translateError(
-					'commons.error',
-					`login.form.initPassword.errors.${errorCode}`,
-				);
-			},
-		);
+		this.loading = true;
+		this.error = undefined;
+		this.passwordService
+			.initPassword(req)
+			.pipe(finalize(() => (this.loading = false)))
+			.subscribe({
+				next: (session) => {
+					this.swalService.toast('initPassword.toast');
+					this.sessionService.openSession(session);
+					void this.router.navigateByUrl(this.returnUrl);
+				},
+				error: (error: HttpErrorResponse) => {
+					this.passwordAlreadySet = getErrorCode(error) === 'password-already-set';
+					this.error =
+						getErrorCode(error) === 'user-not-found'
+							? 'initPassword.userNotFound'
+							: getErrorMessageKey(error);
+				},
+			});
 	}
 
 	public checkIfMatchingPasswords(

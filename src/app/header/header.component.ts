@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 import { Profile, SessionService } from '../components/session/session.service';
 import { getChristmasYear } from '../components/utils/christmas.util';
-import { SelectItem } from '../components/utils/select-item';
-import { TranslateUtilsService } from '../components/utils/translate-utils.service';
+
+// These pages already display a large login button
+const PAGES_WITH_LOGIN_BUTTON: string[] = ['/', '/login'];
 
 @Component({
 	selector: 'n9-header',
@@ -13,39 +16,21 @@ import { TranslateUtilsService } from '../components/utils/translate-utils.servi
 })
 export class HeaderComponent {
 	profile: Profile;
-	loading: boolean;
-	families: SelectItem[];
-	family: string;
+	showLoginButton: boolean = false;
 	readonly year: number = getChristmasYear();
 
 	constructor(
 		private sessionService: SessionService,
-		private translateUtilsService: TranslateUtilsService,
+		private router: Router,
 	) {
-		this.loading = true;
-
-		this.sessionService.session$.subscribe((s) => {
-			if (s) {
-				this.profile = s.profile;
-				this.translateUtilsService
-					.translateSelectItems('families.', this.profile.familyCodes)
-					.subscribe((families) => {
-						this.families = families;
-					});
-				this.family = this.sessionService.familyCode$.value;
-				this.sessionService.familyCode$.subscribe((family) => {
-					if (this.family !== family) {
-						this.family = family;
-					}
-				});
-			} else {
-				delete this.profile;
-				this.loading = false;
-			}
+		this.sessionService.session$.subscribe((session) => {
+			this.profile = session?.profile;
 		});
-	}
-
-	onFamilySelect(family: SelectItem): void {
-		this.sessionService.setFamilyCode(family.id);
+		this.router.events
+			.pipe(filter((event) => event instanceof NavigationEnd))
+			.subscribe((event: NavigationEnd) => {
+				const path = event.urlAfterRedirects.split(/[?#]/)[0];
+				this.showLoginButton = !PAGES_WITH_LOGIN_BUTTON.includes(path);
+			});
 	}
 }

@@ -23,9 +23,13 @@ export interface Session {
 @Injectable()
 export class SessionService {
 	public static readonly sessionKey: string = 'session';
+	// The family displayed on the home page, kept for the next visits
+	public static readonly familyCodeKey: string = 'familyCode';
 
 	public session$: BehaviorSubject<Session> = new BehaviorSubject(undefined);
 	public isLogged$: Observable<boolean> = this.session$.pipe(map((p) => !!p));
+	// The saved session was expired when the app started, the login page tells it
+	public expiredAtLoad: boolean = false;
 	public login$: Observable<any> = new Subject();
 	public logout$: Observable<any> = new Subject();
 	private _familyCode$: BehaviorSubject<string> = new BehaviorSubject(null as any);
@@ -34,12 +38,26 @@ export class SessionService {
 		return this._familyCode$;
 	}
 
+	/**
+	 * Expiration date of the JWT in milliseconds, undefined when it can't be read
+	 */
+	private static getTokenExpiration(token: string): number | undefined {
+		try {
+			const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+			return typeof payload.exp === 'number' ? payload.exp * 1000 : undefined;
+		} catch {
+			return undefined;
+		}
+	}
+
 	public load(): void {
 		const session: Session = JSON.parse(localStorage.getItem(SessionService.sessionKey));
 		if (!session) return;
 		if (!this.isTokenValid(session)) {
 			// eslint-disable-next-line no-console
-			console.error('JWT invalid');
+			console.error('JWT expired');
+			this.closeSession();
+			this.expiredAtLoad = true;
 			return;
 		}
 		(this.logout$ as Subject<any>).next(undefined);
@@ -52,22 +70,29 @@ export class SessionService {
 	}
 
 	public openSession(session: Session): void {
-		if (session.profile.familyCodes?.length) {
-			this.setFamilyCode(session.profile.familyCodes[0]);
+		const familyCodes = session.profile.familyCodes ?? [];
+		const savedFamilyCode = localStorage.getItem(SessionService.familyCodeKey);
+		if (familyCodes.includes(savedFamilyCode)) {
+			this._familyCode$.next(savedFamilyCode);
 		} else {
-			this.setFamilyCode('Daniel'); // for smooth migration
+			this._familyCode$.next(familyCodes[0] ?? 'Daniel'); // for smooth migration
 		}
 		localStorage.setItem(SessionService.sessionKey, JSON.stringify(session));
+		this.expiredAtLoad = false;
 		this.session$.next(session);
 		(this.login$ as Subject<any>).next(undefined);
 	}
 
 	public isTokenValid(session?: Session): boolean {
 		session = session || this.session$.getValue();
-		return !!session;
+		if (!session?.token) return false;
+		// The API checks the token anyway, the expiration date only avoids a failing request
+		const expiration = SessionService.getTokenExpiration(session.token);
+		return !expiration || expiration > Date.now();
 	}
 
 	public setFamilyCode(familyCode: string): void {
+		localStorage.setItem(SessionService.familyCodeKey, familyCode);
 		this._familyCode$.next(familyCode);
 	}
 

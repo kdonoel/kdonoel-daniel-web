@@ -1,72 +1,73 @@
 <div class="container">
 	<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
-		<h1 class="h3 mb-0">{{ 'user.personal.info.title' | translate }}</h1>
-		<button class="btn btn-outline-danger" (click)="logout()">
+		<h1 class="h3 mb-0">{{ 'account.title' | translate }}</h1>
+		<button type="button" class="btn btn-outline-danger" (click)="logout()">
 			<i class="bi bi-box-arrow-right me-1" aria-hidden="true"></i>
-			Se déconnecter
+			{{ 'account.logout' | translate }}
 		</button>
 	</div>
-	@if (!loading) {
+	@if (loading) {
+		<al-loading></al-loading>
+	} @else if (user) {
 		<div class="row g-4">
 			<div class="col-md-6">
 				<div class="card shadow-sm h-100">
-					<div class="card-body d-flex align-items-start gap-3">
-						<span class="avatar" aria-hidden="true">{{ user.firstName.charAt(0) }}</span>
-						<dl class="row flex-grow-1 mb-0">
-							<dt class="col-sm-4 fw-normal text-body-secondary">{{ 'user.personal.info.lastName' | translate }}</dt>
-							<dd class="col-sm-8">{{ user.lastName }}</dd>
-							<dt class="col-sm-4 fw-normal text-body-secondary">{{ 'user.personal.info.firstName' | translate }}</dt>
-							<dd class="col-sm-8">{{ user.firstName }}</dd>
-							<dt class="col-sm-4 fw-normal text-body-secondary">{{ 'user.personal.info.email' | translate }}</dt>
-							<dd class="col-sm-8 text-break">{{ user.email }}</dd>
-							<dt class="col-sm-4 fw-normal text-body-secondary">Famille{{ user.familyCodes?.length > 1 ? 's' : '' }}</dt>
-							<dd class="col-sm-8 mb-0">{{ user.familyCodes.join(', ') }}</dd>
-						</dl>
+					<div class="card-body">
+						<h2 class="h5 mb-3">{{ 'account.info.title' | translate }}</h2>
+						<div class="d-flex align-items-start gap-3">
+							<span class="avatar" aria-hidden="true">{{ user.firstName.charAt(0) }}</span>
+							<dl class="flex-grow-1 min-w-0 mb-0">
+								<dt class="small fw-normal text-body-secondary">{{ 'account.info.firstName' | translate }}</dt>
+								<dd>{{ user.firstName }}</dd>
+								<dt class="small fw-normal text-body-secondary">{{ 'account.info.lastName' | translate }}</dt>
+								<dd>{{ user.lastName }}</dd>
+								<dt class="small fw-normal text-body-secondary">{{ 'account.info.email' | translate }}</dt>
+								<dd class="text-break">{{ user.email }}</dd>
+								<dt class="small fw-normal text-body-secondary">{{ (user.familyCodes?.length > 1 ? 'account.info.families' : 'account.info.family') | translate }}</dt>
+								<dd class="mb-0">{{ user.familyCodes?.join(', ') }}</dd>
+							</dl>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="card shadow-sm">
 					<div class="card-body">
-						<h2 class="h5 mb-3">{{ 'password.reset.title' | translate }}</h2>
-						<form (ngSubmit)="onSubmit()" [formGroup]="resetForm">
-							<div class="form-group mb-3" n9ShowErrors>
-								<label for="oldPwd" class="form-label">{{ 'password.reset.form.placeholders.oldPwd' | translate }}</label>
-								<input type="password" autocomplete="current-password" name="oldPwd" id="oldPwd" class="form-control" formControlName="oldPwd" />
+						<h2 class="h5 mb-3">{{ 'account.password.title' | translate }}</h2>
+						@if (error) {
+							<al-disclaimer [label]="error" type="error"></al-disclaimer>
+						}
+						<form novalidate (ngSubmit)="onSubmit()" [formGroup]="resetForm" #formRef="ngForm">
+							<div class="form-group mb-3" [n9ShowErrors]="formRef">
+								<label for="oldPwd" class="form-label fw-semibold">{{ 'account.password.current' | translate }}</label>
+								<input [type]="showPassword ? 'text' : 'password'" autocomplete="current-password" name="oldPwd" id="oldPwd" class="form-control" formControlName="oldPwd" />
 							</div>
-							<div class="form-group mb-3" n9ShowErrors>
-								<label for="pwd" class="form-label">{{ 'password.reset.form.placeholders.pwd' | translate }}</label>
-								<input type="password" autocomplete="new-password" name="pwd" id="pwd" class="form-control" formControlName="pwd" />
+							<div class="form-group mb-3" [n9ShowErrors]="formRef">
+								<label for="pwd" class="form-label fw-semibold">{{ 'account.password.new' | translate }}</label>
+								<input [type]="showPassword ? 'text' : 'password'" autocomplete="new-password" name="pwd" id="pwd" class="form-control" formControlName="pwd" aria-describedby="pwd-rules" />
+								<div id="pwd-rules" class="form-text">{{ 'password.rules' | translate }}</div>
 							</div>
-							<div class="form-group mb-3" n9ShowErrors>
-								<label for="confirmedPwd" class="form-label">{{ 'password.reset.form.placeholders.confirmed-pwd' | translate }}</label>
-								<input type="password" autocomplete="new-password" name="confirmedPwd" id="confirmedPwd" class="form-control" formControlName="confirmedPwd" />
+							<div class="form-group mb-2" [n9ShowErrors]="formRef">
+								<label for="confirmedPwd" class="form-label fw-semibold">{{ 'account.password.confirm' | translate }}</label>
+								<input [type]="showPassword ? 'text' : 'password'" autocomplete="new-password" name="confirmedPwd" id="confirmedPwd" class="form-control" formControlName="confirmedPwd" />
 							</div>
-							@if (!resetForm.valid && resetForm.hasError('notEquivalent')) {
-								<div class="small text-danger-emphasis mb-3">La confirmation du nouveau mot de passe ne correspond pas au nouveau mot de passe.</div>
+							@if ((submitted || resetForm.controls['confirmedPwd'].touched) && resetForm.hasError('notEquivalent')) {
+								<div class="small text-danger-emphasis mb-2">{{ 'password.mismatch' | translate }}</div>
 							}
-							<div class="small text-body-secondary mb-3">
-								{{ 'password.reset.security.title' | translate }}
-								<ul class="list-unstyled mb-0 mt-1">
-									<li>
-										<i class="bi bi-check2 text-success me-1" aria-hidden="true"></i>
-										{{ 'password.reset.security.character' | translate }}
-									</li>
-									<li>
-										<i class="bi bi-check2 text-success me-1" aria-hidden="true"></i>
-										{{ 'password.reset.security.digit' | translate }}
-									</li>
-								</ul>
+							<div class="form-check mb-3">
+								<input class="form-check-input" type="checkbox" id="show-password" [checked]="showPassword" (change)="showPassword = !showPassword" />
+								<label class="form-check-label" for="show-password">{{ 'commons.showPassword' | translate }}</label>
 							</div>
-							<button type="submit" class="btn btn-primary" [disabled]="resetForm.invalid">
-								{{ 'password.reset.form.actions.submit' | translate }}
+							<button type="submit" class="btn btn-primary" [disabled]="saving">
+								@if (saving) {
+									<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+								}
+								{{ 'account.password.submit' | translate }}
 							</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-	} @else {
-		<al-loading></al-loading>
 	}
 </div>

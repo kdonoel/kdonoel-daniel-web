@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
+import { getLoginQueryParams } from './login-redirect';
 import { SessionService } from './session.service';
 
 @Injectable()
@@ -12,16 +13,15 @@ export class LoggedInGuard {
 		private router: Router,
 	) {}
 
-	canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+	canActivate(_route: unknown, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
 		return this.session.isLogged$.pipe(
-			map((isLogged) => {
-				if (isLogged) {
-					return true;
-				}
-				void this.router.navigate(['login']);
-				return false;
-			}),
 			take(1),
+			// Come back to the requested page once logged in
+			map(
+				(isLogged) =>
+					isLogged ||
+					this.router.createUrlTree(['/login'], { queryParams: getLoginQueryParams(state.url) }),
+			),
 		);
 	}
 }

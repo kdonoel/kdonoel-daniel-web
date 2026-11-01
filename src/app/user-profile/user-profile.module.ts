@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from '../components/shared/shared.module';
 import { PasswordService } from '../password/password.service';
+import { InvitationsService } from './invitations.service';
 import { UserProfileComponent } from './user-profile.component';
 
 const routes: Routes = [{ path: '', component: UserProfileComponent }];
@@ -12,6 +13,6 @@ const routes: Routes = [{ path: '', component: UserProfileComponent }];
 @NgModule({
 	declarations: [UserProfileComponent],
 	imports: [RouterModule.forChild(routes), CommonModule, SharedModule, FormsModule],
-	providers: [PasswordService],
+	providers: [PasswordService, InvitationsService],
 })
 export class UserProfileModule {}

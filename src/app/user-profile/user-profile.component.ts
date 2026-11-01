@@ -6,11 +6,13 @@ import { finalize } from 'rxjs/operators';
 
 import { getErrorCode, getErrorMessageKey } from '../components/http/http-errors';
 import { User } from '../components/models/users/users.models';
-import { SessionService } from '../components/session/session.service';
+import { Profile, SessionService } from '../components/session/session.service';
+import { getPluralKey } from '../components/utils/french.util';
 import { SwalService } from '../components/utils/swal.service';
 import { PwdValidatorDirective } from '../components/validators/pwd.validator.directive';
 import { PasswordResetRequest, PasswordService } from '../password/password.service';
 import { UsersService } from '../users/users.service';
+import { InvitationsService } from './invitations.service';
 
 @Component({
 	selector: 'al-profile',
@@ -27,6 +29,8 @@ export class UserProfileComponent implements OnInit {
 	showPassword: boolean = false;
 	// Translation key of the error of the last attempt
 	error: string;
+	profile: Profile;
+	inviting: boolean = false;
 
 	constructor(
 		private fb: FormBuilder,
@@ -36,6 +40,7 @@ export class UserProfileComponent implements OnInit {
 		private sessionService: SessionService,
 		private swalService: SwalService,
 		private usersService: UsersService,
+		private invitationsService: InvitationsService,
 	) {
 		this.resetForm = fb.group(
 			{
@@ -71,11 +76,36 @@ export class UserProfileComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.loading = true;
-		const userId = this.sessionService.session$.getValue().profile._id;
+		this.profile = this.sessionService.session$.getValue().profile;
+		const userId = this.profile._id;
 		this.usersService
 			.getUser(userId)
 			.pipe(finalize(() => (this.loading = false)))
 			.subscribe((user) => (this.user = user));
+	}
+
+	async invite(familyCode: string): Promise<void> {
+		const confirmed = await this.swalService.confirm(
+			'account.invitations.confirm.title',
+			'account.invitations.confirm.text',
+			'account.invitations.confirm.send',
+			{ family: familyCode },
+		);
+		if (!confirmed) return;
+
+		this.inviting = true;
+		this.invitationsService
+			.send(familyCode)
+			.pipe(finalize(() => (this.inviting = false)))
+			.subscribe(({ sentCount, failedCount }) => {
+				if (failedCount) {
+					this.swalService.error('account.invitations.failed', { sentCount, failedCount });
+				} else {
+					this.swalService.toast(`account.invitations.sent.${getPluralKey(sentCount)}`, {
+						count: sentCount,
+					});
+				}
+			});
 	}
 
 	onSubmit(): void {

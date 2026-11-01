@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NEVER, Observable } from 'rxjs';
-import { UsersService } from 'src/app/users/users.service';
 
+import { UsersService } from '../../users/users.service';
 import { ConfigurationService } from '../conf/configuration.service';
 import { Session, SessionService } from '../session/session.service';
-import { noop } from '../utils/misc.util';
 
 @Injectable()
 export class DefaultHeadersApiPreInterceptor implements HttpInterceptor {
@@ -35,19 +34,18 @@ export class DefaultHeadersApiPreInterceptor implements HttpInterceptor {
 		if (req.url.startsWith(this.conf.getInstant<string>('api.baseHref'))) {
 			let newHeaders = req.headers;
 
-			if (this.translateService.currentLang) {
-				newHeaders = newHeaders.append(
-					this.ACCEPT_LANGUAGE_HEADER,
-					this.translateService.currentLang,
-				);
+			const currentLang = this.translateService.getCurrentLang();
+			if (currentLang) {
+				newHeaders = newHeaders.append(this.ACCEPT_LANGUAGE_HEADER, currentLang);
 			}
 
 			if (this.session) {
 				if (!this.sessionService.isTokenValid()) {
+					// eslint-disable-next-line no-console
 					console.error('jwt invalid, logout and redirect to login');
 					this.usersService.clearCache();
 					this.sessionService.logout();
-					this.router.navigate(['/login']).then(noop);
+					void this.router.navigate(['/login']);
 
 					return NEVER;
 				}

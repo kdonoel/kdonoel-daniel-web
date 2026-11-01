@@ -80,6 +80,7 @@ export class HandleResponsesErrorPostInterceptor implements HttpInterceptor {
 			catchError((error: HttpErrorResponse) => {
 				this.loadingBarService.complete();
 				if (error.name && error.message) {
+					// eslint-disable-next-line no-console
 					console.error('http-error', error.status, error);
 
 					if (error.status === 401 && error.error?.code === 'invalid-signature') {
@@ -96,6 +97,7 @@ export class HandleResponsesErrorPostInterceptor implements HttpInterceptor {
 									this.translateService.instant('commons.error'),
 									`${t}<br />${(error as any).error?.code ?? ''}`,
 								);
+								// eslint-disable-next-line no-console
 								console.error(t);
 							});
 					}

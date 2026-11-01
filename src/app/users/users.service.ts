@@ -46,7 +46,7 @@ export class UsersService {
 			.post(`/users/${userId}/kdos`, {
 				isSurprise: false,
 				...kdo,
-			} as Kdo)
+			})
 			.pipe(
 				map((res: User) => {
 					this.usersCache[res._id] = res;

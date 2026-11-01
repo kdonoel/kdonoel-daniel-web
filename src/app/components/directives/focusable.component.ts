@@ -7,5 +7,5 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
 	standalone: false,
 })
 export class FocusableComponent {
-	@Output('focusChange') focusChange: EventEmitter<any> = new EventEmitter<any>();
+	@Output() focusChange: EventEmitter<any> = new EventEmitter<any>();
 }

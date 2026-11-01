@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // Mixins
 // @import 'mixgen/assets/sass/variables';
 // @import 'mixgen/assets/sass/borders';
@@ -10,28 +12,25 @@
 // @import 'mixgen/assets/sass/verticals';
 
 // Font Awesome
-$fa-font-path: '~font-awesome/fonts';
 @import 'node_modules/font-awesome/scss/font-awesome';
 
 //SweetAlert2
 @import 'node_modules/sweetalert2/src/sweetalert2.scss';
 
-[data-theme='dark'] {
+// ng-select themes follow the Bootstrap color mode, see ThemeService
+[data-bs-theme='dark'] {
 	$ng-select-highlight: #007eff !default;
 	$ng-select-primary-text: #fff !default;
 	$ng-select-disabled-text: #ddd !default;
 	$ng-select-border: #888 !default;
 	$ng-select-border-radius: 4px !default;
 	$ng-select-bg: #333 !default;
-	$ng-select-marked: darken($ng-select-highlight, 48) !default;
-	$ng-select-selected: darken($ng-select-highlight, 46) !default;
+	$ng-select-marked: color.adjust($ng-select-highlight, $lightness: -48%) !default;
+	$ng-select-selected: color.adjust($ng-select-highlight, $lightness: -46%) !default;
 	@import 'node_modules/@ng-select/ng-select/scss/default.theme';
 }
 
-[data-theme='auto'] {
-	@import 'node_modules/@ng-select/ng-select/scss/default.theme';
-}
-[data-theme='light'] {
+[data-bs-theme='light'] {
 	@import 'node_modules/@ng-select/ng-select/scss/default.theme';
 }
 
@@ -52,9 +51,6 @@ $fa-font-path: '~font-awesome/fonts';
 // @import 'variables';
 // Bootstrap
 @import 'node_modules/bootstrap/scss/bootstrap';
-
-$table-dark-bg: #000;
-@import 'node_modules/bootstrap-darkmode/scss/darktheme';
 
 // ng-select
 // @import 'swiper/dist/css/swiper.min.css';

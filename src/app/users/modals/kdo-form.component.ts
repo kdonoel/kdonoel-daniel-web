@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
-import { SessionService } from 'src/app/components/session/session.service';
 
 import { Kdo } from '../../components/models/users/kdos.models';
 import { User } from '../../components/models/users/users.models';
+import { SessionService } from '../../components/session/session.service';
 import { SwalService } from '../../components/utils/swal.service';
 import { UsersService } from '../users.service';
 

@@ -28,12 +28,11 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		CommonModule,
 		SharedModule.forRoot(),
-		ModalModule.forRoot(),
+		ModalModule,
 		NgSelectModule,
 		NgToggleModule,
 	],
 	providers: [],
 	declarations: [Nl2brPipe, AlLinkifyPipe, UserComponent, KdoComponent, KdoFormComponent],
-	entryComponents: [KdoFormComponent],
 })
 export class UsersModule {}

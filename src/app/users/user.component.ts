@@ -60,7 +60,7 @@ export class UserComponent implements OnInit {
 	}
 
 	showKdo(index: number): void {
-		this.router.navigate([index], {
+		void this.router.navigate([index], {
 			relativeTo: this.route,
 		});
 	}

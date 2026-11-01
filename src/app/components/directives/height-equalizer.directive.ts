@@ -27,7 +27,7 @@ import { WindowRefService } from '../window/window-ref.service';
 	standalone: false,
 })
 export class HeightEqualizerDirective implements AfterViewChecked, AfterViewInit {
-	@Input('n9HeightEqualizer') n9HeightEqualizer: string;
+	@Input() n9HeightEqualizer: string;
 	className: string;
 
 	constructor(

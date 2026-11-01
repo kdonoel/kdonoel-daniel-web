@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs';
-import { filter, finalize, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, finalize, map, switchMap } from 'rxjs/operators';
 
 import { User } from '../components/models/users/users.models';
 import { Profile, SessionService } from '../components/session/session.service';
@@ -39,9 +39,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 			this.sessionService.familyCode$.subscribe((familyCode) => (this.familyCode = familyCode)),
 		);
 		this.subscription.add(
-			combineLatest([this.sessionService.session$, this.sessionService.familyCode$])
+			combineLatest([
+				// The renewed session of the same user doesn't reload the lists
+				this.sessionService.session$.pipe(
+					map((session) => session?.profile._id),
+					distinctUntilChanged(),
+				),
+				this.sessionService.familyCode$,
+			])
 				.pipe(
-					filter(([session, familyCode]) => !!session && !!familyCode),
+					filter(([userId, familyCode]) => !!userId && !!familyCode),
 					switchMap(([, familyCode]) => {
 						this.loading = true;
 						return this.usersService

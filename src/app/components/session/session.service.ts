@@ -79,6 +79,14 @@ export class SessionService {
 		this.session$.next(session);
 	}
 
+	/**
+	 * Renewed session of the same user: new token and up to date profile
+	 */
+	public updateSession(session: Session): void {
+		localStorage.setItem(SessionService.sessionKey, JSON.stringify(session));
+		this.session$.next(session);
+	}
+
 	public isTokenValid(session?: Session): boolean {
 		session = session || this.session$.getValue();
 		if (!session?.token) return false;

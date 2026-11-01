@@ -1,9 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
-import { SessionService } from './components/session/session.service';
+import { InterceptorForwardErrorHeader } from './components/http/handle-responses-error.post-interceptor';
+import { Session, SessionService } from './components/session/session.service';
 import { getChristmasYear } from './components/utils/christmas.util';
 
 @Component({
@@ -22,6 +24,7 @@ export class AppComponent {
 		private sessionService: SessionService,
 		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
 		private titleService: Title,
+		private http: HttpClient,
 	) {
 		this.titleService.setTitle(`Kdos Noël ${getChristmasYear()}`);
 
@@ -30,6 +33,20 @@ export class AppComponent {
 
 		// session configuration
 		this.sessionService.load();
+		// Each visit renews the session, so that the users are still logged in the next Christmas.
+		// Silent: the current session stays valid when the renewal fails.
+		if (this.sessionService.session$.getValue()) {
+			this.http
+				.post<Session>(
+					'/sessions/refresh',
+					{},
+					{ headers: { [InterceptorForwardErrorHeader]: '-' } },
+				)
+				.subscribe({
+					next: (session) => this.sessionService.updateSession(session),
+					error: () => undefined,
+				});
+		}
 
 		angulartics2GoogleAnalytics.startTracking();
 	}

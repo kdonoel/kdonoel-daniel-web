@@ -6,6 +6,7 @@ import {
 	HostListener,
 	Input,
 } from '@angular/core';
+
 import { WindowRefService } from '../window/window-ref.service';
 
 /**
@@ -22,14 +23,17 @@ import { WindowRefService } from '../window/window-ref.service';
  * </ul>
  */
 @Directive({
-    selector: '[n9HeightEqualizer]',
-    standalone: false
+	selector: '[n9HeightEqualizer]',
+	standalone: false,
 })
 export class HeightEqualizerDirective implements AfterViewChecked, AfterViewInit {
 	@Input('n9HeightEqualizer') n9HeightEqualizer: string;
 	className: string;
 
-	constructor(private el: ElementRef, private windowRef: WindowRefService) {}
+	constructor(
+		private el: ElementRef,
+		private windowRef: WindowRefService,
+	) {}
 
 	@HostListener('window:resize')
 	onResize(): void {

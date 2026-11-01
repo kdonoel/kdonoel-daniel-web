@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Observable, of, Subscription, switchMap } from 'rxjs';
+
 import { User } from '../components/models/users/users.models';
 import { Profile, SessionService } from '../components/session/session.service';
 import { UsersService } from '../users/users.service';
@@ -16,7 +17,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 	subscription: Subscription;
 	usersObservable: Observable<User[]>;
 
-	constructor(private sessionService: SessionService, private usersService: UsersService) {}
+	constructor(
+		private sessionService: SessionService,
+		private usersService: UsersService,
+	) {}
 
 	ngOnInit(): void {
 		this.subscription = this.sessionService.session$.subscribe((s) => {

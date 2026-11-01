@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import * as _ from 'lodash';
+
 import { LoadingBarEvent, LoadingBarEventType } from './loading-bar.models';
 import { LoadingBarService } from './loading-bar.service';
 

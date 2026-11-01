@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+
 import { Kdo } from '../components/models/users/kdos.models';
 import { User } from '../components/models/users/users.models';
 import { SessionService } from '../components/session/session.service';

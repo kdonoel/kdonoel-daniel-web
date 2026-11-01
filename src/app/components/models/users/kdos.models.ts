@@ -1,7 +1,7 @@
 export enum KdoState {
-	'FREE' = 'free',
-	'RESERVED' = 'reserved',
-	'BOUGHT' = 'bought',
+	FREE = 'free',
+	RESERVED = 'reserved',
+	BOUGHT = 'bought',
 }
 
 export class KdoStatus {

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { LoadingBarEvent, LoadingBarEventType } from './loading-bar.models';
-
 import * as _ from 'lodash';
+import { Observable, Subject } from 'rxjs';
+
+import { LoadingBarEvent, LoadingBarEventType } from './loading-bar.models';
 
 /**
  * LoadingBar service helps manage Loading bar on the top of screen or parent component

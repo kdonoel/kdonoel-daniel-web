@@ -10,53 +10,54 @@
 						</h3>
 					</div>
 					@if (!loading) {
-					<form novalidate [formGroup]="loginForm" class="form form-horizontal form-group-lg" (ngSubmit)="submit($event)">
-						@if (errors.length) {
-						<div class="form-group">
-							@for (error of errors; track error) {
-							<al-disclaimer [label]="error" type="blocker"> </al-disclaimer>
+						<form novalidate [formGroup]="loginForm" class="form form-horizontal form-group-lg" (ngSubmit)="submit($event)">
+							@if (errors.length) {
+								<div class="form-group">
+									@for (error of errors; track error) {
+										<al-disclaimer [label]="error" type="blocker"> </al-disclaimer>
+									}
+								</div>
 							}
-						</div>
-						}
-						<!--<pre>loginForm.controls.email.errors {{loginForm.controls.email.errors | json}}</pre>-->
-						<!--<pre>loginForm.controls.password.errors {{loginForm.controls.password.errors | json}}</pre>-->
-						<div class="form-group" n9ShowErrors>
-							<div class="col-xs-12 margin-bottom-md-xs">
-								<div class="input-layout">
-									<input type="text" name="email" id="email" class="form-control al-text-input" formControlName="email" placeholder="{{ 'login.form.placeholders.email' | translate }}" #input />
+							<!--<pre>loginForm.controls.email.errors {{loginForm.controls.email.errors | json}}</pre>-->
+							<!--<pre>loginForm.controls.password.errors {{loginForm.controls.password.errors | json}}</pre>-->
+							<div class="form-group" n9ShowErrors>
+								<div class="col-xs-12 margin-bottom-md-xs">
+									<div class="input-layout">
+										<input type="text" name="email" id="email" class="form-control al-text-input" formControlName="email" placeholder="{{ 'login.form.placeholders.email' | translate }}" #input />
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="form-group" n9ShowErrors>
-							<div class="col-xs-12 margin-bottom-md-xs">
-								<div class="input-layout">
-									<input
-										type="password"
-										name="password"
-										id="password"
-										class="form-control al-text-input"
-										formControlName="password"
-										placeholder="{{ 'login.form.placeholders.password' | translate }}"
-										#input
-									/>
+							<div class="form-group" n9ShowErrors>
+								<div class="col-xs-12 margin-bottom-md-xs">
+									<div class="input-layout">
+										<input
+											type="password"
+											name="password"
+											id="password"
+											class="form-control al-text-input"
+											formControlName="password"
+											placeholder="{{ 'login.form.placeholders.password' | translate }}"
+											#input
+										/>
+									</div>
 								</div>
 							</div>
-						</div>
-						<!--<div class="col-xs-6 margin-bottom-md-xs line-height-46-xs">-->
-						<!--<div class="text-center vertical-align-middl">-->
-						<!--<a routerLink="/password/lost" class="link">{{'login.form.resetPassword.label' | translate}}</a>-->
-						<!--</div>-->
-						<!--</div>-->
-						<div class="form-group">
-							<div class="col-xs-6 text-right margin-bottom-xs-xs">
-								<button type="submit" class="btn btn-primary input-lg full-width" [disabled]="loginForm.invalid">
-									{{ 'login.form.actions.submit' | translate }}
-								</button>
+							<!--<div class="col-xs-6 margin-bottom-md-xs line-height-46-xs">-->
+							<!--<div class="text-center vertical-align-middl">-->
+							<!--<a routerLink="/password/lost" class="link">{{'login.form.resetPassword.label' | translate}}</a>-->
+							<!--</div>-->
+							<!--</div>-->
+							<div class="form-group">
+								<div class="col-xs-6 text-right margin-bottom-xs-xs">
+									<button type="submit" class="btn btn-primary input-lg full-width" [disabled]="loginForm.invalid">
+										{{ 'login.form.actions.submit' | translate }}
+									</button>
+								</div>
 							</div>
-						</div>
-					</form>
-					} @if (loading) {
-					<al-loading></al-loading>
+						</form>
+					}
+					@if (loading) {
+						<al-loading></al-loading>
 					}
 				</div>
 			</div>

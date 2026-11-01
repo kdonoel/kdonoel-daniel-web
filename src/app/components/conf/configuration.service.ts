@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable, ReplaySubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+
 import { environment } from '../../../environments/environment';
 import { PublicConf } from '../../../environments/public-conf.models';
 

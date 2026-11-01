@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -14,9 +14,10 @@ import { KdoFormComponent } from '../modals/kdo-form.component';
 import { UsersService } from '../users.service';
 
 @Component({
-    selector: 'al-user',
-    templateUrl: 'kdo.component.html',
-    standalone: false
+	selector: 'al-user',
+	templateUrl: 'kdo.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
+	standalone: false,
 })
 export class KdoComponent implements OnInit {
 	formStatus: FormGroup;

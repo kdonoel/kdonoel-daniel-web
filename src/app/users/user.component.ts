@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Kdo } from '../components/models/users/kdos.models';
@@ -8,10 +8,11 @@ import { KdoFormComponent } from './modals/kdo-form.component';
 import { UsersService } from './users.service';
 
 @Component({
-    selector: 'al-user',
-    templateUrl: 'user.component.html',
-    styleUrls: ['user.component.scss'],
-    standalone: false
+	selector: 'al-user',
+	templateUrl: 'user.component.html',
+	styleUrls: ['user.component.scss'],
+	changeDetection: ChangeDetectionStrategy.Eager,
+	standalone: false,
 })
 export class UserComponent implements OnInit {
 	public user!: User;

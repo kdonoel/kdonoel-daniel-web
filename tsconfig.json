@@ -17,8 +17,15 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    },
     "disableTypeScriptVersionCheck": true,
-    "preserveWhitespaces": true
+    "preserveWhitespaces": true,
+    "strictTemplates": false
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "exclude": ["src/test.ts", "src/**/*.spec.ts"]

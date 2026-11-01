@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -8,9 +8,10 @@ import { PwdValidatorDirective } from '../components/validators/pwd.validator.di
 import { LoginService } from './login.service';
 
 @Component({
-    selector: 'n9-login',
-    templateUrl: 'login.component.html',
-    standalone: false
+	selector: 'n9-login',
+	templateUrl: 'login.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
+	standalone: false,
 })
 export class LoginComponent implements OnInit {
 	errors: string[] = [];

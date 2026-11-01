@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -9,9 +9,10 @@ import { PwdValidatorDirective } from '../components/validators/pwd.validator.di
 import { InitPasswordRequest, PasswordService } from './password.service';
 
 @Component({
-    selector: 'kdos-init-password',
-    templateUrl: 'init-password.component.html',
-    standalone: false
+	selector: 'kdos-init-password',
+	templateUrl: 'init-password.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
+	standalone: false,
 })
 export class InitPasswordComponent {
 	resetForm: FormGroup;

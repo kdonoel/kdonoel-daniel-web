@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Profile, SessionService } from '../components/session/session.service';
 import { SelectItem } from '../components/utils/select-item';
 import { TranslateUtilsService } from '../components/utils/translate-utils.service';
 
 @Component({
-    selector: 'n9-header',
-    templateUrl: 'header.component.html',
-    styleUrls: ['header.component.scss'],
-    standalone: false
+	selector: 'n9-header',
+	templateUrl: 'header.component.html',
+	styleUrls: ['header.component.scss'],
+	changeDetection: ChangeDetectionStrategy.Eager,
+	standalone: false,
 })
 export class HeaderComponent {
 	profile: Profile;

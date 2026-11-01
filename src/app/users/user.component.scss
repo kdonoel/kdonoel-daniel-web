@@ -1,7 +1,14 @@
-.col-edit {
-	width: 50px;
-}
+// Fixed widths on large screens only, the title takes the remaining space on small ones
+@media (min-width: 768px) {
+	.col-surprise {
+		width: 7rem;
+	}
 
-.col-view {
-	width: 50px;
+	.col-state {
+		width: 14rem;
+	}
+
+	.col-actions {
+		width: 6.5rem;
+	}
 }

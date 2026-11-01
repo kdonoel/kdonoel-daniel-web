@@ -43,7 +43,7 @@
     },
     "links": {
       "home": "Accueil",
-      "login": "Login",
+      "login": "Se connecter",
       "logout": "Se déconnecter"
     },
     "profile": "Profil",
@@ -58,8 +58,8 @@
     "Chaboud": "Famille Chaboud"
   },
   "home": {
-    "title": "Site d'échange d'idées de cadeaux 2024",
-    "listUsers": "Utilisateurs :",
+    "title": "Site d'échange d'idées de cadeaux {{year}}",
+    "listUsers": "Listes d'idées",
     "kdosCount": "idées"
   },
   "login": {
@@ -146,7 +146,7 @@
         "title": "Informations personnelles"
       }
     },
-    "listKdos": "Liste d'idées de {{name}} :",
+    "listKdos": "Liste d'idées de {{name}}",
     "kdos": {
       "title": "Titre",
       "state": "État",

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgToggleModule } from '@nth-cloud/ng-toggle';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AlLinkifyPipe } from '../components/pipes/linkyfy.pipe';
@@ -30,7 +29,6 @@ const routes: Routes = [
 		SharedModule.forRoot(),
 		ModalModule,
 		NgSelectModule,
-		NgToggleModule,
 	],
 	providers: [],
 	declarations: [Nl2brPipe, AlLinkifyPipe, UserComponent, KdoComponent, KdoFormComponent],

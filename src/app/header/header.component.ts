@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Profile, SessionService } from '../components/session/session.service';
+import { getChristmasYear } from '../components/utils/christmas.util';
 import { SelectItem } from '../components/utils/select-item';
 import { TranslateUtilsService } from '../components/utils/translate-utils.service';
 
 @Component({
 	selector: 'n9-header',
 	templateUrl: 'header.component.html',
-	styleUrls: ['header.component.scss'],
 	changeDetection: ChangeDetectionStrategy.Eager,
 	standalone: false,
 })
@@ -17,10 +16,10 @@ export class HeaderComponent {
 	loading: boolean;
 	families: SelectItem[];
 	family: string;
+	readonly year: number = getChristmasYear();
 
 	constructor(
 		private sessionService: SessionService,
-		private router: Router,
 		private translateUtilsService: TranslateUtilsService,
 	) {
 		this.loading = true;
@@ -48,9 +47,5 @@ export class HeaderComponent {
 
 	onFamilySelect(family: SelectItem): void {
 		this.sessionService.setFamilyCode(family.id);
-	}
-
-	isOnHomePage(): boolean {
-		return this.router.url === '/';
 	}
 }

@@ -1,36 +1,32 @@
-@use 'sass:color';
+// Bootstrap with the night blue theme
+@import 'variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
 
-// Mixins
-// @import 'mixgen/assets/sass/variables';
-// @import 'mixgen/assets/sass/borders';
-// @import 'mixgen/assets/sass/colors';
-// @import 'mixgen/assets/sass/margins';
-// @import 'mixgen/assets/sass/paddings';
-// @import 'mixgen/assets/sass/text-align';
-// @import 'mixgen/assets/sass/texts';
-// @import 'mixgen/assets/sass/lineheights';
-// @import 'mixgen/assets/sass/verticals';
-
-// Font Awesome
-@import 'node_modules/font-awesome/scss/font-awesome';
-
-//SweetAlert2
-@import 'node_modules/sweetalert2/src/sweetalert2.scss';
-
-// ng-select themes follow the Bootstrap color mode, see ThemeService
-[data-bs-theme='dark'] {
-	$ng-select-highlight: #007eff !default;
-	$ng-select-primary-text: #fff !default;
-	$ng-select-disabled-text: #ddd !default;
-	$ng-select-border: #888 !default;
-	$ng-select-border-radius: 4px !default;
-	$ng-select-bg: #333 !default;
-	$ng-select-marked: color.adjust($ng-select-highlight, $lightness: -48%) !default;
-	$ng-select-selected: color.adjust($ng-select-highlight, $lightness: -46%) !default;
+// ng-select themes follow the Bootstrap color mode, see ThemeService.
+// The dark theme is declared last so that it also applies in the night navbar.
+[data-bs-theme='light'] {
+	$ng-select-highlight: $primary;
+	$ng-select-border-radius: $border-radius;
 	@import 'node_modules/@ng-select/ng-select/scss/default.theme';
 }
 
-[data-bs-theme='light'] {
+[data-bs-theme='dark'] {
+	$ng-select-highlight: #6f8fdc;
+	$ng-select-primary-text: $body-color-dark;
+	$ng-select-disabled-text: #8a96b3;
+	$ng-select-border: $border-color-dark;
+	$ng-select-border-radius: $border-radius;
+	$ng-select-bg: $body-bg-dark;
+	$ng-select-marked: $body-secondary-bg-dark;
+	$ng-select-selected: $night-700;
+	$ng-select-placeholder: #8a96b3;
+	$ng-select-input-text: $body-color-dark;
+	$ng-select-dropdown-option-text: $body-color-dark;
+	$ng-select-dropdown-optgroup-text: #8a96b3;
+	$ng-select-dropdown-option-disabled: #6b7591;
+	$ng-select-arrow: #8a96b3;
+	$ng-select-arrow-hover: #c3cbe0;
+	$ng-select-arrow-active: #c3cbe0;
 	@import 'node_modules/@ng-select/ng-select/scss/default.theme';
 }
 
@@ -47,13 +43,6 @@
 	}
 }
 
-//Variables
-// @import 'variables';
-// Bootstrap
-@import 'node_modules/bootstrap/scss/bootstrap';
-
-// ng-select
-// @import 'swiper/dist/css/swiper.min.css';
-
-//Components
+// App
+@import 'theme';
 @import 'forms';

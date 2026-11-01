@@ -34,6 +34,10 @@ export class KdoFormComponent {
 		this.onChange = new Subject<User>();
 	}
 
+	close(): void {
+		this.bsModalRef.hide();
+	}
+
 	onSubmit(): void {
 		if (this.modalType === 'new') {
 			this.usersService.addKdo(this.userId, this.form.value).subscribe(

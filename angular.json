@@ -21,7 +21,10 @@
             "tsConfig": "tsconfig.json",
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles/global/app.scss"],
+            "styles": [
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
+              "src/styles/global/app.scss"
+            ],
             "scripts": [],
             "baseHref": "/",
             "allowedCommonJsDependencies": ["lodash", "sweetalert2"],

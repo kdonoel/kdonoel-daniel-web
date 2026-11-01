@@ -1,66 +1,31 @@
-<div class="container text-center" id="login">
-	<h2>{{ 'login.title' | translate }}</h2>
-	<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 margin-top-lg-xs margin-bottom-lg-xs">
-		<div class="panel panel-white">
-			<div class="panel-body">
-				<div class="panel-body-content">
-					<div class="col-xs-12 margin-top-xs-xs margin-bottom-xs-xs text-bold">
-						<h3 class="panel-title text-center vertical-align-middle">
-							{{ 'login.form.title' | translate }}
-						</h3>
-					</div>
-					@if (!loading) {
-						<form novalidate [formGroup]="loginForm" class="form form-horizontal form-group-lg" (ngSubmit)="submit($event)">
-							@if (errors.length) {
-								<div class="form-group">
-									@for (error of errors; track error) {
-										<al-disclaimer [label]="error" type="blocker"> </al-disclaimer>
-									}
-								</div>
-							}
-							<!--<pre>loginForm.controls.email.errors {{loginForm.controls.email.errors | json}}</pre>-->
-							<!--<pre>loginForm.controls.password.errors {{loginForm.controls.password.errors | json}}</pre>-->
-							<div class="form-group" n9ShowErrors>
-								<div class="col-xs-12 margin-bottom-md-xs">
-									<div class="input-layout">
-										<input type="text" name="email" id="email" class="form-control al-text-input" formControlName="email" placeholder="{{ 'login.form.placeholders.email' | translate }}" #input />
-									</div>
-								</div>
-							</div>
-							<div class="form-group" n9ShowErrors>
-								<div class="col-xs-12 margin-bottom-md-xs">
-									<div class="input-layout">
-										<input
-											type="password"
-											name="password"
-											id="password"
-											class="form-control al-text-input"
-											formControlName="password"
-											placeholder="{{ 'login.form.placeholders.password' | translate }}"
-											#input
-										/>
-									</div>
-								</div>
-							</div>
-							<!--<div class="col-xs-6 margin-bottom-md-xs line-height-46-xs">-->
-							<!--<div class="text-center vertical-align-middl">-->
-							<!--<a routerLink="/password/lost" class="link">{{'login.form.resetPassword.label' | translate}}</a>-->
-							<!--</div>-->
-							<!--</div>-->
-							<div class="form-group">
-								<div class="col-xs-6 text-right margin-bottom-xs-xs">
-									<button type="submit" class="btn btn-primary input-lg full-width" [disabled]="loginForm.invalid">
-										{{ 'login.form.actions.submit' | translate }}
-									</button>
-								</div>
-							</div>
-						</form>
-					}
-					@if (loading) {
-						<al-loading></al-loading>
-					}
-				</div>
+<div class="container" id="login">
+	<div class="card auth-card shadow-sm mx-auto">
+		<div class="card-body p-4 p-sm-5">
+			<div class="text-center mb-4">
+				<i class="bi bi-gift fs-1 text-primary" aria-hidden="true"></i>
+				<h1 class="h4 mt-2 mb-1">{{ 'login.form.title' | translate }}</h1>
+				<p class="text-body-secondary mb-0">{{ 'login.title' | translate }}</p>
 			</div>
+			@if (!loading) {
+				<form novalidate [formGroup]="loginForm" (ngSubmit)="submit($event)">
+					@for (error of errors; track error) {
+						<al-disclaimer [label]="error" type="blocker"></al-disclaimer>
+					}
+					<div class="form-group mb-3" n9ShowErrors>
+						<label for="email" class="form-label">{{ 'login.form.placeholders.email' | translate }}</label>
+						<input type="email" name="email" id="email" class="form-control" formControlName="email" autocomplete="username" #input />
+					</div>
+					<div class="form-group mb-4" n9ShowErrors>
+						<label for="password" class="form-label">{{ 'login.form.placeholders.password' | translate }}</label>
+						<input type="password" name="password" id="password" class="form-control" formControlName="password" autocomplete="current-password" #input />
+					</div>
+					<button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">
+						{{ 'login.form.actions.submit' | translate }}
+					</button>
+				</form>
+			} @else {
+				<al-loading></al-loading>
+			}
 		</div>
 	</div>
 </div>

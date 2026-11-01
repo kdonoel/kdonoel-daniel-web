@@ -1,36 +1,34 @@
 <div class="container">
 	@if (!loading) {
-		<div>
-			<a routerLink="../">
-				<i class="fa fa-arrow-left"></i>
-				{{ 'kdo.backToList' | translate }}
-			</a>
-			<h1>
-				{{ kdo.title }}
-				@if (isConnectedUser() | async) {
-					<span class="pull-right">
-						<button class="btn btn-primary" (click)="edit()">
+		<a routerLink="../" class="d-inline-flex align-items-center gap-1 mb-3">
+			<i class="bi bi-arrow-left" aria-hidden="true"></i>
+			{{ 'kdo.backToList' | translate }}
+		</a>
+		<div class="card shadow-sm">
+			<div class="card-body p-4">
+				<div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-2">
+					<h1 class="h3 mb-0 text-break">{{ kdo.title }}</h1>
+					@if (isConnectedUser() | async) {
+						<button class="btn btn-outline-primary" (click)="edit()">
+							<i class="bi bi-pencil me-1" aria-hidden="true"></i>
 							{{ 'user.kdos.edit' | translate }}
 						</button>
-					</span>
-				}
-			</h1>
-			<p [innerHTML]="kdo.description | alLinkify | alNl2br"></p>
-			@if ((isConnectedUser() | async) === false) {
-				<div>
-					<hr />
-					<!--			<pre>{{ formStatus.value | json }}</pre>-->
-					<form class="d-flex align-items-center" [formGroup]="formStatus" (submit)="setKdoStatus()">
-						<label for="status" class="align-self-center m-0 mr-3">{{ 'kdo.state.label' | translate }}</label>
+					}
+				</div>
+				<p class="mb-0 text-break" [innerHTML]="kdo.description | alLinkify | alNl2br"></p>
+				@if ((isConnectedUser() | async) === false) {
+					<hr class="my-4" />
+					<form class="d-flex flex-wrap align-items-center gap-2" [formGroup]="formStatus" (submit)="setKdoStatus()">
+						<label for="status" class="form-label mb-0 me-1">{{ 'kdo.state.label' | translate }}</label>
 						<ng-select class="auto-grow" id="status" [clearable]="false" formControlName="status" [items]="statesItems" bindValue="id" [placeholder]="'kdo.state.placeholder' | translate"> </ng-select>
 						@if (formStatus.dirty && formStatus.value.status.length) {
-							<button type="submit" class="btn btn-default">
+							<button type="submit" class="btn btn-primary">
 								{{ 'kdo.state.edit' | translate }}
 							</button>
 						}
 					</form>
-				</div>
-			}
+				}
+			</div>
 		</div>
 	} @else {
 		<al-loading></al-loading>

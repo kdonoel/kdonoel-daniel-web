@@ -12,7 +12,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NgToggleModule } from '@nth-cloud/ng-toggle';
 import { Angulartics2Module } from 'angulartics2';
 
 import { AppComponent } from './app.component';
@@ -46,7 +45,6 @@ registerLocaleData(fr);
 		SharedModule.forRoot(),
 		LoadingBarModule,
 		NgSelectModule,
-		NgToggleModule,
 		ThemeSwitchComponent,
 	],
 	providers: [

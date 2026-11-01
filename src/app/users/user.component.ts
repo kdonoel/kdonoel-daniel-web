@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
-import { Kdo } from '../components/models/users/kdos.models';
+import { Kdo, KdoState } from '../components/models/users/kdos.models';
 import { User } from '../components/models/users/users.models';
 import { SessionService } from '../components/session/session.service';
 import { KdoFormComponent } from './modals/kdo-form.component';
@@ -57,6 +57,17 @@ export class UserComponent implements OnInit {
 		modal.content?.onChange.subscribe((newUser: User) => {
 			this.user = newUser;
 		});
+	}
+
+	getStatusBadgeClass(state: KdoState): string {
+		switch (state) {
+			case KdoState.RESERVED:
+				return 'bg-warning-subtle text-warning-emphasis';
+			case KdoState.BOUGHT:
+				return 'bg-success-subtle text-success-emphasis';
+			default:
+				return 'bg-secondary-subtle text-secondary-emphasis';
+		}
 	}
 
 	showKdo(index: number): void {

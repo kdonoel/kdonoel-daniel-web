@@ -140,8 +140,12 @@ body {
 	background: linear-gradient(135deg, $night-700, $primary);
 }
 
-// The outline buttons use light tints in the dark color mode, to stay readable on the night blue
+// The outline buttons and the primary texts use light tints in the dark color mode, to stay readable on the night blue
 [data-bs-theme='dark'] {
+	.text-primary {
+		color: #{tint-color($primary, 45%)} !important;
+	}
+
 	.btn-outline-primary {
 		--bs-btn-color: #{tint-color($primary, 60%)};
 		--bs-btn-border-color: #{tint-color($primary, 35%)};

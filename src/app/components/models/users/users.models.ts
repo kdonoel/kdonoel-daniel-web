@@ -17,4 +17,6 @@ export interface User {
 	kdos?: Kdo[];
 	kdosCount?: number;
 	familyCodes?: string[];
+	// Only for the user itself, missing with the former API
+	hasPassword?: boolean;
 }

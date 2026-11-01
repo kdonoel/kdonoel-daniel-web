@@ -22,7 +22,8 @@ import { WindowRefService } from '../window/window-ref.service';
  * </ul>
  */
 @Directive({
-	selector: '[n9HeightEqualizer]',
+    selector: '[n9HeightEqualizer]',
+    standalone: false
 })
 export class HeightEqualizerDirective implements AfterViewChecked, AfterViewInit {
 	@Input('n9HeightEqualizer') n9HeightEqualizer: string;

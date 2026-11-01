@@ -9,8 +9,9 @@ import { PwdValidatorDirective } from '../components/validators/pwd.validator.di
 import { InitPasswordRequest, PasswordService } from './password.service';
 
 @Component({
-	selector: 'kdos-init-password',
-	templateUrl: 'init-password.component.html',
+    selector: 'kdos-init-password',
+    templateUrl: 'init-password.component.html',
+    standalone: false
 })
 export class InitPasswordComponent {
 	resetForm: FormGroup;

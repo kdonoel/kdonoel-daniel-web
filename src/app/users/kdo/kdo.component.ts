@@ -14,8 +14,9 @@ import { KdoFormComponent } from '../modals/kdo-form.component';
 import { UsersService } from '../users.service';
 
 @Component({
-	selector: 'al-user',
-	templateUrl: 'kdo.component.html',
+    selector: 'al-user',
+    templateUrl: 'kdo.component.html',
+    standalone: false
 })
 export class KdoComponent implements OnInit {
 	formStatus: FormGroup;

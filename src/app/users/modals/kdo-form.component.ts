@@ -9,8 +9,9 @@ import { SwalService } from '../../components/utils/swal.service';
 import { UsersService } from '../users.service';
 
 @Component({
-	selector: 'al-kdo-form',
-	templateUrl: 'kdo-form.component.html',
+    selector: 'al-kdo-form',
+    templateUrl: 'kdo-form.component.html',
+    standalone: false
 })
 export class KdoFormComponent {
 	kdoIndex: number;

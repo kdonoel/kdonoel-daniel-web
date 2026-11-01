@@ -8,9 +8,10 @@ import { KdoFormComponent } from './modals/kdo-form.component';
 import { UsersService } from './users.service';
 
 @Component({
-	selector: 'al-user',
-	templateUrl: 'user.component.html',
-	styleUrls: ['user.component.scss'],
+    selector: 'al-user',
+    templateUrl: 'user.component.html',
+    styleUrls: ['user.component.scss'],
+    standalone: false
 })
 export class UserComponent implements OnInit {
 	public user!: User;

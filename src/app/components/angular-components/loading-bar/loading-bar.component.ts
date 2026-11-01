@@ -7,9 +7,10 @@ import { LoadingBarService } from './loading-bar.service';
  * A Loading Bar component shows message loading progress bar on the top of web page.
  */
 @Component({
-	selector: 'al-loading-bar',
-	templateUrl: './loading-bar.component.html',
-	styleUrls: ['./loading-bar.component.scss'],
+    selector: 'al-loading-bar',
+    templateUrl: './loading-bar.component.html',
+    styleUrls: ['./loading-bar.component.scss'],
+    standalone: false
 })
 export class LoadingBarComponent implements OnInit {
 	@Input() progress: string = '0';

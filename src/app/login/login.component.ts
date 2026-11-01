@@ -8,8 +8,9 @@ import { PwdValidatorDirective } from '../components/validators/pwd.validator.di
 import { LoginService } from './login.service';
 
 @Component({
-	selector: 'n9-login',
-	templateUrl: 'login.component.html',
+    selector: 'n9-login',
+    templateUrl: 'login.component.html',
+    standalone: false
 })
 export class LoginComponent implements OnInit {
 	errors: string[] = [];

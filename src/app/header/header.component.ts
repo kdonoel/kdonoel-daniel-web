@@ -5,9 +5,10 @@ import { SelectItem } from '../components/utils/select-item';
 import { TranslateUtilsService } from '../components/utils/translate-utils.service';
 
 @Component({
-	selector: 'n9-header',
-	templateUrl: 'header.component.html',
-	styleUrls: ['header.component.scss'],
+    selector: 'n9-header',
+    templateUrl: 'header.component.html',
+    styleUrls: ['header.component.scss'],
+    standalone: false
 })
 export class HeaderComponent {
 	profile: Profile;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../components/models/users/users.models';
@@ -11,9 +11,10 @@ import { PasswordResetRequest, PasswordService } from '../password/password.serv
 import { UsersService } from '../users/users.service';
 
 @Component({
-    selector: 'al-profile',
-    templateUrl: 'user-profile.component.html',
-    standalone: false
+	selector: 'al-profile',
+	templateUrl: 'user-profile.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
+	standalone: false,
 })
 export class UserProfileComponent implements OnInit {
 	resetForm: FormGroup;

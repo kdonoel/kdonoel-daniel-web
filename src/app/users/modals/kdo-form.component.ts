@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
@@ -9,9 +9,10 @@ import { SwalService } from '../../components/utils/swal.service';
 import { UsersService } from '../users.service';
 
 @Component({
-    selector: 'al-kdo-form',
-    templateUrl: 'kdo-form.component.html',
-    standalone: false
+	selector: 'al-kdo-form',
+	templateUrl: 'kdo-form.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
+	standalone: false,
 })
 export class KdoFormComponent {
 	kdoIndex: number;

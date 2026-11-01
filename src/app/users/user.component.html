@@ -42,9 +42,9 @@
 						class="pointer"
 						[class.font-weight-bold]="currentUserId === kdo.status?.userId"
 						[class.text-warning]="currentUserId === kdo.status?.userId"
-						[title]="kdo.status?.lastUpdateDate ? 'Dernière modification de status le ' + (kdo.status?.lastUpdateDate | date: 'short') : ''"
+						[title]="kdo.status?.lastUpdateDate ? 'Dernière modification de status le ' + ($safeNavigationMigration(kdo.status?.lastUpdateDate) | date: 'short') : ''"
 					>
-						{{ 'kdo.state.' + kdo.status?.code | translate }}
+						{{ 'kdo.state.' + $safeNavigationMigration(kdo.status?.code) | translate }}
 						@if (currentUserId === kdo.status?.userId) {
 						<span>(Par toi)</span>
 						}

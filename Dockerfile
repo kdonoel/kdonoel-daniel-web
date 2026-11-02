@@ -1,11 +1,7 @@
 FROM node:26.12.1-trixie-slim AS builder
 
 # Yarn is no longer bundled with the official Node.js images since Node.js 25
-ARG YARN_VERSION=1.22.22
-RUN npm install --global yarn@${YARN_VERSION}
-
-# Git hooks are useless in the image
-ENV HUSKY=0
+RUN npm install --global yarn@1.22.22
 
 WORKDIR /home/app
 

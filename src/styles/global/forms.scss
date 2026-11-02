@@ -1,13 +1,5 @@
-// Validation state and messages added by the ShowErrorsDirective
-.form-group {
-	.n9-validation-errors {
-		margin-top: 0.25rem;
-		font-size: 0.875em;
-		text-align: left;
-		color: var(--bs-form-invalid-color);
-	}
-
-	&.is-invalid .form-control {
-		border-color: var(--bs-form-invalid-border-color);
-	}
+// Validation state added by the ShowErrorsDirective on the parent of the field, its messages use the
+// Bootstrap .invalid-feedback
+.form-group.is-invalid .form-control {
+	border-color: var(--bs-form-invalid-border-color);
 }

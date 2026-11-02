@@ -7,7 +7,7 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(
-	globalIgnores(['dist/', '.angular/', 'coverage/']),
+	globalIgnores(['dist/', '.angular/']),
 	{
 		files: ['**/*.ts'],
 		extends: [
@@ -56,10 +56,8 @@ export default defineConfig(
 			'@typescript-eslint/restrict-template-expressions': 'off',
 			'@typescript-eslint/unbound-method': 'off',
 
-			'curly': 'error',
 			'no-console': 'error',
 			'object-shorthand': ['error', 'always'],
-			'prefer-arrow-callback': 'error',
 			'radix': ['error', 'always'],
 			'simple-import-sort/imports': 'error',
 			'simple-import-sort/exports': 'error',

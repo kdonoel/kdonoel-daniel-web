@@ -20,7 +20,7 @@
 		<h1 class="h3 mb-1">{{ 'home.greeting' | translate: { firstName: profile.firstName } }}</h1>
 		<p class="text-body-secondary mb-4">{{ 'home.intro' | translate: { year: year } }}</p>
 
-		<div class="card shadow-sm mb-5 my-list-card">
+		<div class="card shadow-sm mb-5">
 			<div class="card-body d-flex flex-column flex-sm-row align-items-sm-center gap-3">
 				<span class="my-list-icon" aria-hidden="true"><i class="bi bi-gift"></i></span>
 				<div class="flex-grow-1">
@@ -38,22 +38,23 @@
 						<i class="bi bi-list-ul me-1" aria-hidden="true"></i>
 						{{ 'home.myList.see' | translate }}
 					</a>
-					<button type="button" class="btn btn-outline-primary" (click)="addKdo()">
+					<!-- The form opens on the list, so that the new idea is visible once added -->
+					<a class="btn btn-outline-primary" [routerLink]="['/users', profile._id]" [state]="{ addKdo: true }">
 						<i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
 						{{ 'home.myList.add' | translate }}
-					</button>
+					</a>
 				</div>
 			</div>
 		</div>
 
 		<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
 			<h2 class="h4 mb-0">{{ 'home.family.title' | translate }}</h2>
-			@if (families.length > 1) {
+			@if (profile.familyCodes?.length > 1) {
 				<div class="d-flex align-items-center gap-2">
 					<label for="family" class="text-nowrap">{{ 'home.family.select' | translate }}</label>
 					<select id="family" class="form-select" [ngModel]="familyCode" (ngModelChange)="onFamilyChange($event)">
-						@for (family of families; track family.id) {
-							<option [value]="family.id">{{ family.label }}</option>
+						@for (code of profile.familyCodes; track code) {
+							<option [value]="code">{{ 'families.' + code | translate }}</option>
 						}
 					</select>
 				</div>

@@ -5,20 +5,16 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "bundler",
-    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "resolveJsonModule": true,
     "target": "ES2022",
     "module": "esnext",
     "strict": false
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "preserveWhitespaces": true,
     "strictTemplates": false
   },
-  "files": ["src/main.ts"],
-  "exclude": ["src/test.ts", "src/**/*.spec.ts"]
+  "files": ["src/main.ts"]
 }

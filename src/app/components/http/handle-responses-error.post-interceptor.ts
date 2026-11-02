@@ -15,7 +15,6 @@ import { SessionService } from '../session/session.service';
 import { SwalService } from '../utils/swal.service';
 import { getErrorMessageKey, isSessionError } from './http-errors';
 
-export const InterceptorSkipHeader = 'X-Interceptor-Skip';
 // The error is forwarded to the caller, which displays it, instead of being displayed in a popup
 export const InterceptorForwardErrorHeader = 'X-Interceptor-Forward-Error';
 
@@ -28,11 +27,6 @@ export class HandleResponsesErrorPostInterceptor implements HttpInterceptor {
 	) {}
 
 	public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		if (req.headers.has(InterceptorSkipHeader)) {
-			const headers = req.headers.delete(InterceptorSkipHeader);
-			return next.handle(req.clone({ headers }));
-		}
-
 		const forwardError = req.headers.has(InterceptorForwardErrorHeader);
 		const request = forwardError
 			? req.clone({ headers: req.headers.delete(InterceptorForwardErrorHeader) })

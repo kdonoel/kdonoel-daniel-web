@@ -6,7 +6,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { DisclaimerComponent } from '../angular-components/disclaimers/disclaimer.component';
 import { LoadingComponent } from '../angular-components/loading/loading.component';
 import { FocusableComponent } from '../directives/focusable.component';
-import { HeightEqualizerDirective } from '../directives/height-equalizer.directive';
 import { ShowErrorsDirective } from '../directives/show-errors.directive';
 
 /*
@@ -15,17 +14,10 @@ import { ShowErrorsDirective } from '../directives/show-errors.directive';
  * */
 @NgModule({
 	imports: [ReactiveFormsModule, TranslatePipe, FormsModule, CommonModule],
-	declarations: [
-		ShowErrorsDirective,
-		FocusableComponent,
-		HeightEqualizerDirective,
-		LoadingComponent,
-		DisclaimerComponent,
-	],
+	declarations: [ShowErrorsDirective, FocusableComponent, LoadingComponent, DisclaimerComponent],
 	exports: [
 		ShowErrorsDirective,
 		FocusableComponent,
-		HeightEqualizerDirective,
 		ReactiveFormsModule,
 		TranslatePipe,
 		LoadingComponent,

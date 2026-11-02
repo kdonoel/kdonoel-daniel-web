@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import sweetalert2 from 'sweetalert2';
 
@@ -8,12 +8,7 @@ import sweetalert2 from 'sweetalert2';
  */
 @Injectable()
 export class SwalService {
-	constructor(private injector: Injector) {}
-
-	// Resolved lazily: the HTTP interceptors depend on this service
-	private get translateService(): TranslateService {
-		return this.injector.get(TranslateService);
-	}
+	constructor(private translateService: TranslateService) {}
 
 	/**
 	 * Short confirmation at the top of the page, closed automatically
@@ -40,8 +35,8 @@ export class SwalService {
 	/**
 	 * Information message, closed by the user
 	 */
-	public info(titleKey: string, key: string, params?: object): void {
-		this.alert('info', titleKey, key, params);
+	public info(titleKey: string, key: string): void {
+		this.alert('info', titleKey, key);
 	}
 
 	private alert(icon: 'error' | 'info', titleKey: string, key: string, params?: object): void {

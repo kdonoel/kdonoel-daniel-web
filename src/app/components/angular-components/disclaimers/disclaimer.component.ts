@@ -9,5 +9,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class DisclaimerComponent {
 	@Input() label: string = '';
-	@Input() type: 'info' | 'warn' | 'error' | 'blocker' = 'info';
+	@Input() type: 'info' | 'warn' | 'error' = 'info';
 }

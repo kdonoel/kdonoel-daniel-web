@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AlLinkifyPipe } from '../components/pipes/linkyfy.pipe';
 import { Nl2brPipe } from '../components/pipes/nl2br.pipe';
 import { SharedModule } from '../components/shared/shared.module';
+import { KdoFormComponent } from './modals/kdo-form.component';
 import { UserComponent } from './user.component';
 
 const routes: Routes = [
@@ -21,7 +22,6 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [RouterModule.forChild(routes), CommonModule, SharedModule.forRoot()],
-	providers: [],
-	declarations: [Nl2brPipe, AlLinkifyPipe, UserComponent],
+	declarations: [Nl2brPipe, AlLinkifyPipe, UserComponent, KdoFormComponent],
 })
 export class UsersModule {}

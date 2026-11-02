@@ -13,8 +13,6 @@ import { finalize } from 'rxjs/operators';
 
 import { Kdo } from '../../components/models/users/kdos.models';
 import { User } from '../../components/models/users/users.models';
-import { SessionService } from '../../components/session/session.service';
-import { SharedModule } from '../../components/shared/shared.module';
 import { SwalService } from '../../components/utils/swal.service';
 import { UsersService } from '../users.service';
 
@@ -29,12 +27,13 @@ function notBlank(control: AbstractControl): ValidationErrors | null {
 @Component({
 	selector: 'kdos-kdo-form',
 	templateUrl: 'kdo-form.component.html',
-	imports: [SharedModule],
 	changeDetection: ChangeDetectionStrategy.Eager,
+	standalone: false,
 })
 export class KdoFormComponent implements OnInit, AfterViewInit {
 	// Set through the initial state of the modal: the owner of the list and the edited idea
 	user: User;
+	isOwnList: boolean;
 	kdo?: Kdo;
 	kdoIndex?: number;
 
@@ -48,17 +47,15 @@ export class KdoFormComponent implements OnInit, AfterViewInit {
 	constructor(
 		private bsModalRef: BsModalRef,
 		private fb: FormBuilder,
-		private sessionService: SessionService,
 		private usersService: UsersService,
 		private swalService: SwalService,
 	) {}
 
 	ngOnInit(): void {
-		const isOwnList = this.user._id === this.sessionService.session$.getValue()?.profile._id;
 		if (this.kdo) {
 			this.titleKey = 'kdoForm.title.edit';
 		} else {
-			this.titleKey = isOwnList ? 'kdoForm.title.newOwn' : 'kdoForm.title.newOther';
+			this.titleKey = this.isOwnList ? 'kdoForm.title.newOwn' : 'kdoForm.title.newOther';
 		}
 
 		this.form = this.fb.group({
@@ -66,7 +63,7 @@ export class KdoFormComponent implements OnInit, AfterViewInit {
 			description: [this.kdo?.description ?? ''],
 		});
 		// An idea added to the list of someone else is a surprise by default
-		if (!this.kdo && !isOwnList) {
+		if (!this.kdo && !this.isOwnList) {
 			this.form.addControl('isSurprise', this.fb.control(true));
 		}
 	}

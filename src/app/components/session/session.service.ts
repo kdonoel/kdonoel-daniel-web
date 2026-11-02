@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export class CreateSessionBody {
@@ -30,8 +30,6 @@ export class SessionService {
 	public isLogged$: Observable<boolean> = this.session$.pipe(map((p) => !!p));
 	// The saved session was expired when the app started, the login page tells it
 	public expiredAtLoad: boolean = false;
-	public login$: Observable<any> = new Subject();
-	public logout$: Observable<any> = new Subject();
 	private _familyCode$: BehaviorSubject<string> = new BehaviorSubject(null as any);
 
 	get familyCode$(): BehaviorSubject<string> {
@@ -56,17 +54,16 @@ export class SessionService {
 		if (!this.isTokenValid(session)) {
 			// eslint-disable-next-line no-console
 			console.error('JWT expired');
-			this.closeSession();
+			this.logout();
 			this.expiredAtLoad = true;
 			return;
 		}
-		(this.logout$ as Subject<any>).next(undefined);
 		this.openSession(session);
 	}
 
 	public logout(): void {
-		this.closeSession();
-		(this.logout$ as Subject<any>).next(undefined);
+		localStorage.removeItem(SessionService.sessionKey);
+		this.session$.next(null);
 	}
 
 	public openSession(session: Session): void {
@@ -80,7 +77,6 @@ export class SessionService {
 		localStorage.setItem(SessionService.sessionKey, JSON.stringify(session));
 		this.expiredAtLoad = false;
 		this.session$.next(session);
-		(this.login$ as Subject<any>).next(undefined);
 	}
 
 	public isTokenValid(session?: Session): boolean {
@@ -94,10 +90,5 @@ export class SessionService {
 	public setFamilyCode(familyCode: string): void {
 		localStorage.setItem(SessionService.familyCodeKey, familyCode);
 		this._familyCode$.next(familyCode);
-	}
-
-	private closeSession(): void {
-		localStorage.removeItem(SessionService.sessionKey);
-		this.session$.next(null);
 	}
 }

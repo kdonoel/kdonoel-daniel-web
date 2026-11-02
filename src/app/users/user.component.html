@@ -26,7 +26,7 @@
 		@if (kdos.length) {
 			<ol class="list-unstyled d-grid gap-3 mt-4 mb-0">
 				@for (view of kdos; track view.index) {
-					<li class="card shadow-sm kdo-card" [ngClass]="'kdo-card-' + view.state">
+					<li class="card shadow-sm" [ngClass]="'kdo-card-' + view.state">
 						<div class="card-body">
 							<div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
 								<h2 class="h5 mb-0 text-break">{{ view.kdo.title }}</h2>
@@ -37,45 +37,34 @@
 									</span>
 								}
 							</div>
-							@if (view.kdo.isSurprise && !isConnectedUser) {
+							@if (view.kdo.isSurprise) {
 								<p class="small text-danger-emphasis mt-2 mb-0">
 									<i class="bi bi-stars me-1" aria-hidden="true"></i>
 									{{ 'list.surprise' | translate: { name: user.firstName } }}
 								</p>
 							}
 							@if (view.kdo.description) {
-								<p class="kdo-description mt-2 mb-0 text-break" [innerHTML]="view.kdo.description | alLinkify | alNl2br"></p>
+								<p class="mt-2 mb-0 text-break" [innerHTML]="view.kdo.description | alLinkify | alNl2br"></p>
 							}
 							<div class="d-grid d-sm-flex flex-wrap align-items-center gap-2 mt-3">
 								@switch (view.state) {
 									@case ('free') {
-										<button type="button" class="btn btn-primary" [disabled]="pendingIndex !== undefined" (click)="setStatus(view, KdoState.RESERVED)">
-											@if (pendingIndex === view.index) {
-												<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
-											} @else {
-												<i class="bi bi-bookmark-check me-1" aria-hidden="true"></i>
-											}
+										<button type="button" class="btn btn-primary" [disabled]="pending" (click)="setStatus(view, KdoState.RESERVED)">
+											<i class="bi bi-bookmark-check me-1" aria-hidden="true"></i>
 											{{ 'list.actions.reserve' | translate }}
 										</button>
 									}
 									@case ('reservedByMe') {
-										<button type="button" class="btn btn-primary" [disabled]="pendingIndex !== undefined" (click)="setStatus(view, KdoState.BOUGHT)">
-											@if (pendingIndex === view.index) {
-												<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
-											} @else {
-												<i class="bi bi-bag-check me-1" aria-hidden="true"></i>
-											}
+										<button type="button" class="btn btn-primary" [disabled]="pending" (click)="setStatus(view, KdoState.BOUGHT)">
+											<i class="bi bi-bag-check me-1" aria-hidden="true"></i>
 											{{ 'list.actions.buy' | translate }}
 										</button>
-										<button type="button" class="btn btn-outline-secondary" [disabled]="pendingIndex !== undefined" (click)="setStatus(view, KdoState.FREE)">
+										<button type="button" class="btn btn-outline-secondary" [disabled]="pending" (click)="setStatus(view, KdoState.FREE)">
 											{{ 'list.actions.cancelReservation' | translate }}
 										</button>
 									}
 									@case ('boughtByMe') {
-										<button type="button" class="btn btn-outline-secondary" [disabled]="pendingIndex !== undefined" (click)="setStatus(view, KdoState.FREE)">
-											@if (pendingIndex === view.index) {
-												<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
-											}
+										<button type="button" class="btn btn-outline-secondary" [disabled]="pending" (click)="setStatus(view, KdoState.FREE)">
 											{{ 'list.actions.cancelPurchase' | translate }}
 										</button>
 									}
@@ -87,7 +76,7 @@
 									}
 								}
 								@if (canEdit(view)) {
-									<button type="button" class="btn btn-outline-secondary ms-sm-auto" [disabled]="pendingIndex !== undefined" (click)="openKdoForm(view)">
+									<button type="button" class="btn btn-outline-secondary ms-sm-auto" [disabled]="pending" (click)="openKdoForm(view)">
 										<i class="bi bi-pencil me-1" aria-hidden="true"></i>
 										{{ 'list.actions.edit' | translate }}
 									</button>

@@ -20,7 +20,7 @@
 			gtag('config', 'UA-109228987-1');
 		</script>
 		<script type="text/javascript">
-			// Apply the color mode before the app starts to avoid a flash, see ThemeService
+			// Apply the color mode before the app starts to avoid a flash, same rule as ThemeSwitchComponent
 			(function () {
 				var theme = localStorage.getItem('theme');
 				if (theme !== 'light' && theme !== 'dark') {
@@ -30,12 +30,14 @@
 			})();
 		</script>
 		<style>
+			/* Colors of the page until the styles are loaded, from _theme.scss and _variables.scss ($night-950,
+			$body-color-dark). :where() keeps them less specific than the styles, which replace them once loaded. */
 			body {
 				background-color: #f2f4f9;
 				color: #212529;
 			}
 
-			[data-bs-theme='dark'] body {
+			:where([data-bs-theme='dark']) body {
 				background-color: #050a1a;
 				color: #e2e8f5;
 			}

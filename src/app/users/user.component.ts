@@ -18,10 +18,10 @@ import { UsersService } from './users.service';
  * The owner of a list sees neither the statuses nor the surprises, the others see who reserved an idea:
  * only themselves, the others stay anonymous
  */
-export type KdoViewState =
+type KdoViewState =
 	'own' | 'free' | 'reservedByMe' | 'boughtByMe' | 'reservedByOther' | 'boughtByOther';
 
-export interface KdoView {
+interface KdoView {
 	kdo: Kdo;
 	// Position of the idea in the list returned by the API, used to edit it or change its status
 	index: number;
@@ -59,8 +59,8 @@ export class UserComponent implements OnInit, OnDestroy {
 	// "de Benjamin" or "d'Alice"
 	ofName: string;
 	loading: boolean = true;
-	// Index of the idea whose status is changing, the actions are disabled meanwhile
-	pendingIndex: number;
+	// A status is changing, the actions are disabled meanwhile
+	pending: boolean = false;
 
 	private currentUserId: string;
 	private subscription: Subscription;
@@ -101,7 +101,12 @@ export class UserComponent implements OnInit, OnDestroy {
 
 	openKdoForm(view?: KdoView): void {
 		const modal = this.modalService.show(KdoFormComponent, {
-			initialState: { user: this.user, kdo: view?.kdo, kdoIndex: view?.index },
+			initialState: {
+				user: this.user,
+				isOwnList: this.isConnectedUser,
+				kdo: view?.kdo,
+				kdoIndex: view?.index,
+			},
 			class: 'modal-dialog-centered',
 			// Avoid losing what was typed with a click next to the modal
 			ignoreBackdropClick: true,
@@ -110,12 +115,12 @@ export class UserComponent implements OnInit, OnDestroy {
 	}
 
 	setStatus(view: KdoView, status: KdoState): void {
-		this.pendingIndex = view.index;
+		this.pending = true;
 		this.usersService
 			.setStatus(this.user._id, view.index, { status })
 			.pipe(
 				switchMap(() => this.usersService.getUser(this.user._id)),
-				finalize(() => (this.pendingIndex = undefined)),
+				finalize(() => (this.pending = false)),
 			)
 			.subscribe({
 				next: (user) => {
@@ -142,14 +147,12 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.user = user;
 		this.isConnectedUser = user._id === this.currentUserId;
 		this.ofName = withPrepositionDe(user.firstName);
-		this.kdos = (user.kdos ?? [])
-			.map((kdo, index) => ({ kdo, index, state: this.getState(kdo) }))
-			.filter((view) => !!view.kdo);
+		this.kdos = (user.kdos ?? []).map((kdo, index) => ({ kdo, index, state: this.getState(kdo) }));
 	}
 
 	private getState(kdo: Kdo): KdoViewState {
 		if (this.isConnectedUser) return 'own';
-		const code = kdo?.status?.code;
+		const code = kdo.status?.code;
 		if (!code || code === KdoState.FREE) return 'free';
 
 		const isMine = kdo.status.userId === this.currentUserId;

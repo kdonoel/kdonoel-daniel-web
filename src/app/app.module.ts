@@ -32,7 +32,13 @@ import { UsersService } from './users/users.service';
 registerLocaleData(fr);
 
 @NgModule({
-	declarations: [AppComponent, HomeComponent, HeaderComponent, FooterComponent],
+	declarations: [
+		AppComponent,
+		HomeComponent,
+		HeaderComponent,
+		FooterComponent,
+		ThemeSwitchComponent,
+	],
 	bootstrap: [AppComponent],
 	imports: [
 		AppRoutingModule,
@@ -43,7 +49,6 @@ registerLocaleData(fr);
 		CoreModule,
 		SharedModule.forRoot(),
 		LoadingBarModule,
-		ThemeSwitchComponent,
 	],
 	providers: [
 		{

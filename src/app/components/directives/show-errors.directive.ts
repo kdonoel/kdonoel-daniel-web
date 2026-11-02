@@ -32,7 +32,6 @@ export class ShowErrorsDirective implements AfterContentInit {
 	// The form, to display the errors when it is submitted
 	@Input() private n9ShowErrors: NgForm | FormGroupDirective;
 	@Input() private n9ShowErrorsDisabled: boolean;
-	@Input() private disableValidationPicto: boolean = true;
 	@Input() private errorsTranslationPrefix: string;
 	@Input() private displayOnlyOne: boolean = true;
 
@@ -44,8 +43,6 @@ export class ShowErrorsDirective implements AfterContentInit {
 	@ContentChild(NgControl, { read: ElementRef }) private inputRef: ElementRef;
 	@ContentChild('input', { read: ElementRef }) private input: ElementRef;
 
-	private validPicto: any;
-	private invalidPicto: any;
 	private errorsPlaceholder: any;
 
 	constructor(
@@ -86,43 +83,21 @@ export class ShowErrorsDirective implements AfterContentInit {
 		}
 	}
 
-	public createPicto(clazz: string): void {
-		const picto = this.renderer.createElement(null, 'i');
-		this.renderer.addClass(picto, 'bi');
-		this.renderer.addClass(picto, clazz);
-		this.renderer.addClass(picto, 'validation-picto');
-		return picto;
-	}
-
 	public hideValidationState(): void {
-		if (this.validPicto && this.validPicto.parentNode) {
-			this.validPicto.parentNode.removeChild(this.validPicto);
-		}
-		if (this.invalidPicto && this.invalidPicto.parentNode) {
-			this.invalidPicto.parentNode.removeChild(this.invalidPicto);
-		}
 		this.el.nativeElement.classList.remove('is-invalid');
 		this.el.nativeElement.classList.remove('is-valid');
 		if (this.errorsPlaceholder) this.errorsPlaceholder.innerHTML = '';
 	}
 
 	public displayValidState(): void {
-		if (!this.disableValidationPicto) {
-			if (!this.validPicto) {
-				this.validPicto = this.createPicto('bi-check-lg');
-			}
-			this.getInputNativeElement().parentNode.insertBefore(
-				this.validPicto,
-				this.getInputNativeElement().nextSibling,
-			);
-		}
 		this.el.nativeElement.classList.add('is-valid');
 	}
 
 	public displayErrors(): void {
 		if (!this.errorsPlaceholder) {
 			this.errorsPlaceholder = this.renderer.createElement('div');
-			this.renderer.addClass(this.errorsPlaceholder, 'n9-validation-errors');
+			this.renderer.addClass(this.errorsPlaceholder, 'invalid-feedback');
+			this.renderer.addClass(this.errorsPlaceholder, 'd-block');
 		}
 		this.errorsPlaceholder.innerHTML = '';
 
@@ -146,28 +121,10 @@ export class ShowErrorsDirective implements AfterContentInit {
 
 	public displayInvalidState(): void {
 		this.displayErrors();
-		if (!this.disableValidationPicto) {
-			if (!this.invalidPicto) {
-				this.invalidPicto = this.createPicto('bi-x-lg');
-			}
-			this.getInputNativeElement().parentNode.insertBefore(
-				this.invalidPicto,
-				this.getInputNativeElement().nextSibling,
-			);
-		}
 		this.el.nativeElement.classList.add('is-invalid');
 	}
 
 	public displayInvalidStateWithoutErrors(): void {
-		if (!this.disableValidationPicto) {
-			if (!this.invalidPicto) {
-				this.invalidPicto = this.createPicto('bi-x-lg');
-			}
-			this.getInputNativeElement().parentNode.insertBefore(
-				this.invalidPicto,
-				this.getInputNativeElement().nextSibling,
-			);
-		}
 		this.el.nativeElement.classList.add('is-invalid');
 	}
 

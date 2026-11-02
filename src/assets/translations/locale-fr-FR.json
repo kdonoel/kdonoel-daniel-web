@@ -24,14 +24,11 @@
       "409": "Cette information existe déjà."
     },
     "codes": {
-      "account-locked": "Ton compte est bloqué : contacte BenJ.",
       "can-t-update-status": "Quelqu'un d'autre vient de choisir ce cadeau. La liste a été mise à jour.",
       "invalid-credentials": "Adresse e-mail ou mot de passe incorrect.",
       "kdo-not-found": "Cette idée n'existe plus. La liste a été mise à jour.",
       "password-already-set": "Tu as déjà choisi ton mot de passe : connecte-toi avec.",
-      "user-already-exists": "Un compte existe déjà avec cette adresse e-mail.",
       "user-not-found": "Cette personne est introuvable.",
-      "user-not-valid": "Tu ne peux pas réserver tes propres idées.",
       "wrong-family": "Tu ne fais pas partie de cette famille."
     }
   },
@@ -39,7 +36,6 @@
     "home": "Accueil",
     "myList": "Ma liste",
     "account": "Mon compte",
-    "login": "Se connecter",
     "logoAlt": "Bourriquet sous la neige"
   },
   "footer": {

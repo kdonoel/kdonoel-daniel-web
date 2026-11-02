@@ -5,9 +5,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 import { getErrorCode, getErrorMessageKey } from '../components/http/http-errors';
-import { getLoginQueryParams, isSafeReturnUrl } from '../components/session/login-redirect';
+import { isSafeReturnUrl } from '../components/session/login-redirect';
 import { CreateSessionBody, SessionService } from '../components/session/session.service';
-import { LoginService } from './login.service';
+import { LoginLinkRequest, LoginService } from './login.service';
+
+/**
+ * - link: a login link sent to the email address, the default
+ * - names: the same link, found with the first and last names when the address is forgotten
+ * - password: the former login, kept for the users who have a password
+ * - sent: the link was sent
+ */
+export type LoginMode = 'link' | 'names' | 'password' | 'sent';
 
 @Component({
 	selector: 'n9-login',
@@ -16,12 +24,19 @@ import { LoginService } from './login.service';
 	standalone: false,
 })
 export class LoginComponent implements OnInit {
-	// Translation key of the error of the last attempt
+	mode: LoginMode = 'link';
+	// Translation keys of the messages
 	error: string;
+	info: string;
 	sessionExpired: boolean;
 	loading: boolean = false;
 	showPassword: boolean = false;
-	loginForm: FormGroup;
+	// Addresses the link was sent to, partially hidden
+	sentEmails: string[] = [];
+
+	emailForm: FormGroup;
+	namesForm: FormGroup;
+	passwordForm: FormGroup;
 
 	private returnUrl: string;
 
@@ -42,28 +57,56 @@ export class LoginComponent implements OnInit {
 		}
 		this.sessionExpired = !!history.state?.sessionExpired || this.sessionService.expiredAtLoad;
 
+		this.emailForm = this.fb.group({
+			email: ['', [Validators.required, Validators.email]],
+		});
+		this.namesForm = this.fb.group({
+			firstName: ['', [Validators.required]],
+			lastName: ['', [Validators.required]],
+		});
 		// The password rules are only checked when the password is chosen, older passwords may not follow them
-		this.loginForm = this.fb.group({
-			email: [history.state?.email ?? '', [Validators.required, Validators.email]],
+		this.passwordForm = this.fb.group({
+			email: ['', [Validators.required, Validators.email]],
 			password: ['', [Validators.required]],
 		});
 	}
 
-	// The returned page and the typed email are kept when creating the password
-	get initPasswordQueryParams(): object {
-		return getLoginQueryParams(this.returnUrl);
+	setMode(mode: LoginMode): void {
+		// The address typed in a form is kept in the other one
+		if (mode === 'password') {
+			this.passwordForm.patchValue({ email: this.emailForm.value.email });
+		} else if (mode === 'link' && this.mode === 'password') {
+			this.emailForm.patchValue({ email: this.passwordForm.value.email });
+		}
+		this.mode = mode;
+		this.error = undefined;
+		this.info = undefined;
 	}
 
-	submit(): void {
-		if (this.loginForm.invalid) {
-			this.elementRef.nativeElement.querySelector<HTMLInputElement>('input.ng-invalid')?.focus();
-			return;
-		}
+	sendLinkByEmail(): void {
+		if (this.isInvalid(this.emailForm)) return;
+		this.sendLink({ email: this.emailForm.value.email.trim() });
+	}
+
+	sendLinkByNames(): void {
+		if (this.isInvalid(this.namesForm)) return;
+		this.sendLink({
+			firstName: this.namesForm.value.firstName.trim(),
+			lastName: this.namesForm.value.lastName.trim(),
+		});
+	}
+
+	loginWithPassword(): void {
+		if (this.isInvalid(this.passwordForm)) return;
 
 		this.loading = true;
 		this.error = undefined;
+		const credentials: CreateSessionBody = {
+			email: this.passwordForm.value.email.trim(),
+			password: this.passwordForm.value.password,
+		};
 		this.loginService
-			.login(this.loginForm.getRawValue() as CreateSessionBody)
+			.login(credentials)
 			.pipe(finalize(() => (this.loading = false)))
 			.subscribe({
 				// The session is opened by the login service
@@ -73,17 +116,48 @@ export class LoginComponent implements OnInit {
 					}
 				},
 				error: (error: HttpErrorResponse) => {
-					// The users created by BenJ choose their password at their first login
-					if (getErrorCode(error) === 'init-password-required') {
-						void this.router.navigate(['/password/init'], {
-							queryParams: this.initPasswordQueryParams,
-							state: { email: this.loginForm.value.email, firstLogin: true },
-						});
-						return;
-					}
 					this.sessionExpired = false;
-					this.error = getErrorMessageKey(error);
+					const code = getErrorCode(error);
+					// The users created by BenJ have no password: they log in with a link
+					if (code === 'init-password-required') {
+						this.setMode('link');
+						this.info = 'login.noPassword';
+					} else if (code === 'invalid-credentials') {
+						this.error = 'login.errors.invalidCredentials';
+					} else {
+						this.error = getErrorMessageKey(error);
+					}
 				},
 			});
+	}
+
+	private sendLink(request: LoginLinkRequest): void {
+		this.loading = true;
+		this.error = undefined;
+		this.loginService
+			.requestLink(request)
+			.pipe(finalize(() => (this.loading = false)))
+			.subscribe({
+				next: ({ emails }) => {
+					this.sentEmails = emails;
+					this.mode = 'sent';
+					this.info = undefined;
+					this.sessionExpired = false;
+				},
+				error: (error: HttpErrorResponse) => {
+					if (getErrorCode(error) === 'user-not-found') {
+						this.error = request.email ? 'login.errors.unknownEmail' : 'login.errors.unknownNames';
+					} else {
+						this.error = getErrorMessageKey(error);
+					}
+				},
+			});
+	}
+
+	// The errors of the form are displayed by the ShowErrorsDirective, the first field to fix is focused
+	private isInvalid(form: FormGroup): boolean {
+		if (form.valid) return false;
+		this.elementRef.nativeElement.querySelector<HTMLInputElement>('input.ng-invalid')?.focus();
+		return true;
 	}
 }

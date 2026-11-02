@@ -13,6 +13,8 @@ export interface Profile {
 	lastName: string;
 	email: string;
 	_id: string;
+	// The admins send the invitations, missing in the sessions opened before
+	isAdmin?: boolean;
 }
 
 export interface Session {
@@ -76,6 +78,14 @@ export class SessionService {
 		}
 		localStorage.setItem(SessionService.sessionKey, JSON.stringify(session));
 		this.expiredAtLoad = false;
+		this.session$.next(session);
+	}
+
+	/**
+	 * Renewed session of the same user: new token and up to date profile
+	 */
+	public updateSession(session: Session): void {
+		localStorage.setItem(SessionService.sessionKey, JSON.stringify(session));
 		this.session$.next(session);
 	}
 

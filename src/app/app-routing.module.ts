@@ -4,17 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoggedInGuard } from './components/session/logged-in.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginModule } from './login/login.module';
-import { PasswordModule } from './password/password.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { UsersModule } from './users/users.module';
 
 const routes: Routes = [
 	{ path: '', component: HomeComponent, pathMatch: 'full' },
 	{ path: 'login', loadChildren: () => LoginModule },
-	{
-		path: 'password',
-		loadChildren: () => PasswordModule,
-	},
+	// The first login is now done with a link sent by email
+	{ path: 'password/init', redirectTo: 'login' },
 	{
 		path: 'profile',
 		loadChildren: () => UserProfileModule,

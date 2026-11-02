@@ -30,44 +30,65 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="card shadow-sm">
-					<div class="card-body">
-						<h2 class="h5 mb-3">{{ 'account.password.title' | translate }}</h2>
-						@if (error) {
-							<al-disclaimer [label]="error" type="error"></al-disclaimer>
-						}
-						<form novalidate (ngSubmit)="onSubmit()" [formGroup]="resetForm" #formRef="ngForm">
-							<div class="form-group mb-3" [n9ShowErrors]="formRef">
-								<label for="oldPwd" class="form-label fw-semibold">{{ 'account.password.current' | translate }}</label>
-								<input [type]="showPassword ? 'text' : 'password'" autocomplete="current-password" name="oldPwd" id="oldPwd" class="form-control" formControlName="oldPwd" />
-							</div>
-							<div class="form-group mb-3" [n9ShowErrors]="formRef">
-								<label for="pwd" class="form-label fw-semibold">{{ 'account.password.new' | translate }}</label>
-								<input [type]="showPassword ? 'text' : 'password'" autocomplete="new-password" name="pwd" id="pwd" class="form-control" formControlName="pwd" aria-describedby="pwd-rules" />
-								<div id="pwd-rules" class="form-text">{{ 'password.rules' | translate }}</div>
-							</div>
-							<div class="form-group mb-2" [n9ShowErrors]="formRef">
-								<label for="confirmedPwd" class="form-label fw-semibold">{{ 'account.password.confirm' | translate }}</label>
-								<input [type]="showPassword ? 'text' : 'password'" autocomplete="new-password" name="confirmedPwd" id="confirmedPwd" class="form-control" formControlName="confirmedPwd" />
-							</div>
-							@if ((submitted || resetForm.controls['confirmedPwd'].touched) && resetForm.hasError('notEquivalent')) {
-								<div class="small text-danger-emphasis mb-2">{{ 'password.mismatch' | translate }}</div>
+			<!-- The users logged in with a link may have no password -->
+			@if (user.hasPassword !== false) {
+				<div class="col-md-6">
+					<div class="card shadow-sm">
+						<div class="card-body">
+							<h2 class="h5 mb-3">{{ 'account.password.title' | translate }}</h2>
+							@if (error) {
+								<al-disclaimer [label]="error" type="error"></al-disclaimer>
 							}
-							<div class="form-check mb-3">
-								<input class="form-check-input" type="checkbox" id="show-password" [checked]="showPassword" (change)="showPassword = !showPassword" />
-								<label class="form-check-label" for="show-password">{{ 'commons.showPassword' | translate }}</label>
-							</div>
-							<button type="submit" class="btn btn-primary" [disabled]="saving">
-								@if (saving) {
-									<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+							<form novalidate (ngSubmit)="onSubmit()" [formGroup]="resetForm" #formRef="ngForm">
+								<div class="form-group mb-3" [n9ShowErrors]="formRef">
+									<label for="oldPwd" class="form-label fw-semibold">{{ 'account.password.current' | translate }}</label>
+									<input [type]="showPassword ? 'text' : 'password'" autocomplete="current-password" name="oldPwd" id="oldPwd" class="form-control" formControlName="oldPwd" />
+								</div>
+								<div class="form-group mb-3" [n9ShowErrors]="formRef">
+									<label for="pwd" class="form-label fw-semibold">{{ 'account.password.new' | translate }}</label>
+									<input [type]="showPassword ? 'text' : 'password'" autocomplete="new-password" name="pwd" id="pwd" class="form-control" formControlName="pwd" aria-describedby="pwd-rules" />
+									<div id="pwd-rules" class="form-text">{{ 'password.rules' | translate }}</div>
+								</div>
+								<div class="form-group mb-2" [n9ShowErrors]="formRef">
+									<label for="confirmedPwd" class="form-label fw-semibold">{{ 'account.password.confirm' | translate }}</label>
+									<input [type]="showPassword ? 'text' : 'password'" autocomplete="new-password" name="confirmedPwd" id="confirmedPwd" class="form-control" formControlName="confirmedPwd" />
+								</div>
+								@if ((submitted || resetForm.controls['confirmedPwd'].touched) && resetForm.hasError('notEquivalent')) {
+									<div class="small text-danger-emphasis mb-2">{{ 'password.mismatch' | translate }}</div>
 								}
-								{{ 'account.password.submit' | translate }}
-							</button>
-						</form>
+								<div class="form-check mb-3">
+									<input class="form-check-input" type="checkbox" id="show-password" [checked]="showPassword" (change)="showPassword = !showPassword" />
+									<label class="form-check-label" for="show-password">{{ 'commons.showPassword' | translate }}</label>
+								</div>
+								<button type="submit" class="btn btn-primary" [disabled]="saving">
+									@if (saving) {
+										<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+									}
+									{{ 'account.password.submit' | translate }}
+								</button>
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
+			}
+			@if (profile.isAdmin) {
+				<div class="col-12">
+					<div class="card shadow-sm">
+						<div class="card-body">
+							<h2 class="h5 mb-1">{{ 'account.invitations.title' | translate }}</h2>
+							<p class="text-body-secondary">{{ 'account.invitations.description' | translate }}</p>
+							<div class="d-flex flex-wrap gap-2">
+								@for (familyCode of profile.familyCodes; track familyCode) {
+									<button type="button" class="btn btn-primary" [disabled]="inviting" (click)="invite(familyCode)">
+										<i class="bi bi-envelope-paper-heart me-1" aria-hidden="true"></i>
+										{{ 'account.invitations.send' | translate: { family: familyCode } }}
+									</button>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			}
 		</div>
 	}
 </div>

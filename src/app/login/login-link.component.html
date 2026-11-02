@@ -1,0 +1,65 @@
+<div class="container">
+	<div class="card auth-card shadow-sm mx-auto">
+		<div class="card-body p-4 p-sm-5">
+			@switch (state) {
+				@case ('loading') {
+					<div class="text-center">
+						<al-loading></al-loading>
+						<p class="mb-0">{{ 'loginLink.loading' | translate }}</p>
+					</div>
+				}
+				@case ('expired') {
+					<div class="text-center">
+						<i class="bi bi-hourglass-bottom fs-1 text-primary" aria-hidden="true"></i>
+						<h1 class="h4 mt-2 mb-3">{{ 'loginLink.expired.title' | translate }}</h1>
+						<p>{{ 'loginLink.expired.description' | translate }}</p>
+						@if (error) {
+							<al-disclaimer [label]="error" type="error"></al-disclaimer>
+						}
+						<div class="d-grid gap-2 mt-4">
+							<button type="button" class="btn btn-primary" [disabled]="renewing" (click)="renew()">
+								@if (renewing) {
+									<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+								}
+								{{ 'loginLink.expired.renew' | translate }}
+							</button>
+							<a routerLink="/login" class="btn btn-link">{{ 'loginLink.backToLogin' | translate }}</a>
+						</div>
+					</div>
+				}
+				@case ('invalid') {
+					<div class="text-center">
+						<i class="bi bi-link-45deg fs-1 text-primary" aria-hidden="true"></i>
+						<h1 class="h4 mt-2 mb-3">{{ 'loginLink.invalid.title' | translate }}</h1>
+						<p>{{ 'loginLink.invalid.description' | translate }}</p>
+						<div class="d-grid mt-4">
+							<a routerLink="/login" class="btn btn-primary">{{ 'loginLink.invalid.newLink' | translate }}</a>
+						</div>
+					</div>
+				}
+				@case ('error') {
+					<div class="text-center">
+						<i class="bi bi-wifi-off fs-1 text-primary" aria-hidden="true"></i>
+						<h1 class="h4 mt-2 mb-3">{{ 'errors.title' | translate }}</h1>
+						<p>{{ error | translate }}</p>
+						<div class="d-grid mt-4">
+							<button type="button" class="btn btn-primary" (click)="login()">{{ 'loginLink.retry' | translate }}</button>
+						</div>
+					</div>
+				}
+				@case ('sent') {
+					<div class="text-center">
+						<i class="bi bi-envelope-check fs-1 text-primary" aria-hidden="true"></i>
+						<h1 class="h4 mt-2 mb-3">{{ 'login.sent.title' | translate }}</h1>
+						<p class="mb-1">{{ 'login.sent.description' | translate }}</p>
+						@for (email of sentEmails; track email) {
+							<p class="fs-5 fw-semibold text-break mb-1">{{ email }}</p>
+						}
+						<p class="mt-3">{{ 'login.sent.help' | translate }}</p>
+						<a routerLink="/login" class="btn btn-link">{{ 'loginLink.backToLogin' | translate }}</a>
+					</div>
+				}
+			}
+		</div>
+	</div>
+</div>
